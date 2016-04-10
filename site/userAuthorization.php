@@ -4,6 +4,7 @@
     if (isActiveUser()) header("Location: /");
 	
 	$loginFailed = false;
+    $userBanned = false;
 	
 	if (isset($_POST['submitAuth']))
 	{
