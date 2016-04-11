@@ -32,14 +32,17 @@
 
         <!-- Bootstrap core CSS -->
         <link href="./css/bootstrap.min.css" rel="stylesheet">
+        
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
     </head>
     <body>
     
         <div id="container">
-            <h2 class="text-center">Логин и пароль для регистрации в БД</h2>
+            <h2 id="header" class="text-center">Логин и пароль для регистрации в БД</h2>
             
             <div class="col-md-2 col-md-offset-5">
-                <form class="text-center" method="post">
+                <form id="form" class="text-center">
                     <div id="loginInput" class="row">
                         <div class="form-group">
                             <label for="loginInput">Login</label>
@@ -54,11 +57,31 @@
                         </div>
                     </div>
                     
+                    <div id="DBNameInput" class="row hidden">
+                        <div class="form-group">
+                            <label for="DBNameInput">Database name</label>
+                            <input type="text" name="DBName" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    
                     <div class="row">
-                        <button type="submit" name="submitData" class="btn btn-default">Send data</button>
+                        <button id="submitButton" type="button" name="submitData" class="btn btn-default">Send data</button>
                     </div>
                 </form>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    $( document ).ready(function() {
+        $('#submitButton').click(function (event) {
+            
+            $.post("installDBAccessForm.php", $("#form").serialize())
+            .done(function(data) {
+                console.log(data);
+            });
+            
+        });
+    });
+</script>
