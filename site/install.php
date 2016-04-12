@@ -1,26 +1,3 @@
-<?php
-    include_once('procedures.php');
-    # get data from form
-    var_dump($_POST);
-    if (isset($_POST['submitData']))
-    {
-        if (isset($_POST['login']) && isset($_POST['password']))
-        {
-            $link = mysqli_connect('localhost', $_POST['login'], $_POST['password']) or die("Can't connect to DB: ".mysqli_error()); 
-            if ($link)
-            {
-                $file = fopen('authData.txt', 'w');
-                if ($file)
-                {
-                    fwrite($file, $_POST['login']."\r\n".$_POST['password']."\r\n");
-                    fclose($file);
-                    echo '<meta http-equiv="refresh" content="0; url=installCreateDB.php">';
-                    exit();
-                }
-            }
-        }
-    }   
-?>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -42,7 +19,8 @@
             <h2 id="header" class="text-center">Логин и пароль для регистрации в БД</h2>
             
             <div class="col-md-2 col-md-offset-5">
-                <form id="form" class="text-center">
+                <!-- first form -->
+                <form id="loginForm" class="text-center">
                     <div id="loginInput" class="row">
                         <div class="form-group">
                             <label for="loginInput">Login</label>
@@ -57,31 +35,80 @@
                         </div>
                     </div>
                     
-                    <div id="DBNameInput" class="row hidden">
+                    <div class="row">
+                        <button id="submitLoginFormData" type="button" name="submitData" class="btn btn-default">Send data</button>
+                    </div>
+                </form>
+                
+                
+                <!-- second form -->
+                <form id="DBForm" class="text-center hidden">
+                    <div id="DBNameInput" class="row">
                         <div class="form-group">
                             <label for="DBNameInput">Database name</label>
                             <input type="text" name="DBName" class="form-control" placeholder="">
                         </div>
                     </div>
-                    
                     <div class="row">
-                        <button id="submitButton" type="button" name="submitData" class="btn btn-default">Send data</button>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remove existing DB
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button id="submitDBFormData" type="button" name="submitDB" class="btn btn-default">Send data</button>
                     </div>
                 </form>
+                
             </div>
+            
+            <!-- modal -->
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-center text-danger text-bold" id="errorModalTitle"></h4>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-toolbar">
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </body>
 </html>
 
 <script>
     $( document ).ready(function() {
-        $('#submitButton').click(function (event) {
+        $('#submitLoginFormData').click(function (event) {
             
-            $.post("installDBAccessForm.php", $("#form").serialize())
+            $.post("installDBAccessForm.php", $("#loginForm").serialize())
             .done(function(data) {
-                console.log(data);
+                var response = JSON.parse(data);
+                
+                if (response.status == 'ERR') {
+                   showModal(response.reason); 
+                } else if (response.status == 'OK') {
+                    $('#header').html('Создание новой базы данных');
+                    $('#loginForm').hide();
+                    $('#DBForm').removeClass('hidden');
+                } else {
+                    showModal('Неизвестный код со стороны сервера!');
+                }
             });
             
         });
+        
+        
     });
+    
+    function showModal(text) {
+        $('#errorModalTitle').html(text);
+        $('#errorModal').modal('show');
+    }
 </script>

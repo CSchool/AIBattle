@@ -1,5 +1,3 @@
-<!-- NOT WORKING YET -->
-
 <?php
     include_once('procedures.php');
     # get data from form
@@ -33,17 +31,12 @@
     } 
     else
     {
-        $output['status'] = 'ERR';
-        
-        var_dump($output);
-        
-        /*
         if (!isset($_POST['login']))
+        {
+            $output['status'] = 'ERR';
             $output['reason'] = "Значение поля 'Login' не указано!";
-        if (!isset($_POST['password'])
-            $output['reason'] .= "\nЗначение поля 'Password' не указано!";
-        */
+        }
     }
         
-    echo json_encode($output);
+    echo json_encode($output, JSON_UNESCAPED_UNICODE);
 ?>
