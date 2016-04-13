@@ -3,8 +3,6 @@
     
     $output = array('status' => '', 'reason' => ''); // json output
     
-    var_dump($_POST);
-    
     if (!isset($_POST['DBName']) || empty($_POST['DBName'])) 
     {
         $output['status'] = 'ERR';
