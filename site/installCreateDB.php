@@ -3,6 +3,8 @@
     
     $output = array('status' => '', 'reason' => ''); // json output
     
+    var_dump($_POST);
+    
     if (!isset($_POST['DBName']) || empty($_POST['DBName'])) 
     {
         $output['status'] = 'ERR';
@@ -21,7 +23,7 @@
             }
         }
         else
-        if (isset($_POST['destroy']) && $_POST['destroy'] == 1) 
+        if (isset($_POST['destroyDB']) && $_POST['destroyDB'] === "on") 
         {
             mysqli_query($link, "DROP DATABASE {$_POST['DBName']}");
             mysqli_query($link, "CREATE DATABASE {$_POST['DBName']}");
@@ -215,7 +217,7 @@
         $dontRemove = array("libs", "includes");
         foreach ($dirNames as $value)
         {
-            if (isset($_POST['destroy']) && $_POST['destroy'] == 1 && !in_array($value, $dontRemove)) removeDir($value);
+            if (isset($_POST['destroyDB']) && $_POST['destroyDB'] == "on" && !in_array($value, $dontRemove)) removeDir($value);
             @mkdir($value);
             $path = './' . $value . '/.htaccess';
             if (!file_exists($path))
@@ -231,5 +233,5 @@
         $output['reason'] = "Система установлена! Не забудьте скопировать файлы Execution.lib, execution.h и testlib.h в подкаталоги libs и includes. А так же удалить installCreateDB.php!";
     }
     
-    echo json_encode($output, JSON_UNESCAPED_UNICODE);
+    echo "\n" . json_encode($output, JSON_UNESCAPED_UNICODE);
 ?>

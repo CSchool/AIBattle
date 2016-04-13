@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     include_once('procedures.php');
     # get data from form
    
@@ -26,7 +26,7 @@
         else 
         {
             $output['status'] = 'ERR';
-            $output['reason'] = 'Ошибка при соединении к БД: ' . mysqli_error();
+            $output['reason'] = 'Ошибка при соединении к БД!';
         }
     } 
     else
@@ -38,5 +38,5 @@
         }
     }
         
-    echo json_encode($output, JSON_UNESCAPED_UNICODE);
+    echo "\n" . json_encode($output, JSON_UNESCAPED_UNICODE);
 ?>
