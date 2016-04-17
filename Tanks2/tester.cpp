@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <time.h>
 #include "execution.h"
+#include "testlib.h"
 
 const int size = 15;
 const int tanksNum = 4;
@@ -278,36 +279,50 @@ int main(int argc, char **argv)
             bool alive[tanksNum];
             bool im1 = false;
             bool im2 = false;
+
             {
-                std::istringstream ins(output1);
+                InStream ins1(output1);
                 for (int i = 0 ; !im1 && i < 2 ; ++i)
                 {
-                    ins >> dir[i] >> shoot[i];
-                    if (dir[i] < D_LEFT || dir[i] > D_DOWN
-                        || shoot[i] < 0 || shoot[i] > 1)
+                    try 
                     {
-                        printLog(true, ER_IM, output1);
+                        ins1 >> ValueInBounds<int>(dir[i], D_LEFT, D_DOWN) >> ValueInBounds<int>(shoot[i], 0, 1);
+                    }
+                    catch (ReadCheckerException &exception)
+                    {
+                        std::ostringstream outs;
+                        outs << output1 << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+
+                        printLog(true, ER_IM, outs.str());
                         im1 = true;
                     }
                 }
-                std::getline(ins, customData[0]);
-                std::getline(ins, customData[0]);
+
+                ins1 >> customData[0]; // don't catch exception, because I don't understand if customData is required
             }
+
             {
-                std::istringstream ins(output2);
+                InStream ins2(output2);
+
                 for (int i = 2 ; !im2 && i < 4 ; ++i)
                 {
-                    ins >> dir[i] >> shoot[i];
-                    if (dir[i] < D_LEFT || dir[i] > D_DOWN
-                        || shoot[i] < 0 || shoot[i] > 1)
+                    try 
                     {
-                        printLog(false, ER_IM, output2);
+                        ins2 >> ValueInBounds<int>(dir[i], D_LEFT, D_DOWN) >> ValueInBounds<int>(shoot[i], 0, 1);
+                    }
+                    catch (ReadCheckerException &exception)
+                    {
+                        std::ostringstream outs;
+                        outs << output2 << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+
+                        printLog(false, ER_IM, outs.str());
                         im2 = true;
                     }
                 }
-                std::getline(ins, customData[1]);
-                std::getline(ins, customData[1]);
+
+                ins2 >> customData[1];
             }
+            
             if (im1 || im2)
             {
                 globalResult = true;
