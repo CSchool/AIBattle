@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <time.h>
 #include "execution.h"
+#include "testlib.h"
 
 const int size = 11;
 const int tanksNum = 4;
@@ -183,7 +184,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    srand((int)5557/*time(NULL)*/);
+    srand((int)time(NULL));
 
     const char *program1 = argv[1];
     const char *program2 = argv[2];
@@ -227,32 +228,45 @@ int main(int argc, char **argv)
             int dir[tanksNum], shoot[tanksNum];
             bool alive[tanksNum];
             bool im = false;
+
             {
-                std::istringstream ins(output1);
+                InStream ins1(output1);
                 for (int i = 0 ; !im && i < 2 ; ++i)
                 {
-                    ins >> dir[i] >> shoot[i];
-                    if (dir[i] < D_LEFT || dir[i] > D_DOWN
-                        || shoot[i] < 0 || shoot[i] > 1)
+                    try 
                     {
-                        printLog(true, ER_IM, output1);
+                        ins1 >> ValueInBounds<int>(dir[i], D_LEFT, D_DOWN) >> ValueInBounds<int>(shoot[i], 0, 1);
+                    }
+                    catch (ReadCheckerException &exception)
+                    {
+                        std::ostringstream outs;
+                        outs << output1 << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+
+                        printLog(true, ER_IM, outs.str());
                         im = true;
                     }
                 }
             }
+
             {
-                std::istringstream ins(output2);
+                InStream ins2(output2);
                 for (int i = 2 ; !im && i < 4 ; ++i)
                 {
-                    ins >> dir[i] >> shoot[i];
-                    if (dir[i] < D_LEFT || dir[i] > D_DOWN
-                        || shoot[i] < 0 || shoot[i] > 1)
+                    try 
                     {
-                        printLog(false, ER_IM, output2);
+                        ins2 >> ValueInBounds<int>(dir[i], D_LEFT, D_DOWN) >> ValueInBounds<int>(shoot[i], 0, 1);
+                    }
+                    catch (ReadCheckerException &exception)
+                    {
+                        std::ostringstream outs;
+                        outs << output2 << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+
+                        printLog(false, ER_IM, outs.str());
                         im = true;
                     }
                 }
             }
+            
             if (im)
                 break;
 
