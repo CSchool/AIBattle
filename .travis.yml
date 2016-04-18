@@ -22,4 +22,6 @@ before_script:
   - cd build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
 
-script: make
+script: 
+  - make
+  - cppcheck -f -q  --enable=all --std=c++11 ../AIBattle/
