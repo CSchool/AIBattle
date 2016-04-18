@@ -1,19 +1,17 @@
 language: cpp
 
-compiler: gcc
-
 addons:
   apt:
     sources:
-    # add PPAs with more up-to-date toolchains
     - ubuntu-toolchain-r-test
     - llvm-toolchain-precise-3.6
     - kalakris-cmake
     packages:
-    # install toolchains
     - gcc-5
     - g++-5
     - cmake
+
+env: COMPILER=g++-5
 
 before_install:
  - sudo apt-get update -qq
@@ -22,6 +20,6 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
 
 script: make
