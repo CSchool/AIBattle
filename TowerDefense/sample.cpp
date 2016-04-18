@@ -53,7 +53,7 @@ int main()
 
     vector<pair<int, int> > possibleBuilding;
 
-    // если есть возможность построить пушку - пытаемся строить
+     // ГҐГ±Г«ГЁ ГҐГ±ГІГј ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј ГЇГ®Г±ГІГ°Г®ГЁГІГј ГЇГіГёГЄГі - ГЇГ»ГІГ ГҐГ¬Г±Гї Г±ГІГ°Г®ГЁГІГј
     if (money >= 7)
     {
         for (int i = 0; i < 8; ++i)
@@ -73,7 +73,7 @@ int main()
     }
     else
     {
-        // строить нечего - пытаемся поймать монетки
+        // Г±ГІГ°Г®ГЁГІГј Г­ГҐГ·ГҐГЈГ® - ГЇГ»ГІГ ГҐГ¬Г±Гї ГЇГ®Г©Г¬Г ГІГј Г¬Г®Г­ГҐГІГЄГЁ
         vector<pair<int, int> > possibleMovement;
 
         for (int i = 0; i < 4; ++i)
@@ -88,18 +88,18 @@ int main()
 
         if (possibleMovement.size() > 0)
         {
-            // Есть куда идти
+            // Г…Г±ГІГј ГЄГіГ¤Г  ГЁГ¤ГІГЁ
             for (int i = 0; i < possibleMovement.size(); ++i)
             {
                 if (field[y + possibleMovement[i].second][x + possibleMovement[i].first] == 1000)
                 {
-                    // сперва собираем монетки
+                    // Г±ГЇГҐГ°ГўГ  Г±Г®ГЎГЁГ°Г ГҐГ¬ Г¬Г®Г­ГҐГІГЄГЁ
                     cout << "M " << getMove(possibleMovement[i].first, possibleMovement[i].second) << endl;
                     return 0;
                 }
             }
 
-            // монеток нет - идем куда сможем
+            // Г¬Г®Г­ГҐГІГ®ГЄ Г­ГҐГІ - ГЁГ¤ГҐГ¬ ГЄГіГ¤Г  Г±Г¬Г®Г¦ГҐГ¬
             int index = rand() % possibleMovement.size();
 
             cout << "M " << getMove(possibleMovement[index].first, possibleMovement[index].second) << endl;
