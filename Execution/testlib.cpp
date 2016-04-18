@@ -445,3 +445,26 @@ InStream& InStream::operator>>(char &value)
     value = this->readChar();
     return *this;
 }
+
+void InStream::readNewLine(std::string& value)
+{
+    skipBlanks();
+
+    value.clear();
+    int cur;
+
+    for (;;)
+    {
+        cur = reader.curChar();
+
+        if (isEoln(cur))
+            break;
+
+        if (cur == EOFC)
+            break;
+
+        value += char(reader.nextChar());
+    }
+
+    eoln();
+}

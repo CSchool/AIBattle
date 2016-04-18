@@ -298,7 +298,7 @@ int main(int argc, char **argv)
                     }
                 }
 
-                ins1 >> customData[0]; // don't catch exception, because I don't understand if customData is required
+                ins1.readNewLine(customData[0]);
             }
 
             {
@@ -320,7 +320,7 @@ int main(int argc, char **argv)
                     }
                 }
 
-                ins2 >> customData[1];
+                ins2.readNewLine(customData[1]);
             }
             
             if (im1 || im2)

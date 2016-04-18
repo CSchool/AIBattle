@@ -269,7 +269,7 @@ private:
     bool seekEoln();
 
     /*
-     * Reads line from the current position to EOLN or EOF. Moves stream pointer to
+     * Reads line from the current position to whitespace or EOLN or EOF. Moves stream pointer to
      * the first character of the new line (if possible).
      */
     void readStringTo(std::string& result);
@@ -324,6 +324,7 @@ public:
     template<class T> InStream& operator>>(const ValueInBounds<T> &val);
     template<class T> InStream& operator>>(const ValueInRange<T> &val);
 
+    void readNewLine(std::string& value);
 };
 
 #endif
