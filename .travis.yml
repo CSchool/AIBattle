@@ -2,9 +2,22 @@ language: cpp
 
 compiler: gcc
 
+addons:
+  apt:
+    sources:
+    # add PPAs with more up-to-date toolchains
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    - kalakris-cmake
+    packages:
+    # install toolchains
+    - gcc-5
+    - g++-5
+    - cmake
+
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq cmake qt4-dev-tools
+ - sudo apt-get install -qq qt4-dev-tools cppcheck
 
 before_script:
   - mkdir build
