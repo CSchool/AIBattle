@@ -1,5 +1,5 @@
 <?php
-	include_once('procedures.php');
-	clearTournamentState();
-	echo "true";
+    include_once('procedures.php');
+    clearTournamentState();
+    echo "true";
 ?>

@@ -139,7 +139,7 @@
 <script>
     function openRound(round)
     {
-        var data =	{
+        var data =  {
                 'openRound' : true,
                 'roundId' : round
             };        
@@ -155,7 +155,7 @@
         )
     }
 </script>
-	<div class = "container content">
+    <div class = "container content">
         <h3>Раунды</h3>
             <a href="?page=round&tournament=<?php echo $id;?>&id=-1" role=button class='btn btn-default'>Новый раунд</a>
         <table class="table">

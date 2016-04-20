@@ -1,35 +1,35 @@
 <?php include_once('procedures.php');?>
 
 <script>
-	changeActiveTournamentButton('trainingButton');
+    changeActiveTournamentButton('trainingButton');
 </script>
 
 <script>
-	function duel(gameId, strategyId, tournamentId)
-	{
-		$.post("jqueryRunDuel.php", {'gameId' : gameId, 'tournamentId' : tournamentId, 'strategyId' : strategyId});
-		$('#dataContainer').load('duels.php?game=' + gameId + '&tournament=' + tournamentId);
-	}
-	function loadTrainingDuel(gameId, tournamentId)
-	{
-		$('#dataContainer').load('duels.php?game=' + gameId + '&tournament=' + tournamentId);
-	}
+    function duel(gameId, strategyId, tournamentId)
+    {
+        $.post("jqueryRunDuel.php", {'gameId' : gameId, 'tournamentId' : tournamentId, 'strategyId' : strategyId});
+        $('#dataContainer').load('duels.php?game=' + gameId + '&tournament=' + tournamentId);
+    }
+    function loadTrainingDuel(gameId, tournamentId)
+    {
+        $('#dataContainer').load('duels.php?game=' + gameId + '&tournament=' + tournamentId);
+    }
 </script>
 
 
 <?php 
-    $_SESSION['tournamentState'] = 'training.php';	
+    $_SESSION['tournamentState'] = 'training.php';  
     $tournamentId = intval($_GET['tournament']);
     $gameId = intval($_GET['id']);
 ?>
 <?php
-	if (getActiveUserID() != -1)
-	{
+    if (getActiveUserID() != -1)
+    {
 ?>
-	        <h3>Тренировочные партии</h3>
-		<a href="javascript:loadTrainingDuel(<?php echo $gameId;?>, <?php echo $tournamentId; ?>)">Посмотреть</a>
+            <h3>Тренировочные партии</h3>
+        <a href="javascript:loadTrainingDuel(<?php echo $gameId;?>, <?php echo $tournamentId; ?>)">Посмотреть</a>
 <?php
-	}
+    }
 ?>
 <?php
     if (getCurrentStrategy(getActiveUserID(), $tournamentId) != null) 

@@ -5,17 +5,17 @@
         $roundId = intval($_GET['round']);
     else
         $roundId = -1;
-	
+    
     $_SESSION['tournamentState'] = 'duels.php';
 
     $_SESSION['tournamentDuel'] = $roundId;
-	
+    
     $gameId = intval($_GET['game']);
     $userId = (isAdmin() && isset($_GET['uid'])) ? intval($_GET['id']) : getActiveUserID();
     $page = isset($_GET['page']) ? intval($_GET['page']) : 0;
     $visual = getVisualizerByGame($gameId);
     $tournamentId = intval($_GET['tournament']);
-	
+    
     $duels = getDuels($roundId, $gameId, $userId, $tournamentId, $page * 10, 10);
 ?>
 
@@ -45,75 +45,75 @@
 </div>
 <br /><br />
 <table class="table table-bordered">
-	<tr class = "info" align = center>
-		<td>Игрок 1</td>
-		<td>Игрок 2</td>
-		<td>Результат</td>
-		<?php if ($visual)
-			{
-		?>
-			<td>Визуализатор</td>
-		<?php
-			}
-		?>
-	</tr>
-	<?php
-		foreach ($duels as $row)
-		{
-	?>
-			<tr align = center>
-				<td><?php echo getNicknameById($row['user1'])." ({$row['strategy1']})";?></td>
-				<td><?php echo getNicknameById($row['user2'])." ({$row['strategy2']})";?></td>
-				<td>
-				<?php
-					$status = $row['status'];
-					if ($status != 'W')
-					{
-				?>
-					
-						<div class = "attachmentDiv">
-							<li class="download"><span class="glyphicon glyphicon-download"></span>
-								<a href="getLog.php?duel=<?php echo $row['id'];?>"><?php echo rusStatus($status);?></a>
-							</li>
-						</div>
-					
-				<?php
-					}
-					else echo "Waiting...";
-				?>
-				</td>
-			<?php
-				if ($visual)
-				{
-			?>
-				<td>
-					<?php
-						// допилить
-						if ($status != 'W')
-						{
-					?>
-						<button class = "btn btn-info" onclick = "window.open('visualize.php?duel=<?php echo $row['id']; ?>', 'Vizualizer', 'width=600,height=650,resizable=yes,scrollbars=yes'); return false;">Просмотреть</button>
-					<?php
-						}
-							//echo "<a href='visualize.php?duel=".$row['id']."'>Просмотреть</a>"; 
-					?>
-				</td>
-			<?php
-				}
-			?>
-			</tr>
-	<?php
-		}
-	?>
+    <tr class = "info" align = center>
+        <td>Игрок 1</td>
+        <td>Игрок 2</td>
+        <td>Результат</td>
+        <?php if ($visual)
+            {
+        ?>
+            <td>Визуализатор</td>
+        <?php
+            }
+        ?>
+    </tr>
+    <?php
+        foreach ($duels as $row)
+        {
+    ?>
+            <tr align = center>
+                <td><?php echo getNicknameById($row['user1'])." ({$row['strategy1']})";?></td>
+                <td><?php echo getNicknameById($row['user2'])." ({$row['strategy2']})";?></td>
+                <td>
+                <?php
+                    $status = $row['status'];
+                    if ($status != 'W')
+                    {
+                ?>
+                    
+                        <div class = "attachmentDiv">
+                            <li class="download"><span class="glyphicon glyphicon-download"></span>
+                                <a href="getLog.php?duel=<?php echo $row['id'];?>"><?php echo rusStatus($status);?></a>
+                            </li>
+                        </div>
+                    
+                <?php
+                    }
+                    else echo "Waiting...";
+                ?>
+                </td>
+            <?php
+                if ($visual)
+                {
+            ?>
+                <td>
+                    <?php
+                        // допилить
+                        if ($status != 'W')
+                        {
+                    ?>
+                        <button class = "btn btn-info" onclick = "window.open('visualize.php?duel=<?php echo $row['id']; ?>', 'Vizualizer', 'width=600,height=650,resizable=yes,scrollbars=yes'); return false;">Просмотреть</button>
+                    <?php
+                        }
+                            //echo "<a href='visualize.php?duel=".$row['id']."'>Просмотреть</a>"; 
+                    ?>
+                </td>
+            <?php
+                }
+            ?>
+            </tr>
+    <?php
+        }
+    ?>
 </table>
 
 <?php
-	if ($gameId != -1 && $roundId != -1)
-	{
+    if ($gameId != -1 && $roundId != -1)
+    {
 ?>
-	<button type="button" class="btn btn-link" onclick="$('#dataContainer').load('roundResults.php?round=<?php echo $roundId;?>')">Назад</button>
+    <button type="button" class="btn btn-link" onclick="$('#dataContainer').load('roundResults.php?round=<?php echo $roundId;?>')">Назад</button>
 <?php
-	}
+    }
 ?>
 <script type="text/javascript">
     window.scroll(0, 0);
