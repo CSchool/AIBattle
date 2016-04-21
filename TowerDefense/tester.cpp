@@ -1,6 +1,7 @@
 #include <sstream>
 #include <iostream>
 #include "execution.h"
+#include "testlib.h"
 #include <list>
 #include <vector>
 #include <map>
@@ -13,33 +14,33 @@
 
 using namespace std;
 
-// описания полей
+// РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№
 
-const int fieldSize = 10; // размер поля
-const int maxMoves = 555; // максимальное количество ходов
+const int fieldSize = 10; // СЂР°Р·РјРµСЂ РїРѕР»СЏ
+const int maxMoves = 555; // РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С…РѕРґРѕРІ
 
 enum FieldType 
 {
-    EMPTY = 0, // Пустая клетка
-    FIRST_PLAYER_TOWER = 1, // Башня первого игрока
-    SECOND_PLAYER_TOWER = 2, // Башня второго игрока
-    FIRST_PLAYER_LOCATION = 500, // Местоположение первого игрока
-    SECOND_PLAYER_LOCATION = 900, // Местоположение второго игрока
-    FIRST_PLAYER_CANNON_FIRST_TYPE = 200, // Пушка 1-ого уровня первого игрока
-    FIRST_PLAYER_CANNON_SECOND_TYPE = 300, // Пушка 2-ого уровня первого игрока
-    FIRST_PLAYER_CANNON_THIRD_TYPE = 400, // Пушка 3-ого уровня первого игрока
-    SECOND_PLAYER_CANNON_FIRST_TYPE = 600, // Пушка 1-ого уровня второго игрока
-    SECOND_PLAYER_CANNON_SECOND_TYPE = 700, // Пушка 2-ого уровня второго игрока
-    SECOND_PLAYER_CANNON_THIRD_TYPE = 800, // Пушка 3-ого уровня второго игрока
-    GOLD = 1000 // Золотая монетка
+    EMPTY = 0, // РџСѓСЃС‚Р°СЏ РєР»РµС‚РєР°
+    FIRST_PLAYER_TOWER = 1, // Р‘Р°С€РЅСЏ РїРµСЂРІРѕРіРѕ РёРіСЂРѕРєР°
+    SECOND_PLAYER_TOWER = 2, // Р‘Р°С€РЅСЏ РІС‚РѕСЂРѕРіРѕ РёРіСЂРѕРєР°
+    FIRST_PLAYER_LOCATION = 500, // РњРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёРµ РїРµСЂРІРѕРіРѕ РёРіСЂРѕРєР°
+    SECOND_PLAYER_LOCATION = 900, // РњРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёРµ РІС‚РѕСЂРѕРіРѕ РёРіСЂРѕРєР°
+    FIRST_PLAYER_CANNON_FIRST_TYPE = 200, // РџСѓС€РєР° 1-РѕРіРѕ СѓСЂРѕРІРЅСЏ РїРµСЂРІРѕРіРѕ РёРіСЂРѕРєР°
+    FIRST_PLAYER_CANNON_SECOND_TYPE = 300, // РџСѓС€РєР° 2-РѕРіРѕ СѓСЂРѕРІРЅСЏ РїРµСЂРІРѕРіРѕ РёРіСЂРѕРєР°
+    FIRST_PLAYER_CANNON_THIRD_TYPE = 400, // РџСѓС€РєР° 3-РѕРіРѕ СѓСЂРѕРІРЅСЏ РїРµСЂРІРѕРіРѕ РёРіСЂРѕРєР°
+    SECOND_PLAYER_CANNON_FIRST_TYPE = 600, // РџСѓС€РєР° 1-РѕРіРѕ СѓСЂРѕРІРЅСЏ РІС‚РѕСЂРѕРіРѕ РёРіСЂРѕРєР°
+    SECOND_PLAYER_CANNON_SECOND_TYPE = 700, // РџСѓС€РєР° 2-РѕРіРѕ СѓСЂРѕРІРЅСЏ РІС‚РѕСЂРѕРіРѕ РёРіСЂРѕРєР°
+    SECOND_PLAYER_CANNON_THIRD_TYPE = 800, // РџСѓС€РєР° 3-РѕРіРѕ СѓСЂРѕРІРЅСЏ РІС‚РѕСЂРѕРіРѕ РёРіСЂРѕРєР°
+    GOLD = 1000 // Р—РѕР»РѕС‚Р°СЏ РјРѕРЅРµС‚РєР°
 };
 
 
 FieldType field[fieldSize][fieldSize];
 
-// Данные для пушек
+// Р”Р°РЅРЅС‹Рµ РґР»СЏ РїСѓС€РµРє
 
-// структура "координата"
+// СЃС‚СЂСѓРєС‚СѓСЂР° "РєРѕРѕСЂРґРёРЅР°С‚Р°"
 struct Point
 {
     int x,y;
@@ -52,7 +53,7 @@ struct Point
         this->y = y;
     }
 
-    // Проверка корректности точки
+    // РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚Рё С‚РѕС‡РєРё
     static bool isCorrectPoint(int x, int y)
     {
         return x >= 0 && x < fieldSize && y >= 0 && y < fieldSize;
@@ -76,7 +77,7 @@ struct Point
     }
 };
 
-// манхэттаннское расстояние
+// РјР°РЅС…СЌС‚С‚Р°РЅРЅСЃРєРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ
 int dist(const Point &p1, const Point &p2)
 {
     return abs(p1.x - p2.x) + abs(p1.y - p2.y);
@@ -89,15 +90,15 @@ bool dist(const Point &p1, const Point &p2, int radius)
 
 enum CannonDir {DR, DL, UL, UR}; // Down-Right, Down-Left, Up-Left, Up-Right
 
-enum CannonType {FIRST, SECOND, THIRD, UNKNOWN}; // типы пушек (первая, вторая, третья)
+enum CannonType {FIRST, SECOND, THIRD, UNKNOWN}; // С‚РёРїС‹ РїСѓС€РµРє (РїРµСЂРІР°СЏ, РІС‚РѕСЂР°СЏ, С‚СЂРµС‚СЊСЏ)
 
 const int cannonHealth[] = {9, 12, 5};
-const int cannonCost[] = {3, 7, 12}; // стоимость пушек
-const int cannonScore[] = {2, 4, 7}; // очки за пушки
+const int cannonCost[] = {3, 7, 12}; // СЃС‚РѕРёРјРѕСЃС‚СЊ РїСѓС€РµРє
+const int cannonScore[] = {2, 4, 7}; // РѕС‡РєРё Р·Р° РїСѓС€РєРё
 const int cannonPower[] = {2, 3, 4};
 const int cannonRange[] = {1, 2, 3};
 
-// Структура пушек
+// РЎС‚СЂСѓРєС‚СѓСЂР° РїСѓС€РµРє
 struct Cannon
 {
     CannonType type;
@@ -125,12 +126,12 @@ struct Cannon
     }
 };
 
-// typedef для листа пушек
+// typedef РґР»СЏ Р»РёСЃС‚Р° РїСѓС€РµРє
 typedef map<Point, Cannon> CannonMap;
 
 // #####
 
-// Данные для игроков
+// Р”Р°РЅРЅС‹Рµ РґР»СЏ РёРіСЂРѕРєРѕРІ
 
 struct Player
 {
@@ -141,14 +142,14 @@ struct Player
 
 // #####
 
-// Общие объявления 
+// РћР±С‰РёРµ РѕР±СЉСЏРІР»РµРЅРёСЏ 
 
-CannonMap cannons[2]; // 0 - первый игрок, 1 - второй игрок, в данном массиве храним пушки игрока
-Player players[2]; // тут хранится информация о игроках 
+CannonMap cannons[2]; // 0 - РїРµСЂРІС‹Р№ РёРіСЂРѕРє, 1 - РІС‚РѕСЂРѕР№ РёРіСЂРѕРє, РІ РґР°РЅРЅРѕРј РјР°СЃСЃРёРІРµ С…СЂР°РЅРёРј РїСѓС€РєРё РёРіСЂРѕРєР°
+Player players[2]; // С‚СѓС‚ С…СЂР°РЅРёС‚СЃСЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РёРіСЂРѕРєР°С… 
 
-// функции
+// С„СѓРЅРєС†РёРё
 
-// получить здоровье пушки по координате
+// РїРѕР»СѓС‡РёС‚СЊ Р·РґРѕСЂРѕРІСЊРµ РїСѓС€РєРё РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Рµ
 int getCannonHealth(int player, int x, int y)
 {
     CannonMap &playerCannons = cannons[player];
@@ -160,7 +161,7 @@ int getCannonHealth(int player, int x, int y)
         return -1;
 }
 
-// Получить однозначное представление клетки (в случае пушек необходимо подавать координаты!)
+// РџРѕР»СѓС‡РёС‚СЊ РѕРґРЅРѕР·РЅР°С‡РЅРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РєР»РµС‚РєРё (РІ СЃР»СѓС‡Р°Рµ РїСѓС€РµРє РЅРµРѕР±С…РѕРґРёРјРѕ РїРѕРґР°РІР°С‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹!)
 int convertFieldType(FieldType fieldType, int x, int y)
 {
     switch (fieldType)
@@ -213,14 +214,28 @@ void getField(std::ostringstream &outs)
     }
 }
 
-//Движение игрока
-ExecutionResult checkMovement(bool firstPlayer, istringstream &ins, std::string &result)
+//Р”РІРёР¶РµРЅРёРµ РёРіСЂРѕРєР°
+ExecutionResult checkMovement(bool firstPlayer, InStream &ins, const std::string &playerOutput, std::string &result)
 {
     char movement;
-    ins >> movement;
-
     int dx = -2, dy = -2;
     int playerIndex = firstPlayer == true ? 0 : 1;
+    
+    //ins >> movement;
+
+    char possibleDirections[] = {'U', 'L', 'R', 'D'};
+
+    try
+    {
+        ins >> ValueInRange<char>(movement, possibleDirections, 4);
+    }
+    catch (ReadCheckerException &exception)
+    {
+        std::ostringstream outs;
+        outs << playerOutput << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+        result = outs.str();
+        return ER_IM;
+    }
 
     switch (movement)
     {
@@ -246,35 +261,34 @@ ExecutionResult checkMovement(bool firstPlayer, istringstream &ins, std::string 
     outs << "M " << movement << std::endl;
     result = outs.str();
 
-    if (dy != -2 && dx != -2)
+    
+    // Сѓ РЅР°СЃ РµСЃС‚СЊ РѕСЃРјС‹СЃР»РµРЅРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏ РёРіСЂРѕРєР°
+    int y = players[playerIndex].position.y;
+    int x = players[playerIndex].position.x;
+
+    if (Point::isCorrectPoint(x + dx, y + dy))
     {
-        // у нас есть осмысленное направление движения игрока
-        int y = players[playerIndex].position.y;
-        int x = players[playerIndex].position.x;
-
-        if (Point::isCorrectPoint(x + dx, y + dy))
+        // Сѓ РЅР°СЃ РєРѕСЂСЂРµРєС‚РЅС‹Р№ С…РѕРґ СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ РіСЂР°РЅРёС† РјР°СЃСЃРёРІР° (Р·РѕР»РѕС‚Рѕ С‚РѕР¶Рµ РјРѕР¶РЅРѕ Р±СЂР°С‚СЊ)
+        if (field[y + dy][x + dx] == EMPTY || field[y + dy][x + dx] == GOLD)
         {
-            // у нас корректный ход с точки зрения границ массива (золото тоже можно брать)
-            if (field[y + dy][x + dx] == EMPTY || field[y + dy][x + dx] == GOLD)
+            FieldType currentPlayer = field[y][x];
+            FieldType nextTurn = field[y + dy][x + dx];
+            field[y][x] = EMPTY;
+            field[y + dy][x + dx] = currentPlayer;
+
+            players[playerIndex].position.y = y + dy;
+            players[playerIndex].position.x = x + dx;
+
+            if (nextTurn == GOLD)
             {
-                FieldType currentPlayer = field[y][x];
-                FieldType nextTurn = field[y + dy][x + dx];
-                field[y][x] = EMPTY;
-                field[y + dy][x + dx] = currentPlayer;
+                players[playerIndex].gold++;
+                players[playerIndex].score++;
+            }
 
-                players[playerIndex].position.y = y + dy;
-                players[playerIndex].position.x = x + dx;
-
-                if (nextTurn == GOLD)
-                {
-                    players[playerIndex].gold++;
-                    players[playerIndex].score++;
-                }
-
-                return ER_OK;
-            } 
-        }
+            return ER_OK;
+        } 
     }
+    
     return ER_IM;
 }
 
@@ -284,13 +298,24 @@ bool cannonPossibleToBuild(Point player, Point cannon)
         && (player.x != cannon.x || player.y != cannon.y); 
 }
 
-// строительство башни
-ExecutionResult cannonBuilding(bool firstPlayer, istringstream &ins, std::string &result)
+// СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ Р±Р°С€РЅРё
+ExecutionResult cannonBuilding(bool firstPlayer, InStream &ins, const std::string &playerOutput, std::string &result)
 {
     CannonType cannonType = UNKNOWN;
     int cx = -2, cy = -2, cannon = UNKNOWN;
-
-    ins >> cx >> cy >> cannon;    
+    
+    try
+    {
+        ins >> ValueInBounds<int>(cx, 0, fieldSize) >> ValueInBounds<int>(cy, 0, fieldSize) >> ValueInBounds<int>(cannon, FIRST + 1, THIRD + 1);
+    }
+    catch (ReadCheckerException &exception)
+    {
+        std::ostringstream outs;
+        outs << playerOutput << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+        result = outs.str();
+        return ER_IM;
+    }
+    
     cannonType = (CannonType)(cannon - 1);
 
     ostringstream outs;
@@ -302,18 +327,16 @@ ExecutionResult cannonBuilding(bool firstPlayer, istringstream &ins, std::string
     int y = players[playerIndex].position.y;
     int x = players[playerIndex].position.x;
     
-    if (Point::isCorrectPoint(cx, cy)
-        && cannonPossibleToBuild(players[playerIndex].position, Point(cx, cy))
-        && cannonType >= FIRST && cannonType <= THIRD)
+    if (cannonPossibleToBuild(players[playerIndex].position, Point(cx, cy)))
     {
-        // проверка на то, что пользователь ввел корректное значение
+        // РїСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІРІРµР» РєРѕСЂСЂРµРєС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
         if (field[cy][cx] == EMPTY)
         {
-            // башню можно построить, так как место пустое
+            // Р±Р°С€РЅСЋ РјРѕР¶РЅРѕ РїРѕСЃС‚СЂРѕРёС‚СЊ, С‚Р°Рє РєР°Рє РјРµСЃС‚Рѕ РїСѓСЃС‚РѕРµ
             int cost = cannonCost[cannonType];
             if (players[playerIndex].gold >= cost)
             {
-                // у игрока есть деньги на строительство
+                // Сѓ РёРіСЂРѕРєР° РµСЃС‚СЊ РґРµРЅСЊРіРё РЅР° СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ
                 players[playerIndex].gold -= cost;
                 
                 cannons[playerIndex].insert(make_pair(Point(cx, cy), Cannon(cannonType)));
@@ -360,11 +383,11 @@ ExecutionResult cannonBuilding(bool firstPlayer, istringstream &ins, std::string
     return ER_IM;
 }
 
-// Выполнение хода игрока
+// Р’С‹РїРѕР»РЅРµРЅРёРµ С…РѕРґР° РёРіСЂРѕРєР°
 ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &result)
 {
     ostringstream outs;
-    string output;
+    string output, inputChecker;
 
     int player = firstPlayer == true ? 0 : 1;
     int enemy = 1 - player;
@@ -374,36 +397,43 @@ ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &r
 
     printInput(firstPlayer, outs.str());
 
-    //cout << outs.str() << endl;
-
     ExecutionResult execResult = runProcess(program, outs.str(), output, 1000, 64000); 
         
     if (execResult == ER_OK)
     {
-        istringstream ins(output);
+        InStream ins(output);
         char mode;
+        char possibleModes[] = {'S', 'M', 'B'};
 
-        ins >> mode;
+        try
+        {
+            ins >> ValueInRange<char>(mode, possibleModes, 3);
+        }
+        catch (ReadCheckerException &exception)
+        {
+            std::ostringstream outs;
+            outs << output << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+            result = outs.str();
+            return ER_IM;
+        }
+
         switch (mode)
         {
-        case 'S':
-            // ничего не делаем
-            result = "S";
-            return ER_OK;
-        case 'M':
-            // движение игрока
-            return checkMovement(firstPlayer, ins, result);
-        case 'B':
-            // строительство башен
-            return cannonBuilding(firstPlayer, ins, result);
-        default:
-            // какая-то неправильная команда - ничего не делаем
-            result = mode;
-            return ER_IM;
+            case 'S':
+                // РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
+                result = "S";
+                return ER_OK;
+            case 'M':
+                // РґРІРёР¶РµРЅРёРµ РёРіСЂРѕРєР°
+                return checkMovement(firstPlayer, ins, output, result);
+            case 'B':
+                // СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ Р±Р°С€РµРЅ
+                return cannonBuilding(firstPlayer, ins, output, result);
         }
     }
 
     result = output;
+
     return execResult;
 }
 
@@ -417,7 +447,7 @@ const int cannonCheckDY[] = {1, 1, -1, -1};
 
 bool isPointContainsCannon(const Point &point, int enemy)
 {
-    // 0 -- первый игрок, 1 -- второй
+    // 0 -- РїРµСЂРІС‹Р№ РёРіСЂРѕРє, 1 -- РІС‚РѕСЂРѕР№
     int x = point.x, y = point.y;
     bool result = false;
     switch (enemy)
@@ -448,12 +478,6 @@ Point checkNearbyCannons(Point cannon, int enemy, int radius)
     {
         for (int i = 0; i < radius; ++i)
         {
-            //cout << "dx: " << dx << ", dy: " << dy << ", i: " << i << ", dir: " << dir << ", enemy: " << enemy << endl;
-            //cout << "newPoint (" << cannon.x + dx << ", " << cannon.y + dy << ") is " << field[cannon.y + dy][cannon.x + dx] << endl; 
-            
-            //cout << "correct (" << cannon.x + dx << ", " << cannon.y + dy << ") = " << Point::isCorrectPoint(cannon.x + dx, cannon.y + dy) << endl;
-            //cout << "Containing: " << isPointContainsCannon(Point(cannon.x + dx, cannon.y + dy), enemy) << endl;
-            
             if (Point::isCorrectPoint(cannon.x + dx, cannon.y + dy) && 
                 isPointContainsCannon(Point(cannon.x + dx, cannon.y + dy), enemy))
             {
@@ -472,25 +496,25 @@ Point checkNearbyCannons(Point cannon, int enemy, int radius)
 
 
 
-// стрельба пушек по всем
+// СЃС‚СЂРµР»СЊР±Р° РїСѓС€РµРє РїРѕ РІСЃРµРј
 void cannonShooting(std::string &animation)
 {
     ostringstream animationStream;
 
-    // стрельба пушек
+    // СЃС‚СЂРµР»СЊР±Р° РїСѓС€РµРє
     for (int player = 0; player < 2; ++player)
     {
         int enemy = 1 - player;
         
         for (CannonMap::iterator it = cannons[player].begin(); it != cannons[player].end(); ++it)
         {
-            // Достает ли пушка до вражеской башни
+            // Р”РѕСЃС‚Р°РµС‚ Р»Рё РїСѓС€РєР° РґРѕ РІСЂР°Р¶РµСЃРєРѕР№ Р±Р°С€РЅРё
             Point tower(player == 0 ? 7 : 2, player == 0 ? 7 : 2);
             Point cannon = it->first;
 
             if (dist(cannon, tower, it->second.getRadius()))
             {
-                // Достаем до башни
+                // Р”РѕСЃС‚Р°РµРј РґРѕ Р±Р°С€РЅРё
                 players[enemy].towerHealth -= it->second.getPower();
                 animationStream << cannon.x << " " << cannon.y << " " 
                     << tower.x << " " << tower.y << "\n"; 
@@ -499,15 +523,15 @@ void cannonShooting(std::string &animation)
             else
             {
                 Point nearbyPoint(-INT_MAX, -INT_MAX);
-                // пытаемся попасть по пушкам
-                for (int i = 1; i <= it->second.getRadius(); ++i) // берем с внутреннего радиуса
+                // РїС‹С‚Р°РµРјСЃСЏ РїРѕРїР°СЃС‚СЊ РїРѕ РїСѓС€РєР°Рј
+                for (int i = 1; i <= it->second.getRadius(); ++i) // Р±РµСЂРµРј СЃ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ СЂР°РґРёСѓСЃР°
                 {
                     nearbyPoint = checkNearbyCannons(cannon, enemy, i);
                     if (nearbyPoint.isNormalPoint())
                         break;
                 }
 
-                // Проверка того, нашли какую пушку повреждать
+                // РџСЂРѕРІРµСЂРєР° С‚РѕРіРѕ, РЅР°С€Р»Рё РєР°РєСѓСЋ РїСѓС€РєСѓ РїРѕРІСЂРµР¶РґР°С‚СЊ
                 if (nearbyPoint.isNormalPoint())
                 {
                     cannons[enemy][nearbyPoint].health -= it->second.getPower();
@@ -521,10 +545,11 @@ void cannonShooting(std::string &animation)
 
     animation = animationStream.str();
 
-    // очистка мертвых пушек
+    // РѕС‡РёСЃС‚РєР° РјРµСЂС‚РІС‹С… РїСѓС€РµРє
     for (int player = 0; player < 2; ++player)
     {
-        for (CannonMap::iterator it = cannons[player].begin(); it != cannons[player].end(); )
+        auto it = cannons[player].begin();
+        while (it != cannons[player].end())
         {
             if (it->second.health <= 0)
             {
@@ -539,13 +564,13 @@ void cannonShooting(std::string &animation)
     }
 }
 
-// Проверка окончания игры
+// РџСЂРѕРІРµСЂРєР° РѕРєРѕРЅС‡Р°РЅРёСЏ РёРіСЂС‹
 bool isGameOver()
 {
     return players[0].towerHealth <= 0 || players[1].towerHealth <= 0;
 }
 
-// спаун монеток
+// СЃРїР°СѓРЅ РјРѕРЅРµС‚РѕРє
 void spawnGold()
 {
     vector<Point> v;
@@ -597,7 +622,7 @@ int main(int argc, char **argv)
     else
         srand((int)time(NULL));
 
-    // инициализируем поле
+    // РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРѕР»Рµ
     initField();
 
     std::string animation;
@@ -615,7 +640,7 @@ int main(int argc, char **argv)
         printField(outs.str());
         
 
-        // ходы игроков
+        // С…РѕРґС‹ РёРіСЂРѕРєРѕРІ
         std::string output1, output2;
 
         ExecutionResult exec1 = playerMove(true, program1, output1);
@@ -630,7 +655,7 @@ int main(int argc, char **argv)
         if (exec2 != ER_OK)
             return 0;
 
-        // стрельба пушек
+        // СЃС‚СЂРµР»СЊР±Р° РїСѓС€РµРє
         
         cannonShooting(animation);
 
@@ -640,15 +665,15 @@ int main(int argc, char **argv)
         printAnimation(animation);
         printAnimationEnd();
 
-        // провека окончания игры
+        // РїСЂРѕРІРµРєР° РѕРєРѕРЅС‡Р°РЅРёСЏ РёРіСЂС‹
         if (!isGameOver())
         {
             if (moves % 3 == 0)
-                spawnGold(); // спавним монетки 
+                spawnGold(); // СЃРїР°РІРЅРёРј РјРѕРЅРµС‚РєРё 
         }
         else
         {
-            // пишем кто у нас выиграл, а кто проиграл
+            // РїРёС€РµРј РєС‚Рѕ Сѓ РЅР°СЃ РІС‹РёРіСЂР°Р», Р° РєС‚Рѕ РїСЂРѕРёРіСЂР°Р»
             if (players[0].towerHealth <= 0 && players[1].towerHealth <= 0)
                 printLog(true, ER_TIE, "");
             else if (players[0].towerHealth <= 0)
@@ -660,7 +685,7 @@ int main(int argc, char **argv)
         }       
     }
 
-    // подумать про подсчет количества очков
+    // РїРѕРґСѓРјР°С‚СЊ РїСЂРѕ РїРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° РѕС‡РєРѕРІ
 
     if (players[0].score > players[1].score)
         printLog(true, ER_WIN, std::string(players[0].score + " - " + players[1].score));

@@ -1,6 +1,8 @@
 AIBattle
 ========
 
+[![Build Status](https://travis-ci.org/CSchool/AIBattle.svg?branch=master)](https://travis-ci.org/CSchool/AIBattle)
+
 Platform for creating AI contests.
 
 How to build
