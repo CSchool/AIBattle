@@ -1,18 +1,18 @@
 <?php
-	include_once('procedures.php');
-	
-	$_SESSION['adminPanelState'] = 'APuserManagement.php';
-	
-	if (isAdmin())
+    include_once('procedures.php');
+    
+    $_SESSION['adminPanelState'] = 'APuserManagement.php';
+    
+    if (isAdmin())
   {
     $link = getDBConnection();
     mysqli_select_db($link, getDBName());
     if ($query = mysqli_query($link, "SELECT * FROM users"))
     {
 ?>
-	<script>
-		changeActiveAdminButton('usersButton');
-	</script>
+    <script>
+        changeActiveAdminButton('usersButton');
+    </script>
 
 <table class="table table-bordered">
 <caption>Пользователи</caption>
@@ -51,7 +51,7 @@
 }} else
 {
 ?>
-	<p>Тебя не должно быть здесь!</p>
+    <p>Тебя не должно быть здесь!</p>
 <?php
 }
 ?>
