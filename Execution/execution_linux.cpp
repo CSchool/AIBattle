@@ -118,6 +118,8 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
                 output += buffer[i];
         }
 
+        close(outputPipe[0]);
+
         if (status == 2)
             return ER_TL;
 
