@@ -223,11 +223,11 @@ ExecutionResult checkMovement(bool firstPlayer, InStream &ins, const std::string
     
     //ins >> movement;
 
-    char possibleDirections[] = {'U', 'L', 'R', 'D'};
+    //char possibleDirections[] = {'U', 'L', 'R', 'D'};
 
     try
     {
-        ins >> ValueInRange<char>(movement, possibleDirections, 4);
+        ins >> ValueInString(movement, "U L R D");
     }
     catch (ReadCheckerException &exception)
     {
@@ -403,11 +403,11 @@ ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &r
     {
         InStream ins(output);
         char mode;
-        char possibleModes[] = {'S', 'M', 'B'};
+        //char possibleModes[] = {'S', 'M', 'B'};
 
         try
         {
-            ins >> ValueInRange<char>(mode, possibleModes, 3);
+            ins >> ValueInString(mode, "S M B");
         }
         catch (ReadCheckerException &exception)
         {

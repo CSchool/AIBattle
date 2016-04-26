@@ -398,6 +398,24 @@ template<> InStream& InStream::operator>> <char>(const ValueInRange<char> &val)
     return *this;
 }
 
+InStream& InStream::operator>> (const ValueInString &val)
+{
+    char streamValue = this->readChar();
+
+    if (val.isValueInString(streamValue))
+    {
+        val.value = streamValue;
+    }
+    else
+    {
+        std::ostringstream out;
+        out << "Expected value in string " << val.getRangeTextPresentation() << ", get " << streamValue;
+        throw ReadCheckerException(RR_WR, out.str());
+    }
+
+    return *this;
+}
+
 template<> InStream& InStream::operator>> <int>(const ValueInRange<int> &val)
 {
     int streamValue = this->readInteger();

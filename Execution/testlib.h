@@ -174,6 +174,26 @@ struct ValueInRange
     }
 };
 
+struct ValueInString
+{
+    char &value;
+    std::string str;
+
+
+    ValueInString(char &value, const std::string &str) : value(value), str(str) { }
+    ValueInString(char &value, const char *str) : value(value), str(str) { }
+
+    bool isValueInString(const char symbol) const
+    {
+        return str.find(symbol) != std::string::npos;
+    }
+
+    std::string getRangeTextPresentation() const
+    {
+        return "[" + str + "]";
+    }
+};
+
 class StringInputStreamReader
 {
 private:
@@ -323,6 +343,7 @@ public:
 
     template<class T> InStream& operator>>(const ValueInBounds<T> &val);
     template<class T> InStream& operator>>(const ValueInRange<T> &val);
+    InStream& operator>>(const ValueInString &val);
 
     void readNewLine(std::string& value);
 };
