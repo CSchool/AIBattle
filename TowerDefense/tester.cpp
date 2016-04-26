@@ -306,7 +306,7 @@ ExecutionResult cannonBuilding(bool firstPlayer, InStream &ins, const std::strin
     
     try
     {
-        ins >> ValueInBounds<int>(cx, 0, fieldSize) >> ValueInBounds<int>(cy, 0, fieldSize) >> ValueInBounds<int>(cannon, FIRST + 1, THIRD + 1);
+        ins >> ValueInBounds<int>(cx, 0, fieldSize - 1) >> ValueInBounds<int>(cy, 0, fieldSize - 1) >> ValueInBounds<int>(cannon, FIRST + 1, THIRD + 1);
     }
     catch (ReadCheckerException &exception)
     {
