@@ -111,8 +111,11 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
 
         while ((z = read(outputPipe[0], buffer, sizeof(buffer))) != 0)
         {
-            if (z == -1)
+            if (z == -1) 
+            {
+                close(outputPipe[0]);
                 return ER_TL; // we have some error on reading an answer
+            }
 
             for (int i = 0; i < z; ++i)
                 output += buffer[i];
