@@ -1,3 +1,5 @@
+#include <cstring>
+#include <errno.h>
 #include "execution.h"
 
 ExecutionResult runProcess(const std::string &exe, const std::string &input,
@@ -6,9 +8,20 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
     //Running process
     int outputPipe[2];
     int inputPipe[2];
-    pipe(outputPipe);
-    pipe(inputPipe);
+
+    if (pipe(outputPipe) == -1)
+        return ER_IE;
+
+    if (pipe(inputPipe) == -1)
+    {
+        close(outputPipe[0]);
+        close(outputPipe[1]);
+
+        return ER_IE;
+    }
+
     int pid = fork();
+
     if (pid == 0)
     {
         //I am child
@@ -24,18 +37,15 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
         //close(inputPipe[0]);
         
         rlimit rmemlimit; // Memory Limit
-        rmemlimit.rlim_cur = memoryLimit * 1024;
-        rmemlimit.rlim_max = memoryLimit * 1024;
+        rmemlimit.rlim_cur = (rlim_t) (memoryLimit * 1024);
+        rmemlimit.rlim_max = (rlim_t) (memoryLimit * 1024);
         setrlimit(RLIMIT_AS, &rmemlimit);
 
         rlimit rtimelimit; //Time limit
-        rtimelimit.rlim_cur = std::max(timeLimit / 1000, 1);
-        rtimelimit.rlim_max = std::max(timeLimit / 1000, 1);
+        rtimelimit.rlim_cur = (rlim_t) std::max(timeLimit / 1000, 1);
+        rtimelimit.rlim_max = (rlim_t) std::max(timeLimit / 1000, 1);
         setrlimit(RLIMIT_CPU, &rtimelimit);
 
-        char the_path[256];
-        getcwd(the_path, 255);
-        std::string work_dir = std::string(the_path);
         execlp(std::string("./" + exe).c_str(), NULL);
         exit(0);
     }
@@ -46,6 +56,7 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
         close(inputPipe[1]);
         close(outputPipe[0]);
         close(outputPipe[1]);
+
         return ER_IE;
     }
     else
@@ -56,26 +67,33 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
         close(outputPipe[1]);
 
         char inBuffer[1024];
-        int copied = 0, inputLength = input.length();
+        int copied = 0;
+        int inputLength = (int) input.length();
         std::size_t length;
+
         while (copied < inputLength)
         {
             length = input.copy(inBuffer, 1024, copied);
             copied += 1024;
             write(inputPipe[1], inBuffer, length);
         }
+
         char zeroBuffer[1] = {'\0'};
         write(inputPipe[1], zeroBuffer, 1);
         close(inputPipe[1]); //Close writing end of input
+
         int status = 0;
         int timeout_pid = fork();
+
         if (timeout_pid == 0)
         {
             usleep(timeLimit * 10000);
             exit(0);
         }
+
         int status_new;
         int exited_pid = wait(&status_new);
+
         if (exited_pid == pid)
         {
             kill(timeout_pid, SIGKILL);
@@ -85,16 +103,29 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
             kill(pid, SIGKILL);
             status = 2;
         }
+
         wait(NULL);
+
         char buffer[1024];
-        int z;
+        ssize_t z;
+
         while ((z = read(outputPipe[0], buffer, sizeof(buffer))) != 0)
         {
+            if (z == -1) 
+            {
+                close(outputPipe[0]);
+                return ER_TL; // we have some error on reading an answer
+            }
+
             for (int i = 0; i < z; ++i)
                 output += buffer[i];
-        } 
+        }
+
+        close(outputPipe[0]);
+
         if (status == 2)
             return ER_TL;
+
         if (WIFSIGNALED(status_new))
         {
             if ((WTERMSIG(status_new) == SIGXCPU) ||
@@ -105,9 +136,12 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
                 return ER_RE;
             }
         }
-        kill(pid, SIGKILL); 
+
+        kill(pid, SIGKILL);
+
         if (status_new == 0)
             return ER_OK;
+
         return ER_IE;
     }
 }
