@@ -46,8 +46,27 @@
             <?php 
                 } 
             ?>
-            <label for = "uploadCompilerFile" class = "APfont">Код компилятора <?php if ($compilerId != -1) { ?> (обновление) <?php } ?>:</label>
+            <label for = "uploadCompilerFile" class = "APfont">Файл компилятора <?php if ($compilerId != -1) { ?> (обновление) <?php } ?></label>
             <input type = "file" id = "uploadCompilerFile">
+        </div>
+        <br>
+        <div class="btn-group">
+            <button type = "submit" name = "submit" class = "btn btn-default">
+                <?php
+                    if ($compilerId == -1)
+                        echo 'Создать компилятор';
+                    else
+                        echo 'Применить изменения';
+                ?>
+            </button>
+            <?php
+                if ($compilerId != -1)
+                {
+            ?>
+            <button type = "submit" name = "submit" class = "btn btn-default">Удалить компилятор</button> 
+            <?php
+                }
+            ?>
         </div>
     </form>
     
