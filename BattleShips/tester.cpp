@@ -71,7 +71,7 @@ void initField(int player)
             {
                 ins >> ValueInBounds<int>(y, 1, 7) >> ValueInBounds<int>(x, 1, 7);
                 if (sizes[i] != 1)
-                    ins >> ValueInString(v, "H V");
+                    ins >> ValueInString(v, "HV");
             }
             catch (ReadCheckerException &exception)
             {

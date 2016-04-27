@@ -407,7 +407,7 @@ ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &r
 
         try
         {
-            ins >> ValueInString(mode, "S M B");
+            ins >> ValueInString(mode, "SMB");
         }
         catch (ReadCheckerException &exception)
         {
