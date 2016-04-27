@@ -53,12 +53,20 @@
                 PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ");
                 
+            mysqli_query($link, "CREATE TABLE `compilers` (
+                `id` int NOT NULL auto_increment PRIMARY KEY,
+                `name` text NOT NULL,
+                `type` text NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+                
             mysqli_query($link, "CREATE TABLE `checkers` (
                 `id` int NOT NULL auto_increment PRIMARY KEY,
                 `game` int,
+                `compiler` int,
                 `name` text NOT NULL,
                 `hasSeed` bool NOT NULL default false,
-                FOREIGN KEY (`game`) REFERENCES games(`id`) ON DELETE CASCADE
+                FOREIGN KEY (`game`) REFERENCES games(`id`) ON DELETE CASCADE,
+                FOREIGN KEY (`compiler`) REFERENCES compilers(`id`) ON DELETE CASCADE
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ");
 
             mysqli_query($link, "CREATE TABLE `tournaments`(

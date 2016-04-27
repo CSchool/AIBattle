@@ -25,14 +25,16 @@
                 <div class="btn-group">
                     <button type="button" id="gameButton" class="btn btn-info" onclick="$('#dataContainer').load('APgame.php');">Игры</button>
                     <button type="button" id="tournamentButton" class="btn btn-default" onclick="$('#dataContainer').load('APtournament.php');">Турниры</button>
+                    <button type="button" id="compilerButton" class="btn btn-default" onclick="$('#dataContainer').load('APcompiler.php');">Компиляторы</button>
                     <button type="button" id="checkersButton" class="btn btn-default" onclick="$('#dataContainer').load('APcheckers.php');">Тестировщики игр</button>
                     <button type="button" id="attachmentsButton" class="btn btn-default" onclick="$('#dataContainer').load('APattachments.php');">Файлы игр</button>
                     <button type="button" id="usersButton" class="btn btn-default" onclick="$('#dataContainer').load('APuserManagement.php');">Пользователи</button>
-                    <button type="button" id="newsButton" class="btn btn-default" onclick="$('#dataContainer').load('APnews.php');">Новости</button>
-                    <button type="button" id="faqButton" class="btn btn-default" onclick="$('#dataContainer').load('APfaq.php');">FAQ</button>
+                    
                 </div>
                 <br>
                 <div class="btn-group">
+                    <button type="button" id="newsButton" class="btn btn-default" onclick="$('#dataContainer').load('APnews.php');">Новости</button>
+                    <button type="button" id="faqButton" class="btn btn-default" onclick="$('#dataContainer').load('APfaq.php');">FAQ</button>
                     <button type="button" id="imageUploadButton" class="btn btn-default" onclick="$('#dataContainer').load('APimageUpload.php');">Загрузчик изображений</button>
                     <button type="button" id="imageViewerButton" class="btn btn-default" onclick="$('#dataContainer').load('APimageViewer.php');">Просмотр изображений</button>
                 </div>
