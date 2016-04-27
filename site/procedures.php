@@ -945,6 +945,32 @@
         еще
     */
     
+    // compilers
+    
+    function getCompilerList($compilerId = -1)
+    {
+        $link = getDBConnection();
+        $data = array();
+        
+        if (mysqli_select_db($link, getDBName()))
+        {
+            $compilerId = intval($compilerId);
+            $text = "SELECT * FROM compilers";
+            
+            if ($compilerId != -1)
+                $text .= " WHERE id = $compilerId";
+            
+            $query = mysqli_query($link, $text);
+            
+            while ($row = mysqli_fetch_assoc($query))
+                $data[] = $row;
+            
+            mysqli_free_result($query);
+        }
+    
+        return $data;
+    }
+    
     // checkers
     function getCheckerList($checkerId = -1)
     {
