@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox"> Remove existing DB
+                                <input type="checkbox" name="destroyDB"> Remove existing DB
                             </label>
                         </div>
                     </div>
