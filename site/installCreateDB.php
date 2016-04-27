@@ -56,7 +56,7 @@
             mysqli_query($link, "CREATE TABLE `compilers` (
                 `id` int NOT NULL auto_increment PRIMARY KEY,
                 `name` text NOT NULL,
-                `type` text NOT NULL
+                `text` text NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
                 
             mysqli_query($link, "CREATE TABLE `checkers` (
