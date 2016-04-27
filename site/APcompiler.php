@@ -90,6 +90,11 @@
             ?>
                 <label><i>Компилятор в наличии!</i></label>
                 <br>
+                <div class="form-group">
+                <div id = "source">
+                    <a href="javascript://" onclick="$('#source').load('getCompilerCode.php?id=<?php echo $compilerId; ?>');return false;">Показать код</a>
+                </div>
+            </div>
             <?php 
                 } 
             ?>
@@ -115,6 +120,7 @@
                 }
             ?>
         </div>
+        <br>
     </form>
     
 <?php

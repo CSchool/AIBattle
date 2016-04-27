@@ -970,6 +970,31 @@
     
         return $data;
     }
+    function createCompiler($compilerId, $compilerName, $compileFile)
+    {
+        if (!isAdmin())
+            return 4;
+        
+        $link = getDBConnection();
+        if (mysqli_select_db($link, getDBName()))
+        {
+            $name = mysqli_real_escape_string($link, $compilerName);
+            
+            if ($_FILES[$compileFile]["error"] == 0)
+            {
+                $file = mysqli_real_escape_string($link, file_get_contents($_FILES[$compileFile]["tmp_name"]));
+                $queryText = "INSERT INTO compilers SET name = '$name', text = '$file'";
+                
+                if (mysqli_query($link, $queryText))
+                    return 0;
+                else
+                    return 1;
+            } 
+            else return 2;
+        }
+        else return 3;
+    }
+    
     
     // checkers
     function getCheckerList($checkerId = -1)
@@ -1921,5 +1946,20 @@
         };
         $z->addFromString("META", $meta);
         $z->close();
+    }
+    
+    function htmlspecialcharsEncoding($str)
+    {
+        $encodings = array('UTF-8', 'CP1251', 'ISO-8859-1', 'KOI8-R');
+        
+        foreach ($encodings as $encoding)
+        {
+            $edited = nl2br(str_replace(" ", "&nbsp;", str_replace("\t", "    ", htmlspecialchars($str, ENT_COMPAT | ENT_HTML401, $encoding))));
+            
+            if (!empty($edited))
+                return $edited;
+        }
+        
+        return "";
     }
 ?>
