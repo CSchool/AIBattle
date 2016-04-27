@@ -5,7 +5,7 @@ function changeActiveAdminButton(state)
     var adminButtons = 
     [
         'tournamentButton', 'gameButton', 'roundsButton', 
-        'checkersButton', 'attachmentsButton', 'usersButton', 
+        'checkersButton', 'attachmentsButton', 'usersButton', 'compilerButton',
         'newsButton', 'faqButton', 'duelsButton', 'imageUploadButton',
         'imageViewerButton'
     ];
