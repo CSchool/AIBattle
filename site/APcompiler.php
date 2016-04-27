@@ -57,6 +57,20 @@
                 processData: false
             });
         }
+        
+        function deleteCompiler()
+        {
+            var selectedCompiler = $('#сompilerSelector').val();
+            $.post(
+                'jqueryCompiler.php', 
+                {compilerId: selectedCompiler, deleteCompiler: true}, 
+                function(data) 
+                {
+                    showModalAlert(data);
+                    loadCompilerData(-1);
+                }
+            );
+        }
     </script
     
     <form id="compilerForm" role="form" method="post">
@@ -116,14 +130,13 @@
                 if ($compilerId != -1)
                 {
             ?>
-            <button type="submit" name="deleteData" class="btn btn-default">Удалить компилятор</button> 
+            <button type="submit" name="deleteData" class="btn btn-default" onclick="deleteCompiler(); return false;">Удалить компилятор</button> 
             <?php
                 }
             ?>
         </div>
-        <br>
     </form>
-    
+    <br>
 <?php
     }
     else

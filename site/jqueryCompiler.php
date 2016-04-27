@@ -30,7 +30,6 @@
     } 
     else if (isset($_POST['updateCompiler']))
     {
-        
         $result = updateCompiler($compilerId, $_POST['compilerName'], isset($_POST['compilerFile']) ? $_POST['compilerFile'] : "");
         
         switch ($result)
@@ -48,6 +47,26 @@
                 $echoAnswer = "Не удалось подключиться к БД!";
                 break;
             case 4:
+                $echoAnswer = "К сожалению, Вы не администратор сайта!";
+                break;
+        }
+    }
+    else if (isset($_POST['deleteCompiler']))
+    {
+        $result = deleteCompiler($compilerId);
+        
+        switch ($result)
+        {
+            case 0:
+                $echoAnswer = "Компилятор успешно удален!";
+                break;
+            case 1:
+                $echoAnswer = "Не удалось осуществить удаление компилятора!";
+                break;
+            case 2:
+                $echoAnswer = "Не удалось подключиться к БД!";
+                break;
+            case 3:
                 $echoAnswer = "К сожалению, Вы не администратор сайта!";
                 break;
         }

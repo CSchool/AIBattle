@@ -1030,6 +1030,24 @@
         else return 3;
     }
     
+    function deleteCompiler($compilerId)
+    {
+        if (!isAdmin())
+            return 3;
+        
+        $compilerId = intval($compilerId);
+        
+        $link = getDBConnection();
+        if (mysqli_select_db($link, getDBName()))
+        {
+            if (mysqli_query($link, "DELETE FROM compilers WHERE id = $compilerId"))
+                return 0;
+            else
+                return 1;
+        }
+        else return 2;
+    }
+    
     // checkers
     function getCheckerList($checkerId = -1)
     {
