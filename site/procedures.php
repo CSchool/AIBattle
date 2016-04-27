@@ -970,7 +970,8 @@
     
         return $data;
     }
-    function createCompiler($compilerId, $compilerName, $compileFile)
+    
+    function createCompiler($compilerName, $compilerFile)
     {
         if (!isAdmin())
             return 4;
@@ -980,9 +981,9 @@
         {
             $name = mysqli_real_escape_string($link, $compilerName);
             
-            if ($_FILES[$compileFile]["error"] == 0)
+            if ($_FILES[$compilerFile]["error"] == 0)
             {
-                $file = mysqli_real_escape_string($link, file_get_contents($_FILES[$compileFile]["tmp_name"]));
+                $file = mysqli_real_escape_string($link, file_get_contents($_FILES[$compilerFile]["tmp_name"]));
                 $queryText = "INSERT INTO compilers SET name = '$name', text = '$file'";
                 
                 if (mysqli_query($link, $queryText))
@@ -995,6 +996,39 @@
         else return 3;
     }
     
+    function updateCompiler($compilerId, $compilerName, $compilerFile)
+    {
+        if (!isAdmin())
+            return 4;
+        
+        $compilerId = intval($compilerId);
+        
+        $link = getDBConnection();
+        if (mysqli_select_db($link, getDBName()))
+        {
+            $name = mysqli_real_escape_string($link, $compilerName);
+            $file = "";
+            
+            if (!empty($compilerFile))
+            {
+                if ($_FILES[$compilerFile]["error"] == 0)
+                    $file = mysqli_real_escape_string($link, file_get_contents($_FILES[$compilerFile]["tmp_name"]));
+                else return 2;
+            }
+               
+            $queryText = "UPDATE compilers SET name = '$name'";
+            if (!empty($file))
+                $queryText .= ",text = '$file'";
+            
+            $queryText .= " WHERE id = $compilerId";
+            
+            if (mysqli_query($link, $queryText))
+                return 0;
+            else
+                return 1;
+        }
+        else return 3;
+    }
     
     // checkers
     function getCheckerList($checkerId = -1)

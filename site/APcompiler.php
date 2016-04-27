@@ -19,9 +19,10 @@
     </script>
     
     <script>
-        function loadCompilerData()
+        function loadCompilerData(compilerId)
         {
-            $('#dataContainer').load('APcompiler.php?compiler=' + $('#сompilerSelector').val());
+            var value = (compilerId === undefined ? $('#сompilerSelector').val() : compilerId);
+            $('#dataContainer').load('APcompiler.php?compiler=' + value);
         }
     
         function loadForm()
@@ -42,13 +43,13 @@
             
             form.append(selectedCompiler == -1 ? 'createCompiler' : 'updateCompiler', true);
             
-            
             $.ajax({
                 url: 'jqueryCompiler.php',
                 type: 'POST',
                 success: function (data)
                 {   
                     showModalAlert(data);
+                    loadCompilerData(selectedCompiler);
                 },
                 data: form,
                 cache: false,
