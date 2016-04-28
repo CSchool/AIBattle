@@ -1,8 +1,8 @@
 <?php
-	include_once('procedures.php');
+    include_once('procedures.php');
 
-	$roundId = intval($_POST['roundId']);
-	$tournamentId = intval($_POST['tournamentId']);
+    $roundId = intval($_POST['roundId']);
+    $tournamentId = intval($_POST['tournamentId']);
     
     if ($roundId != -1)
     {
@@ -19,5 +19,5 @@
         $data["strategies"] = getTournamentStrategies($tournamentId);
     }
 
-	echo json_encode($data);
+    echo json_encode($data);
 ?>

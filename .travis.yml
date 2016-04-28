@@ -1,14 +1,28 @@
 language: cpp
 
-compiler: gcc
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    - kalakris-cmake
+    packages:
+    - gcc-5
+    - g++-5
+    - cmake
+
+env: COMPILER=g++-5
 
 before_install:
  - sudo apt-get update -qq
- - sudo apt-get install -qq cmake qt4-dev-tools
+ - sudo apt-get install -qq qt4-dev-tools cppcheck
 
 before_script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
 
-script: make
+script: 
+  - make
+  - cppcheck --version
+  - cppcheck -f -q --enable=all --std=c++11 ..

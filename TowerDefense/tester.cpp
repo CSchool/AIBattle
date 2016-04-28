@@ -221,13 +221,9 @@ ExecutionResult checkMovement(bool firstPlayer, InStream &ins, const std::string
     int dx = -2, dy = -2;
     int playerIndex = firstPlayer == true ? 0 : 1;
     
-    //ins >> movement;
-
-    //char possibleDirections[] = {'U', 'L', 'R', 'D'};
-
     try
     {
-        ins >> ValueInString(movement, "U L R D");
+        ins >> ValueInString(movement, "ULRD");
     }
     catch (ReadCheckerException &exception)
     {
@@ -403,7 +399,6 @@ ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &r
     {
         InStream ins(output);
         char mode;
-        //char possibleModes[] = {'S', 'M', 'B'};
 
         try
         {
@@ -647,13 +642,13 @@ int main(int argc, char **argv)
 
         printLog(true, exec1, output1);
         if (exec1 != ER_OK)
-            return 0;
+            return -1;
 
         ExecutionResult exec2 = playerMove(false, program2, output2);
 
         printLog(false, exec2, output2);
         if (exec2 != ER_OK)
-            return 0;
+            return -1;
 
         // стрельба пушек
         

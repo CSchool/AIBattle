@@ -9,3 +9,4 @@
 /ALL_BUILD.vcxproj
 /ZERO_CHECK.vcxproj
 build/*
+.idea

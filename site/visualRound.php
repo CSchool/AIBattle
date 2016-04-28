@@ -72,35 +72,35 @@
 ?>
     
     <div class = "centeredText">
-	<h2>Раунд "<?php echo $roundData['name']; ?>" игры "<?php echo $roundData['gameName']; ?>" от <?php echo $roundData['date']; ?></h2>
-	</div>
+    <h2>Раунд "<?php echo $roundData['name']; ?>" игры "<?php echo $roundData['gameName']; ?>" от <?php echo $roundData['date']; ?></h2>
+    </div>
 
-			<h3>Результаты раунда</h3>
-			<table class = "table table-bordered">
-				<tr align = center>
-					<td>Пользователь</td>
-					<td>Счет</td>
-				</tr>
-				<?php
+            <h3>Результаты раунда</h3>
+            <table class = "table table-bordered">
+                <tr align = center>
+                    <td>Пользователь</td>
+                    <td>Счет</td>
+                </tr>
+                <?php
                 $result = getUsersRoundScoresNoSort($roundId);
                 $i = -1;
-				foreach ($result as $row)
-				{
+                foreach ($result as $row)
+                {
                 $i++;
-				?>
-					<tr class="tableRow" title="<?php echo $i; ?>" id="r<?php echo $row['id']; ?>" align = "center">
+                ?>
+                    <tr class="tableRow" title="<?php echo $i; ?>" id="r<?php echo $row['id']; ?>" align = "center">
                     <td>
                     <?php
                         echo $row['name'];
                     ?></td>
-						<td id="c<?php echo $row['id']; ?>"><?php echo 0; ?></td>
-					</tr>
-				<?php
-					}
-				?>
-			</table>
-			<br>
-	</div>
+                        <td id="c<?php echo $row['id']; ?>"><?php echo 0; ?></td>
+                    </tr>
+                <?php
+                    }
+                ?>
+            </table>
+            <br>
+    </div>
     
     <script>
     round = <?php echo $roundId; ?>;

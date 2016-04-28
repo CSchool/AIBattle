@@ -1,34 +1,34 @@
 <?php include_once('procedures.php'); ?>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
 
-		<title><?php echo getPageHeaderByScriptName($_SERVER['PHP_SELF']);?></title>
+        <title><?php echo getPageHeaderByScriptName($_SERVER['PHP_SELF']);?></title>
 
-		<!-- Bootstrap core CSS -->
-		
-		<link href="./css/bootstrap.min.css" rel="stylesheet">
-		
-		<link href="./css/mySiteCSS.css" rel="stylesheet">
-		<link href="./css/ui-lightness/jquery-ui-1.10.4.min.css" rel="stylesheet">
-		<link href="./css/jquery.jqplot.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+        
+        <link href="./css/mySiteCSS.css" rel="stylesheet">
+        <link href="./css/ui-lightness/jquery-ui-1.10.4.min.css" rel="stylesheet">
+        <link href="./css/jquery.jqplot.css" rel="stylesheet">
 
-		<script src="./ckeditor/ckeditor.js"></script>
-		<script src="./ckeditor/adapters/jquery.js"></script>
+        <script src="./ckeditor/ckeditor.js"></script>
+        <script src="./ckeditor/adapters/jquery.js"></script>
 
-		<script src="./js/jquery-1.10.2.min.js"></script>
-		<script src="./js/jquery-ui-1.10.4.min.js"></script>
-		<script src="./js/jquery.jqplot.min.js"></script>
-		<script src="./js/jqplot.barRenderer.min.js"></script>
-		<script src="./js/procedures.js"></script>
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <script src="./js/jquery-ui-1.10.4.min.js"></script>
+        <script src="./js/jquery.jqplot.min.js"></script>
+        <script src="./js/jqplot.barRenderer.min.js"></script>
+        <script src="./js/procedures.js"></script>
                 <script src="./js/bootstrap.min.js"></script>
-	 </head>
+     </head>
 
-	<body>
+    <body>
         <?php
             if (!isset($NOT_USE_NAVBAR))
             {
@@ -128,8 +128,8 @@ echo getActiveUserNickname().(($notViewedMessages = getNotViewedMessages()) > 0 
             </div>
         </nav>
 
-		<div class = "wrap">
+        <div class = "wrap">
         <?php
             };
         ?>
-		
+        

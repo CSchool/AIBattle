@@ -1,46 +1,46 @@
 <?php include_once('procedures.php'); ?>
 
 <script>
-	changeActiveTournamentButton('stategyButton');
+    changeActiveTournamentButton('stategyButton');
 </script>
 
 <script>
-	function updateACTStrategy(strategyId, gameId, tournamentId)
-	{
-		$.post("jqueryUserStrategySetActStatus.php", {'strategyId' : strategyId, 'gameId' : gameId, 'tournamentId' : tournamentId});
-		$('#dataContainer').load('userStrategy.php?id=' + gameId + '&tournament=' + tournamentId);
-	}
-	
-	function downloadUserStrategy(fileInputName, gameId, tournamentId)
-	{	
-		var form = new FormData();
-		
-		form.append('gameId', gameId);
-		form.append(fileInputName, $('#' + fileInputName)[0].files[0]);
-		form.append('formInputName', fileInputName);
-		form.append('tournamentId', tournamentId);
+    function updateACTStrategy(strategyId, gameId, tournamentId)
+    {
+        $.post("jqueryUserStrategySetActStatus.php", {'strategyId' : strategyId, 'gameId' : gameId, 'tournamentId' : tournamentId});
+        $('#dataContainer').load('userStrategy.php?id=' + gameId + '&tournament=' + tournamentId);
+    }
+    
+    function downloadUserStrategy(fileInputName, gameId, tournamentId)
+    {   
+        var form = new FormData();
+        
+        form.append('gameId', gameId);
+        form.append(fileInputName, $('#' + fileInputName)[0].files[0]);
+        form.append('formInputName', fileInputName);
+        form.append('tournamentId', tournamentId);
         form.append('language', $("#uploadGameLanguage").val());
-				
-		$.ajax({
-			url: 'jqueryUserStrategyDownloadStrategy.php',
-			type: 'POST',
-			success: function ()
-			{
-				$('#dataContainer').load('userStrategy.php?id=' + gameId + '&tournament=' + tournamentId);
-			},
-			data: form,
-			cache: false,
-			contentType: false,
-			processData: false
+                
+        $.ajax({
+            url: 'jqueryUserStrategyDownloadStrategy.php',
+            type: 'POST',
+            success: function ()
+            {
+                $('#dataContainer').load('userStrategy.php?id=' + gameId + '&tournament=' + tournamentId);
+            },
+            data: form,
+            cache: false,
+            contentType: false,
+            processData: false
         });
-	}
+    }
 </script> 
 <?php
     $id = intval($_GET['id']);
     $tournamentId = intval($_GET['tournament']);
     $tournamentData = getTournamentData($tournamentId);
     $tournamentRunning =  ($tournamentData['state'] == 'running') || isAdmin();
-    $_SESSION['tournamentState'] = 'userStrategy.php';	
+    $_SESSION['tournamentState'] = 'userStrategy.php';  
     $user = (isAdmin() && isset($_GET['uid']))
                 ? intval($_GET['uid'])
                 : getActiveUserID();
@@ -59,9 +59,9 @@
 ?>
 <h2>Добавить новую стратегию</h2>
 <form role="form" id="strategyDownloadForm" enctype="multipart/form-data" method="post">
-	<div class="form-group">
-		<label for="uploadGameFile">Загрузка стратегии:</label>
-		<input type="file" id="uploadGameFile">
+    <div class="form-group">
+        <label for="uploadGameFile">Загрузка стратегии:</label>
+        <input type="file" id="uploadGameFile">
     </div>
     <div class="form-group">
         <label for="uploadGameLanguage">Язык программирования</label>
@@ -73,7 +73,7 @@
             <option value="py">Python 3</option>
         </select>
     </div>
-	<button type="submit" class="btn btn-default" onclick = "downloadUserStrategy(<?php echo '\'uploadGameFile\''.','.$id.','.$tournamentId; ?>); return false;">Загрузить</button>
+    <button type="submit" class="btn btn-default" onclick = "downloadUserStrategy(<?php echo '\'uploadGameFile\''.','.$id.','.$tournamentId; ?>); return false;">Загрузить</button>
 </form>
 <?php
     }
@@ -162,18 +162,18 @@ if (!isset($_GET['page']))
 <?php
         }
 ?>
-	</tr>
+    </tr>
 <?php
         $strategies2 = getUserStrategies($id, $user, $tournamentId, false, (intval(sizeof($strategies) / 10) - $page) * 10, 10);
         foreach ($strategies2 as $value)
         {
             $key = $value['id'];
 ?>
-		<tr <?php echo getStrategyStateColor($value['status']);?>>
-			<td align=center><?php echo $key;?></td>
-			<td align=center><?php echo getStrategyStatusRusTip($value['status']); ?></td>
-			<td>
-				<div id="source<?php echo $key; ?>">
+        <tr <?php echo getStrategyStateColor($value['status']);?>>
+            <td align=center><?php echo $key;?></td>
+            <td align=center><?php echo getStrategyStatusRusTip($value['status']); ?></td>
+            <td>
+                <div id="source<?php echo $key; ?>">
                     <a target="_blank" href="getSource.php?id=<?php echo $key; ?>">Показать код</a>
 <?php
             if ($value['status'] == 'CE')
@@ -181,33 +181,33 @@ if (!isset($_GET['page']))
                 echo ' / <a target="_blank" href="getCompileLog.php?id=' . $key . '">Показать лог компиляции</a>';
             }
 ?>
-				</div>
+                </div>
             </td>
 <?php
     if (getActiveUserID() == $user && $tournamentRunning)
     {
 ?>
-			<td align=center>
-				<?php 
-					if ($value['status'] == "OK")
-					{
-				?>
-					<div class = "sendStrategyDiv">
-						<form method=post>
-							<button type="button" class="btn btn-primary" onclick = "updateACTStrategy(<?php echo $key.','.$id.','.$tournamentId; ?>); return false;">Сделать текущей</button>
-						</form>
-					</div>
-				<?php
-					}
-				?>
+            <td align=center>
+                <?php 
+                    if ($value['status'] == "OK")
+                    {
+                ?>
+                    <div class = "sendStrategyDiv">
+                        <form method=post>
+                            <button type="button" class="btn btn-primary" onclick = "updateACTStrategy(<?php echo $key.','.$id.','.$tournamentId; ?>); return false;">Сделать текущей</button>
+                        </form>
+                    </div>
+                <?php
+                    }
+                ?>
             </td>
 <?php
     }
 ?>
-		</tr>
-	<?php
-		}
-	?>
+        </tr>
+    <?php
+        }
+    ?>
 </table>
 <?php
     } else {
