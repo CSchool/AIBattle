@@ -63,7 +63,7 @@
             <input class="form-control" type="password" name="password" placeholder="Password" />
             <input type="hidden" name="redirect" value="<?php echo ($loginFailed) ? htmlspecialchars($_POST['redirect']) : htmlspecialchars($_SERVER['HTTP_REFERER']) ?>" />
             <br>
-            <button type="submit" class="btn btn-lg btn-primary btn-block" name="submitAuth">Войти</button>
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Войти</button>
         </form>
     </div>
                 
