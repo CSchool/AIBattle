@@ -1,4 +1,4 @@
-@extends('layouts.AIBattle')
+@extends('layouts.mainLayout')
 
 @section('title', 'Authorization page')
 

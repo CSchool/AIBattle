@@ -1,0 +1,11 @@
+{
+  "name": "AIBattle",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "jquery": "^2.2.3"
+  }
+}

@@ -11,8 +11,6 @@
 |
 */
 
-use AIBattle\User;
-
 Route::get('/', 'StartController@start');
 
 // Authentication routes
@@ -23,3 +21,8 @@ Route::get('auth/logout', 'Auth\AuthController@logout');
 // Registration routes
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+
+Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function() {
+    Route::get('/', 'AdminPanel\MainController@showView');
+});
