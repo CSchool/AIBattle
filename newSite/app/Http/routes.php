@@ -23,6 +23,16 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 
+// Admin panel routes
 Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function() {
     Route::get('/', 'AdminPanel\MainController@showView');
+
+    Route::group(['prefix' => 'news'], function() {
+        Route::get('/', 'AdminPanel\NewsController@showNews');
+        Route::get('/create', 'AdminPanel\NewsController@showCreateNewsForm');
+        Route::post('/create', 'AdminPanel\NewsController@createNews');
+        Route::get('/edit/{id}', 'AdminPanel\NewsController@getEditNews');
+        Route::post('/edit/{id}', 'AdminPanel\NewsController@editNews');
+    });
+
 });

@@ -6,9 +6,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/jquery-ui-1.10.4.min.css') }}" rel="stylesheet">
+
+        <script src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
+        <script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
+        <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+
 
         <title>AIBattle - @yield('title')</title>
     </head>
+
+    <!-- temp fix for footer -->
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: #f5f5f5;
+        }
+    </style>
 
     <body id="AIBattleLayout">
 
@@ -25,6 +51,16 @@
                 </div>
 
                 <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        @if (isset($user) && $user->isAdmin())
+                            <li>
+                                <a href="{{ url('adminPanel') }}">
+                                    <div class="text-danger"><span class="glyphicon glyphicon-wrench"></span> Control panel</div>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle profilePadding" data-toggle="dropdown">
@@ -48,8 +84,11 @@
 
         @yield('content')
 
-        <script src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
-        <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-
+        <div class="footer">
+            <div class="text-center">
+                AIBattle - соревнования по созданию искусственного интеллекта<br>
+                Летняя Компютерная Школа "КЭШ", 2014 - 2016, Великий Новгород
+            </div>
+        </div>
     </body>
 </html>
