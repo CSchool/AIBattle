@@ -1,27 +1,84 @@
-# Laravel PHP Framework
+# AI Battle v.2
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Попытка написать сайт при помощи framework'а [Laravel v5.2](https://laravel.com/).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Что реализовано на данный момент?
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+* Регистрация и авторизация пользователей;
+* Через database seed предустановлен пользователь admin (с паролем admin);
+* Макет стартовой страницы, макет административной панели;
+* Добавление/редактирование/удаленией новостей через административную панель;
+* Отображение новостей на главной странице и возможность pagination (разбиение на несколько страниц).
 
-## Official Documentation
+Список будет обновляться по мере разработки!
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+## Как запустить и посмотреть?
 
-## Contributing
+На данный момент решение разрабатывается в виртуальном образе [Homestead](https://laravel.com/docs/5.2/homestead).
+В данном образе представлено:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+* Ubuntu 14.04
+* Git
+* PHP 7.0
+* HHVM
+* Nginx
+* MySQL
+* MariaDB
+* Sqlite3
+* Postgres
+* Composer
+* Node (With PM2, Bower, Grunt, and Gulp)
+* Redis
+* Memcached
+* Beanstalkd
 
-## Security Vulnerabilities
+Текущий недостаток - относительно медленная работа сайта из браузера (отклик простых страниц ~500ms),
+если виртуализироваться под Windows, если делать виртуализацию под Linux (или сделать настройку сразу под нативную систему), то такой проблемы не замечается.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Порядок установки:
 
-## License
+1. Скачать [VirtualBox](https://www.virtualbox.org/) и [Vagrant](https://www.vagrantup.com/);
+2. Установить сам виртуальный образ: в консоли ввести `vagrant box add laravel/homestead`;
+3. Сделать инициализацию образа:
+    + `git clone https://github.com/laravel/homestead.git Homestead` (необходимо сделать в директории, в которой будет производиться разработка)
+    + `bash init.sh` (Linux) или выполнить `init.bat` (Windows);
+    + Удостовериться, что в `~/.homestead` (Linux) / `C:\Users\{User}\.homestead` находится файл `Homestead.yaml` (!!!)
+4. Сгенерировать ключи для ssh-доступа к образу: `ssh-keygen -t rsa -C "your@email.com"`
+(для Winodws это можно выполнить при помощи `git-bash`) и указать их в файле конфигурации `Homestead.yaml`:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+        authorize: {PATH_TO_KEYS}\id_rsa.pub
+
+        keys:
+            - {PATH_TO_KEYS}\id_rsa
+
+5. Указать расшаренные папки (`map` - путь на хостовой машине, `to` - путь в образе) в файле конфигурации `Homestead.yaml`:
+
+        folders:
+            - map: {Path1}
+              to: {Path2}
+
+6. Настроить адрес, по которому будет слушать сайт (`map` - домен, `to` - корневая папка сервера):
+
+        sites:
+            - map: {Name} // homestead.app
+              to: {Path3} // example - /home/vagrant/Code/Laravel/public
+
+7. Добавить в файл с хостами упоминание о домене (`/etc/host` - Linux, `C:\Windows\System32\drivers\etc\hosts` - Windows)
+
+        192.168.10.10  homestead.app
+
+    Если вбить в браузер homestead.app, то можно проверить будет ли откликаться сайт
+
+    (NB: К сайту можно так же подключиться через 8000 порт: 127.0.0.1:8000)
+
+8. Скопировать проект из папки `newSite` и положить его в расшаренную папку
+
+8. Запустить образ: `vagrant up` в папке Homestead из пункта 3
+
+10. В папке с проектом произвести миграцию таблиц (т.е. занесение таблиц в БД) и seeding (заполнение таблиц значениями):
+
+    `php artisan migrate`
+
+    `php artisan db:seed`
+
+11. Обратиться к сайту!
