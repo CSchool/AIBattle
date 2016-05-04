@@ -119,7 +119,8 @@ ExecutionResult runProcess(const std::string &exe, const std::string &input,
 
             for (int i = 0; i < z; ++i)
                 output += buffer[i];
-        }
+
+        } 
 
         close(outputPipe[0]);
 

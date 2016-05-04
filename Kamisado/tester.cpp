@@ -1,6 +1,7 @@
 #include <sstream>
 #include <iostream>
 #include "execution.h"
+#include "testlib.h"
 
 int field[8][8] =
 {
@@ -101,9 +102,24 @@ int main(int argc, char **argv)
             outs.str(), output, 1000, 64000);
         if (result == ER_OK)
         {
-            std::istringstream ins(output);
+            InStream ins(output);
             int colorIn, r, c, rr, cc;
-            ins >> colorIn >> r >> c;
+
+            try
+            {
+                ins >> ValueInBounds<int>(colorIn, 1, 8) >> ValueInBounds<int>(r, 1, 8) >> ValueInBounds<int>(c, 1, 8);
+            }
+            catch (ReadCheckerException &exception)
+            {
+                result = ER_IM;
+
+                std::ostringstream outs;
+                outs << output << std::endl << exception.getReadResultText() << ": " << exception.what() << std::endl;
+
+                printLog(first, result, outs.str());
+                break;
+            }
+            
             if (first)
             {
                 rr = 8 - r;
@@ -114,7 +130,8 @@ int main(int argc, char **argv)
                 rr = r - 1;
                 cc = c - 1;
             }
-            if ((!color && colorIn >= 1 && colorIn <= 8) || colorIn == color)
+
+            if (!color || colorIn == color)
             {
                 color = colorIn;
                 moves = 0;
@@ -168,7 +185,7 @@ int main(int argc, char **argv)
                     }
                 }
             }
-            else
+            else 
             {
                 printLog(first, ER_IM, output);
                 break;

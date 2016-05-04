@@ -57,7 +57,7 @@ void initField(int player)
 {
     ExecutionResult result = ER_OK;
     std::string output;
-    char dir[] = {'H', 'V'};
+
     result = runProcess(programs[player], "1\n", output, 1000, 64000);
     if (result == ER_OK)
     {
@@ -71,7 +71,7 @@ void initField(int player)
             {
                 ins >> ValueInBounds<int>(y, 1, 7) >> ValueInBounds<int>(x, 1, 7);
                 if (sizes[i] != 1)
-                    ins >> ValueInRange<char>(v, dir, 2);
+                    ins >> ValueInString(v, "HV");
             }
             catch (ReadCheckerException &exception)
             {

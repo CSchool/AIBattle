@@ -221,13 +221,9 @@ ExecutionResult checkMovement(bool firstPlayer, InStream &ins, const std::string
     int dx = -2, dy = -2;
     int playerIndex = firstPlayer == true ? 0 : 1;
     
-    //ins >> movement;
-
-    char possibleDirections[] = {'U', 'L', 'R', 'D'};
-
     try
     {
-        ins >> ValueInRange<char>(movement, possibleDirections, 4);
+        ins >> ValueInString(movement, "ULRD");
     }
     catch (ReadCheckerException &exception)
     {
@@ -306,7 +302,7 @@ ExecutionResult cannonBuilding(bool firstPlayer, InStream &ins, const std::strin
     
     try
     {
-        ins >> ValueInBounds<int>(cx, 0, fieldSize) >> ValueInBounds<int>(cy, 0, fieldSize) >> ValueInBounds<int>(cannon, FIRST + 1, THIRD + 1);
+        ins >> ValueInBounds<int>(cx, 0, fieldSize - 1) >> ValueInBounds<int>(cy, 0, fieldSize - 1) >> ValueInBounds<int>(cannon, FIRST + 1, THIRD + 1);
     }
     catch (ReadCheckerException &exception)
     {
@@ -403,11 +399,10 @@ ExecutionResult playerMove(bool firstPlayer, const char* program, std::string &r
     {
         InStream ins(output);
         char mode;
-        char possibleModes[] = {'S', 'M', 'B'};
 
         try
         {
-            ins >> ValueInRange<char>(mode, possibleModes, 3);
+            ins >> ValueInString(mode, "SMB");
         }
         catch (ReadCheckerException &exception)
         {
