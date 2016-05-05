@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username', 30);
             $table->string('password');
-            $table->string('group', 12)->defalut('user');
+            $table->string('group', 12)->default('user');
 
             $table->string('name', 32)->nullable();
             $table->string('surname', 32)->nullable();

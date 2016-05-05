@@ -73,6 +73,8 @@
                                     <li class="divider"></li>
                                     <li><a href="{{url('auth/register')}}">Register</a></li>
                                 @else
+                                    <li><a href="{{url('/userProfile')}}">Profile</a></li>
+                                    <li class="divider"></li>
                                     <li><a href="{{url('auth/logout')}}">Logout</a></li>
                                 @endif
                             </ul>

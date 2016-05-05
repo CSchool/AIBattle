@@ -33,6 +33,26 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::post('/create', 'AdminPanel\NewsController@createNews');
         Route::get('/edit/{id}', 'AdminPanel\NewsController@getEditNews');
         Route::post('/edit/{id}', 'AdminPanel\NewsController@editNews');
+
     });
 
+    Route::get('/users', 'AdminPanel\UsersController@showUsers');
+});
+
+// userProfile
+/*
+Route::get('/userProfile', 'UserProfileController@showAuthUserView'); // for current user
+Route::get('/userProfile/{id}', 'UserProfileController@showUserView'); // for admin
+*/
+
+Route::group(['prefix' => 'userProfile'], function() {
+    // for current user
+    Route::get('/', 'UserProfileController@showAuthUserView');
+    Route::get('/update', 'UserProfileController@showUpdateProfileView');
+    Route::post('/update', 'UserProfileController@updateUserProfileSelf');
+
+    // for admin
+    Route::get('/{id}', 'UserProfileController@showUserView');
+    Route::get('/update/{id}', 'UserProfileController@showUpdateProfileToAdminView');
+    Route::post('/update/{id}', 'UserProfileController@updateUserProfileAdmin');
 });
