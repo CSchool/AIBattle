@@ -6,16 +6,7 @@
 
     <div class="container">
 
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('assets.error')
 
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-primary">
@@ -70,6 +61,7 @@
                     </div>
 
                     <button type="submit" name="update" class="btn btn-lg btn-success btn-block">Update profile</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-lg btn-primary btn-block">Back</a>
 
                     {{ Form::close() }}
                 </div>

@@ -34,24 +34,16 @@ class UserProfileController extends Controller
         if (!User::isAdmin())
             abort(403);
 
-        $user = User::find($id);
-
-        if (isset($user))
-            return view('userProfile/updateForm', ['profileUser' => $user, 'user' => Auth::user(), 'isAdmin' => User::isAdmin(), "updateProfile" => true]);
-        else
-            abort(404);
+        $user = User::findOrFail($id);
+        return view('userProfile/updateForm', ['profileUser' => $user, 'user' => Auth::user(), 'isAdmin' => User::isAdmin(), "updateProfile" => true]);
     }
 
     public function showUserView($id) {
         if (!User::isAdmin())
             abort(403);
         else {
-            $user = User::find($id);
-
-            if (isset($user))
-                return view('userProfile/profile', ['profileUser' => $user, 'user' => Auth::user(), "fromAdminPanel" => true]);
-            else
-                abort(404);
+            $user = User::findOrFail($id);
+            return view('userProfile/profile', ['profileUser' => $user, 'user' => Auth::user(), "fromAdminPanel" => true]);
         }
     }
 
@@ -81,30 +73,24 @@ class UserProfileController extends Controller
 
         $this->validate($request, $validateArray);
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
-        if (isset($user)) {
-            $user->surname = $request->input('surname');
-            $user->name = $request->input('name');
-            $user->patronymic = $request->input('patronymic');
-            $user->description = $request->input('description');
+        $user->surname = $request->input('surname');
+        $user->name = $request->input('name');
+        $user->patronymic = $request->input('patronymic');
+        $user->description = $request->input('description');
 
-            if (User::isAdmin())
-                $user->group = $request->input('group');
+        if (User::isAdmin())
+            $user->group = $request->input('group');
 
-            if ($request->has('passwordChangeCheckbox'))
-                $user->password = bcrypt($request->input('password'));
+        if ($request->has('passwordChangeCheckbox'))
+            $user->password = bcrypt($request->input('password'));
 
-            $user->save();
+        $user->save();
 
-            if (!$admin)
-                return redirect()->action('UserProfileController@showAuthUserView');
-            else
-                return redirect()->action('AdminPanel\UsersController@showUsers');
-                //return redirect('adminPanel/users', ['users' => User::orderBy('id')->simplePaginate(10), 'user' => Auth::user()]);
-        }
+        if (!$admin)
+            return redirect()->action('UserProfileController@showAuthUserView');
         else
-            abort(404);
+            return redirect()->action('AdminPanel\UsersController@showUsers');
     }
-
 }

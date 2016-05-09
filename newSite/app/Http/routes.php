@@ -29,21 +29,31 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
 
     Route::group(['prefix' => 'news'], function() {
         Route::get('/', 'AdminPanel\NewsController@showNews');
+
         Route::get('/create', 'AdminPanel\NewsController@showCreateNewsForm');
         Route::post('/create', 'AdminPanel\NewsController@createNews');
-        Route::get('/edit/{id}', 'AdminPanel\NewsController@getEditNews');
+
+        Route::get('/edit/{id}', 'AdminPanel\NewsController@showEditNewsForm');
         Route::post('/edit/{id}', 'AdminPanel\NewsController@editNews');
 
+        Route::get('/{id}', 'AdminPanel\NewsController@showNewsById'); // last, because if number passed - we show news by that id
+
+    });
+
+    Route::group(['prefix' => 'games'], function () {
+        Route::get('/', 'AdminPanel\GamesController@showGames');
+
+        Route::get('/create', 'AdminPanel\GamesController@showCreateGameForm');
+        Route::post('/create', 'AdminPanel\GamesController@createGame');
+
+        Route::get('/edit/{id}', 'AdminPanel\GamesController@showEditGameForm');
+        Route::post('/edit/{id}', 'AdminPanel\GamesController@editGame');
+
+        Route::get('/{id}', 'AdminPanel\GamesController@showGameById'); // last, because if number passed - we show news by that id
     });
 
     Route::get('/users', 'AdminPanel\UsersController@showUsers');
 });
-
-// userProfile
-/*
-Route::get('/userProfile', 'UserProfileController@showAuthUserView'); // for current user
-Route::get('/userProfile/{id}', 'UserProfileController@showUserView'); // for admin
-*/
 
 Route::group(['prefix' => 'userProfile'], function() {
     // for current user
@@ -52,6 +62,7 @@ Route::group(['prefix' => 'userProfile'], function() {
     Route::post('/update', 'UserProfileController@updateUserProfileSelf');
 
     // for admin
+    // 'middleware' => 'auth.admin' ???
     Route::get('/{id}', 'UserProfileController@showUserView');
     Route::get('/update/{id}', 'UserProfileController@showUpdateProfileToAdminView');
     Route::post('/update/{id}', 'UserProfileController@updateUserProfileAdmin');
