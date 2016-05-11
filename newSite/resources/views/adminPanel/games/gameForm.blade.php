@@ -63,7 +63,7 @@
             </div>
 
             <div class="panel-footer clearfix">
-                @include('assets.editFormFooter', array('link' => url('adminPanel/games'), 'name' => 'Game'))
+                @include('assets.editFormFooter', array('link' => url('adminPanel/games'), 'name' => 'game'))
             </div>
 
             {{ Form::close() }}

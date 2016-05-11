@@ -23,7 +23,7 @@
             {{ Form::open() }}
 
             <div class="form-group">
-                <label for="title">Title:</label>
+                <label for="title">Game:</label>
                 <input type="text" class="form-control" name="title" id="title"
                    @if ($mode == "edit") value="{{ $news->header }}" @endif />
             </div>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="panel-footer clearfix">
-                @include('assets.editFormFooter', array('link' => url('adminPanel/news'), 'name' => 'News'))
+                @include('assets.editFormFooter', array('link' => url('adminPanel/news'), 'name' => 'news'))
             </div>
 
             {{ Form::close() }}

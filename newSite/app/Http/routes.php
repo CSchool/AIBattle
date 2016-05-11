@@ -52,6 +52,19 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::get('/{id}', 'AdminPanel\GamesController@showGameById'); // last, because if number passed - we show news by that id
     });
 
+    Route::group(['prefix' => 'checkers'], function () {
+        Route::get('/', 'AdminPanel\CheckersController@showCheckers');
+
+        Route::get('/create', 'AdminPanel\CheckersController@showCreateCheckerForm');
+        Route::post('/create', 'AdminPanel\CheckersController@createChecker');
+
+        Route::get('/edit/{id}', 'AdminPanel\CheckersController@showEditCheckerForm');
+        Route::post('/edit/{id}', 'AdminPanel\CheckersController@editChecker');
+
+
+        Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById'); // last, because if number passed - we show news by that id
+    });
+
     Route::get('/users', 'AdminPanel\UsersController@showUsers');
 });
 

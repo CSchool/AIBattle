@@ -10,7 +10,7 @@
     <div class="panel-body">
         <ul class="list-inline text-center">
             <li><a href="{{ url('/adminPanel/games') }}" class="btn btn-success" role="button">Games</a></li>
-            <li><a href="#" class="btn btn-success" role="button">Checkers</a></li>
+            <li><a href="{{ url('/adminPanel/checkers') }}" class="btn btn-success" role="button">Checkers</a></li>
             <li><a href="#" class="btn btn-success" role="button">Tournaments</a></li>
             <li><a href="#" class="btn btn-success" role="button">Rounds</a></li>
             <li><a href="{{ url('/adminPanel/users') }}" class="btn btn-success" role="button">Users</a></li>

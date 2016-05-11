@@ -47,12 +47,17 @@ class GamesController extends Controller
         $game->timeLimit = $request->input('timeLimit');
         $game->memoryLimit = $request->input('memoryLimit');
 
+        $game->save();
+
         if ($request->hasFile('visualizer')) {
-            $request->file('visualizer')->move(base_path() . '/storage/app/visualizers/', $game->id);
             $game->hasVisualizer = true;
+            $game->save();
+            $request->file('visualizer')->move(base_path() . '/storage/app/visualizers/', $game->id);
+        } else {
+            $game->save();
         }
 
-        $game->save();
+
 
         return redirect('adminPanel/games');
     }
@@ -62,8 +67,9 @@ class GamesController extends Controller
         if ($request->has('delete')) {
             $game = Game::findOrFail($id);
 
-            $game->delete();
             Storage::disk('local')->delete('visualizers/' . $game->id);
+            $game->delete();
+
 
             return redirect('adminPanel/games');
 
