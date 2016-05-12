@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class GamesController extends Controller
 {
-    //
     public function showGames() {
         return view('adminPanel/games/games', ['games' => Game::orderBy('id')->simplePaginate(10), 'user' => Auth::user()]);
     }
@@ -56,8 +55,6 @@ class GamesController extends Controller
         } else {
             $game->save();
         }
-
-
 
         return redirect('adminPanel/games');
     }

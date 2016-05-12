@@ -49,7 +49,7 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::get('/edit/{id}', 'AdminPanel\GamesController@showEditGameForm');
         Route::post('/edit/{id}', 'AdminPanel\GamesController@editGame');
 
-        Route::get('/{id}', 'AdminPanel\GamesController@showGameById'); // last, because if number passed - we show news by that id
+        Route::get('/{id}', 'AdminPanel\GamesController@showGameById'); // last, because if number passed - we show game by that id
     });
 
     Route::group(['prefix' => 'checkers'], function () {
@@ -60,9 +60,25 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
 
         Route::get('/edit/{id}', 'AdminPanel\CheckersController@showEditCheckerForm');
         Route::post('/edit/{id}', 'AdminPanel\CheckersController@editChecker');
+        
+        Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById'); // last, because if number passed - we show checker by that id
+    });
 
+    Route::group(['prefix' => 'tournaments'], function() {
+        Route::get('/', 'AdminPanel\TournamentsController@showTournaments');
 
-        Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById'); // last, because if number passed - we show news by that id
+        Route::get('/create', 'AdminPanel\TournamentsController@showCreateTournamentForm');
+        Route::post('/create', 'AdminPanel\TournamentsController@createTournament');
+        
+        Route::get('/show/{state}', 'AdminPanel\TournamentsController@showExtendedTournamentTable');
+
+        Route::get('/edit/{id}', 'AdminPanel\TournamentsController@showEditTournamentForm');
+        Route::post('/edit/{id}', 'AdminPanel\TournamentsController@editTournament');
+        
+        // ajax
+        Route::get('/ajax/getCheckersByGameId/{id}', ['uses' =>'AdminPanel\TournamentsController@getCheckersByGameId']);
+        
+        Route::get('/{id}', 'AdminPanel\TournamentsController@showTournamentById');
     });
 
     Route::get('/users', 'AdminPanel\UsersController@showUsers');

@@ -44,6 +44,10 @@ class CheckersController extends Controller
         ]);
 
         $checker = new Checker();
+
+        // checking if this FK exist in wild nature
+        Game::findOrFail(intval($request->input('game')));
+
         $checker->game = $request->input('game');
         $checker->name = $request->input('name');
         $checker->hasSeed = $request->has('hasSeed') ? 1 : 0;
@@ -77,6 +81,9 @@ class CheckersController extends Controller
             $checker->delete();
 
         } else if ($request->has('update')) {
+
+            // checking if this FK exist in wild nature
+            Game::findOrFail(intval($request->input('game')));
 
             $checker->game = $request->input('game');
             $checker->name = $request->input('name');
