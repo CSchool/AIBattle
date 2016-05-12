@@ -16,7 +16,6 @@
         <script src="{{ URL::asset('js/prism.js') }}"></script>
         <script src="{{ URL::asset('js/prism-line-numbers.min.js') }}"></script>
 
-
         <title>AIBattle - @yield('title')</title>
     </head>
 

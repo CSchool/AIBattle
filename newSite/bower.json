@@ -8,6 +8,8 @@
   "dependencies": {
     "eonasdan-bootstrap-datetimepicker": "^4.17.37",
     "jquery": "^2.2.3",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "prism": "^1.5.0",
+    "tinymce": "^4.3.12"
   }
 }

@@ -67,7 +67,6 @@ class GamesController extends Controller
             Storage::disk('local')->delete('visualizers/' . $game->id);
             $game->delete();
 
-
             return redirect('adminPanel/games');
 
         } elseif ($request->has('update')) {

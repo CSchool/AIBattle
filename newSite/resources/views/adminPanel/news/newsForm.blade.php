@@ -51,9 +51,12 @@
         </div>
     </div>
 
-    <script src="{{ url('/vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ url('/vendor/tinymce/tinymce.min.js') }}"></script>
     <script>
-        CKEDITOR.replace('newsText');
+        tinymce.init({
+            selector: '#newsText',
+            menubar: false
+        });
 
         $(document).ready(function() {
             $('#datetimepicker').datepicker({

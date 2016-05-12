@@ -157,10 +157,7 @@ return [
         AIBattle\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // Laravel IDE helper
 
-        /*
-         * Ckeditor
-         */
-        Unisharp\Ckeditor\ServiceProvider::class,
+        
     ],
 
     /*

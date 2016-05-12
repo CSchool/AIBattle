@@ -6,3 +6,4 @@ Homestead.json
 .env
 .phpstorm.meta.php
 _ide_helper.php
+/resources/assets/bower
