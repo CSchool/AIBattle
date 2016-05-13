@@ -44,7 +44,7 @@
                 <select class="form-control" name="game" id="game">
                     @foreach($games as $gameElement)
                         <option value="{{ $gameElement->id }}"
-                            @if ($mode == "edit" && $tournament->game == $gameElement->id) selected @endif>
+                            @if ($mode == "edit" && $tournament->game_id == $gameElement->id) selected @endif>
                             {{ $gameElement->name }}
                         </option>
                     @endforeach
@@ -57,7 +57,7 @@
                     @foreach($checkers as $checker)
                         <option value="{{ $checker->id }}"
                             @if ($mode == "edit" && $tournament->defaultChecker == $checker->id) selected @endif>
-                            {{ $checker->name }}
+                            {{ $checker->name }} ({{ $checker->id }})
                         </option>
                     @endforeach
                 </select>

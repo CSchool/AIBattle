@@ -51,7 +51,7 @@ class TournamentsController extends Controller
             'mode' => 'edit',
             'tournament' => $tournament,
             'games' => Game::all(),
-            'checkers' => $tournament->getGame()->checkers()->getResults()
+            'checkers' => $tournament->game->checkers
         ]);
     }
 

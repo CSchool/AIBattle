@@ -55,7 +55,20 @@
 
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
+
+                        <!-- tournaments -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tournaments <b class="caret"></b></a>
+                            <ul class = "dropdown-menu">
+                                @foreach ($globalCurrentTournaments as $tournament)
+                                    <li><a href="{{ url('/tournaments', [$tournament->id]) }}">{{ $tournament->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+
+
                         @if (isset($globalCurrentUser) && $globalCurrentUser->isAdmin())
+                            <!-- adminPanel -->
                             <li>
                                 <a href="{{ url('adminPanel') }}">
                                     <div class="text-danger"><span class="glyphicon glyphicon-wrench"></span> Control panel</div>

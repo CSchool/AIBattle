@@ -84,6 +84,33 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
     Route::get('/users', 'AdminPanel\UsersController@showUsers');
 });
 
+Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'], function() {
+    Route::get('/', 'Tournament\MainController@showTournament');
+});
+
+/*
+Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess:id'], function($id) {
+    Route::get('', 'Tournament\MainController@showTournament');
+});
+*/
+
+//Route::get('/tournaments/{id}', 'Tournament\MainController@showTournament');
+
+/*
+Route::group(['prefix' => 'tournaments'], function() {
+    Route::group(['prefix' =>'{id}', 'middleware' => 'tournamentAccess'], function() {
+        Route::get('/', 'Tournament\MainController@showTournament');
+    });
+});
+*/
+//Route::get('/tournaments/{id}', function($id) {
+    /*
+    Route::group(['prefix' => '/{id}', 'middleware' => 'tournamentAccess:id'], function() {
+        Route::get('/', 'Tournament\MainController@showTournament');
+    });
+    */
+//}) ;
+
 Route::group(['prefix' => 'userProfile'], function() {
     // for current user
     Route::get('/', 'UserProfileController@showAuthUserView');
