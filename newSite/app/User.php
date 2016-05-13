@@ -45,11 +45,6 @@ class User extends Authenticatable
 
     public static function isAdmin()
     {
-        $currentUser = Auth::user();
-
-        if (!isset($currentUser))
-            return false;
-
         return User::isInGroup('admin');
     }
 }

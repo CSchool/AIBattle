@@ -20,12 +20,12 @@ class TournamentsController extends Controller
         $headerCount = 5;
 
         return view('adminPanel/tournaments/tournaments', [
-            'runningTournaments' => Tournament::orderBy('id', 'desc')->where('state', 'running')->take($headerCount)->get(),
-            'preparingTournaments' => Tournament::orderBy('id', 'desc')->where('state', 'preparing')->take($headerCount)->get(),
-            'closedTournaments' => Tournament::orderBy('id', 'desc')->where('state', 'closed')->take($headerCount)->get(),
-            'runningCount' => Tournament::orderBy('id')->where('state', 'running')->count(),
-            'preparingCount' => Tournament::orderBy('id')->where('state', 'preparing')->count(),
-            'closedCount' => Tournament::orderBy('id')->where('state', 'closed')->count(),
+            'runningTournaments' => Tournament::with('game', 'checker')->where('state', 'running')->orderBy('id', 'desc')->take($headerCount)->get(),
+            'preparingTournaments' => Tournament::with('game', 'checker')->orderBy('id', 'desc')->where('state', 'preparing')->take($headerCount)->get(),
+            'closedTournaments' => Tournament::with('game', 'checker')->orderBy('id', 'desc')->where('state', 'closed')->take($headerCount)->get(),
+            'runningCount' => Tournament::with('game', 'checker')->orderBy('id')->where('state', 'running')->count(),
+            'preparingCount' => Tournament::with('game', 'checker')->orderBy('id')->where('state', 'preparing')->count(),
+            'closedCount' => Tournament::with('game', 'checker')->orderBy('id')->where('state', 'closed')->count(),
             'user' => Auth::user()
         ]);
     }
@@ -62,21 +62,21 @@ class TournamentsController extends Controller
         switch ($state) {
             case "running":
                 return view('adminPanel/tournaments/extendedTable', [
-                    'tournaments' => Tournament::orderBy('id')->where('state', 'running')->simplePaginate(10),
+                    'tournaments' => Tournament::with('game', 'checker')->where('state', 'running')->orderBy('id')->simplePaginate(10),
                     'title' => 'Running',
                     'user' => Auth::user()
                 ]);
                 break;
             case "preparing":
                 return view('adminPanel/tournaments/extendedTable', [
-                    'tournaments' => Tournament::orderBy('id')->where('state', 'preparing')->simplePaginate(10),
+                    'tournaments' => Tournament::with('game', 'checker')->where('state', 'preparing')->orderBy('id')->simplePaginate(10),
                     'title' => 'Preparing',
                     'user' => Auth::user()
                 ]);
                 break;
             case "closed":
                 return view('adminPanel/tournaments/extendedTable', [
-                    'tournaments' => Tournament::orderBy('id')->where('state', 'closed')->simplePaginate(10),
+                    'tournaments' => Tournament::with('game', 'checker')->where('state', 'closed')->orderBy('id')->simplePaginate(10),
                     'title' => 'Closed',
                     'user' => Auth::user()
                 ]);
@@ -104,7 +104,7 @@ class TournamentsController extends Controller
         Game::findOrFail(intval($request->input('game')));
         Checker::findOrFail(intval($request->input('checker')));
 
-        $tournament->game = $request->input('game');
+        $tournament->game_id = $request->input('game');
         $tournament->defaultChecker = $request->input('checker');
 
         $tournament->state = $request->input('state');
@@ -129,7 +129,7 @@ class TournamentsController extends Controller
             Game::findOrFail(intval($request->input('game')));
             Checker::findOrFail(intval($request->input('checker')));
 
-            $tournament->game = $request->input('game');
+            $tournament->game_id = $request->input('game');
             $tournament->defaultChecker = $request->input('checker');
 
             $tournament->state = $request->input('state');

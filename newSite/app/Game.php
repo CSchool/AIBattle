@@ -10,7 +10,7 @@ use AIBattle\Checker;
 class Game extends Model
 {
     public function checkers() {
-        return $this->hasMany('AIBattle\Checker', 'game', 'id');
+        return $this->hasMany('AIBattle\Checker');
     }
 
     public function getVisualizerData() {

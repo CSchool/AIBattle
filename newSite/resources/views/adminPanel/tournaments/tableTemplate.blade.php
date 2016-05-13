@@ -17,10 +17,10 @@
                 <a href="{{ url('/adminPanel/tournaments', [$tournament->id]) }}" role="button">{{ $tournament->name }}</a>
             </td>
             <td>
-                <a href="{{ url('/adminPanel/games', [$tournament->game]) }}"> {{ $tournament->getGame()->name }} </a>
+                <a href="{{ url('/adminPanel/games', [$tournament->game]) }}"> {{ $tournament->game->name }} </a>
             </td>
             <td>
-                <a href="{{ url('/adminPanel/checkers', [$tournament->defaultChecker]) }}"> {{ $tournament->getChecker()->name }} </a>
+                <a href="{{ url('/adminPanel/checkers', [$tournament->defaultChecker]) }}"> {{ $tournament->checker->name }} </a>
             </td>
         </tr>
     @endforeach

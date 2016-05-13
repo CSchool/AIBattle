@@ -16,9 +16,9 @@ class CreateRoundsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('game')->index()->unsigned();
-            $table->integer('tournament')->unsigned();
-            $table->integer('checkers')->unsigned();
+            $table->integer('game_id')->index()->unsigned();
+            $table->integer('tournament_id')->unsigned();
+            $table->integer('checker_id')->unsigned();
 
             $table->integer('previousRound')->default(-1);
             $table->string('name', 64);
@@ -27,9 +27,9 @@ class CreateRoundsTable extends Migration
             $table->boolean('visible')->default(false);
             $table->integer('seed')->default(false);
 
-            $table->foreign('game')->references('id')->on('games')->onDelete('cascade');
-            $table->foreign('tournament')->references('id')->on('tournaments')->onDelete('cascade');
-            $table->foreign('checkers')->references('id')->on('checkers')->onDelete('cascade');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('checker_id')->references('id')->on('checkers')->onDelete('cascade');
         });
     }
 

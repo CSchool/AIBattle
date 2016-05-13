@@ -17,16 +17,16 @@ class CreateStrategiesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('user')->index()->unsigned();
-            $table->integer('game')->index()->unsigned();
-            $table->integer('tournament')->unsigned();
+            $table->integer('user_id')->index()->unsigned();
+            $table->integer('game_id')->index()->unsigned();
+            $table->integer('tournament_id')->unsigned();
             
             $table->string('status', 3)->default('OK');
             $table->string('language', 8);
 
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('game')->references('id')->on('games')->onDelete('cascade');
-            $table->foreign('tournament')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
         });
     }
 

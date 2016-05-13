@@ -16,12 +16,12 @@ class CreateRoundstatisticsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('round')->unsigned();
-            $table->integer('user')->unsigned();
+            $table->integer('round_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('totalScore');
 
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('round')->references('id')->on('rounds')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('round_id')->references('id')->on('rounds')->onDelete('cascade');
 
         });
     }

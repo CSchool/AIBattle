@@ -16,11 +16,11 @@ class CreateCheckersTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('game')->unsigned();
+            $table->integer('game_id')->unsigned();
             $table->string('name');
             $table->boolean('hasSeed')->default(false);
 
-            $table->foreign('game')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
         });
     }
 

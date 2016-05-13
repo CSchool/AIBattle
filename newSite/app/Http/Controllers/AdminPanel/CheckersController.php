@@ -25,7 +25,7 @@ class CheckersController extends Controller
 
     public function showCheckerById($id) {
         $checker = Checker::findOrFail($id);
-        $game = Game::findOrFail($checker->game);
+        $game = $checker->game;
 
         return view('adminPanel/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData(), 'user' => Auth::user()]);
     }
@@ -48,7 +48,7 @@ class CheckersController extends Controller
         // checking if this FK exist in wild nature
         Game::findOrFail(intval($request->input('game')));
 
-        $checker->game = $request->input('game');
+        $checker->game_id = $request->input('game');
         $checker->name = $request->input('name');
         $checker->hasSeed = $request->has('hasSeed') ? 1 : 0;
 
@@ -85,11 +85,11 @@ class CheckersController extends Controller
             // checking if this FK exist in wild nature
             Game::findOrFail(intval($request->input('game')));
 
-            $checker->game = $request->input('game');
+            $checker->game_id = $request->input('game');
             $checker->name = $request->input('name');
             $checker->hasSeed = $request->has('hasSeed') ? 1 : 0;
 
-            if ($request->has('checkerSource')) {
+            if ($request->hasFile('checkerSource')) {
                 // Необходимо поменять файлы
 
                 // function???

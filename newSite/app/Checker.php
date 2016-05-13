@@ -10,6 +10,9 @@ use AIBattle\Game;
 
 class Checker extends Model
 {
+    public function game() {
+        return $this->belongsTo('AIBattle\Game');
+    }
 
     public function getCheckerData() {
         if (Storage::disk('local')->has('testers/' . $this->id))
