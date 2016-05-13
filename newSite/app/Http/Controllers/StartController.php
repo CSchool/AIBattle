@@ -13,6 +13,6 @@ class StartController extends Controller
     //
     public function start() {
         $user = Auth::user();
-        return view('start', ['user' => $user, 'news' => News::orderBy('id', 'desc')->simplePaginate(5)]);
+        return view('start', ['news' => News::orderBy('id', 'desc')->simplePaginate(5)]);
     }
 }

@@ -13,21 +13,21 @@ use Illuminate\Support\Facades\Storage;
 class GamesController extends Controller
 {
     public function showGames() {
-        return view('adminPanel/games/games', ['games' => Game::orderBy('id')->simplePaginate(10), 'user' => Auth::user()]);
+        return view('adminPanel/games/games', ['games' => Game::orderBy('id')->simplePaginate(10)]);
     }
 
     public function showCreateGameForm() {
-        return view('adminPanel/games/gameForm', ['mode' => "create", 'gameCount' => Game::all()->count() + 1 , 'user' => Auth::user()]);
+        return view('adminPanel/games/gameForm', ['mode' => "create", 'gameCount' => Game::all()->count() + 1]);
     }
 
     public function showEditGameForm($id) {
         $game = Game::findOrFail($id);
-        return view('adminPanel/games/gameForm', ['mode' => "edit", 'game' => $game, 'user' => Auth::user()]);
+        return view('adminPanel/games/gameForm', ['mode' => "edit", 'game' => $game]);
     }
 
     public function showGameById($id) {
         $game = Game::findOrFail($id);
-        return view('adminPanel/games/showGame', ['game' => $game, 'visualizerData' => $game->getVisualizerData(), 'user' => Auth::user()]);
+        return view('adminPanel/games/showGame', ['game' => $game, 'visualizerData' => $game->getVisualizerData()]);
     }
 
     public function createGame(Request $request) {

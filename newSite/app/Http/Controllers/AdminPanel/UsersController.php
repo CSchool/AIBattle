@@ -12,6 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
     public function showUsers() {
-        return view('adminPanel/users', ['users' => User::orderBy('id')->simplePaginate(10), 'user' => Auth::user()]);
+        return view('adminPanel/users', ['users' => User::orderBy('id')->simplePaginate(10)]);
     }
 }

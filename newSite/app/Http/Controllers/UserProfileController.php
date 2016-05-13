@@ -15,7 +15,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
 
         if (isset($user))
-            return view('userProfile/profile', ['profileUser' => $user, 'user' => Auth::user()]);
+            return view('userProfile/profile', ['profileUser' => $user]);
         else
             abort(403); // maybe redirect to users list?
     }
@@ -24,7 +24,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
 
         if (isset($user))
-            return view('userProfile/updateForm', ['profileUser' => $user, 'user' => Auth::user(), 'isAdmin' => User::isAdmin()]);
+            return view('userProfile/updateForm', ['profileUser' => $user, 'isAdmin' => User::isAdmin()]);
         else
             abort(403);
     }
@@ -35,7 +35,7 @@ class UserProfileController extends Controller
             abort(403);
 
         $user = User::findOrFail($id);
-        return view('userProfile/updateForm', ['profileUser' => $user, 'user' => Auth::user(), 'isAdmin' => User::isAdmin(), "updateProfile" => true]);
+        return view('userProfile/updateForm', ['profileUser' => $user, 'isAdmin' => User::isAdmin(), "updateProfile" => true]);
     }
 
     public function showUserView($id) {
@@ -43,7 +43,7 @@ class UserProfileController extends Controller
             abort(403);
         else {
             $user = User::findOrFail($id);
-            return view('userProfile/profile', ['profileUser' => $user, 'user' => Auth::user(), "fromAdminPanel" => true]);
+            return view('userProfile/profile', ['profileUser' => $user, "fromAdminPanel" => true]);
         }
     }
 

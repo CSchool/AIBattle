@@ -16,24 +16,24 @@ use Symfony\Component\Process\Process;
 class CheckersController extends Controller
 {
     public function showCheckers() {
-        return view('adminPanel/checkers/checkers', ['checkers' => Checker::orderBy('id')->simplePaginate(10), 'user' => Auth::user()]);
+        return view('adminPanel/checkers/checkers', ['checkers' => Checker::orderBy('id')->simplePaginate(10)]);
     }
     
     public function showCreateCheckerForm() {
-        return view('adminPanel/checkers/checkerForm', ['mode' => 'create', 'checkersCount' => count(Checker::all()) + 1, 'games' => Game::all(), 'user' => Auth::user()]);
+        return view('adminPanel/checkers/checkerForm', ['mode' => 'create', 'checkersCount' => count(Checker::all()) + 1, 'games' => Game::all()]);
     }
 
     public function showCheckerById($id) {
         $checker = Checker::findOrFail($id);
         $game = $checker->game;
 
-        return view('adminPanel/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData(), 'user' => Auth::user()]);
+        return view('adminPanel/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData()]);
     }
 
     public function showEditCheckerForm($id) {
         $checker = Checker::findOrFail($id);
 
-        return view('adminPanel/checkers/checkerForm', ['mode' => 'edit', 'checker' => $checker, 'games' => Game::all(), 'user' => Auth::user()]);
+        return view('adminPanel/checkers/checkerForm', ['mode' => 'edit', 'checker' => $checker, 'games' => Game::all()]);
     }
 
     public function createChecker(Request $request) {

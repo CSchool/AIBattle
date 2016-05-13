@@ -17,16 +17,21 @@ class NewsController extends Controller
     //
 
     public function showNews() {
-        return view('adminPanel/news/news', ['news' => News::orderBy('id', 'desc')->simplePaginate(5), 'user' => Auth::user()]);
+        return view('adminPanel/news/news', ['news' => News::orderBy('id', 'desc')->simplePaginate(5)]);
     }
     
     public function showCreateNewsForm() {
-        return view('adminPanel/news/newsForm', ['mode' => 'create', 'user' => Auth::user(), 'newsCount' => count(News::all()) + 1]);
+        return view('adminPanel/news/newsForm', ['mode' => 'create', 'newsCount' => count(News::all()) + 1]);
     }
 
     public function showNewsById($id) {
         $news = News::findOrFail($id);
-        return view('adminPanel/news/showNews', ['user' => Auth::user(), 'news' => $news]);
+        return view('adminPanel/news/showNews', ['news' => $news]);
+    }
+
+    public function showEditNewsForm($id) {
+        $news = News::findOrFail($id);
+        return view('adminPanel/news/newsForm', ['mode' => "edit", 'news' => $news]);
     }
 
     public function createNews(Request $request) {
@@ -48,11 +53,6 @@ class NewsController extends Controller
         $news->save();
 
         return redirect('adminPanel/news');
-    }
-
-    public function showEditNewsForm($id) {
-        $news = News::findOrFail($id);
-        return view('adminPanel/news/newsForm', ['mode' => "edit", 'news' => $news, 'user' => Auth::user()]);
     }
 
     public function editNews(Request $request, $id) {

@@ -55,7 +55,7 @@
 
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        @if (isset($user) && $user->isAdmin())
+                        @if (isset($globalCurrentUser) && $globalCurrentUser->isAdmin())
                             <li>
                                 <a href="{{ url('adminPanel') }}">
                                     <div class="text-danger"><span class="glyphicon glyphicon-wrench"></span> Control panel</div>
@@ -67,11 +67,11 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle profilePadding" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> {{ $user->username or 'default' }}
+                                <span class="glyphicon glyphicon-user"></span> {{ $globalCurrentUser->username or 'default' }}
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                @if (!isset($user))
+                                @if (!isset($globalCurrentUser))
                                     <li><a href="{{url('auth/login')}}">Enter</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{{url('auth/register')}}">Register</a></li>

@@ -13,6 +13,6 @@ class MainController extends Controller
     //
     public function showView()
     {
-        return view('adminPanel/main', ['user' => Auth::user()]);
+        return view('adminPanel/main');
     }
 }
