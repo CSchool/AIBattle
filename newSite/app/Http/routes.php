@@ -36,7 +36,7 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::get('/edit/{id}', 'AdminPanel\NewsController@showEditNewsForm');
         Route::post('/edit/{id}', 'AdminPanel\NewsController@editNews');
 
-        Route::get('/{id}', 'AdminPanel\NewsController@showNewsById'); // last, because if number passed - we show news by that id
+        Route::get('/{id}', 'AdminPanel\NewsController@showNewsById');
 
     });
 
@@ -49,7 +49,19 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::get('/edit/{id}', 'AdminPanel\GamesController@showEditGameForm');
         Route::post('/edit/{id}', 'AdminPanel\GamesController@editGame');
 
-        Route::get('/{id}', 'AdminPanel\GamesController@showGameById'); // last, because if number passed - we show game by that id
+        Route::get('/{id}', 'AdminPanel\GamesController@showGameById');
+
+        Route::group(['prefix' => '/{id}/attachments'], function() {
+            Route::get('/', 'AdminPanel\AttachmentsController@showAttachments');
+
+            Route::get('/create', 'AdminPanel\AttachmentsController@showCreateAttachmentForm');
+            Route::post('/create', 'AdminPanel\AttachmentsController@createAttachment');
+
+            Route::get('/edit/{attachmentId}', 'AdminPanel\AttachmentsController@showEditAttachmentForm');
+            Route::post('/edit/{attachmentId}', 'AdminPanel\AttachmentsController@editAttachment');
+            
+            Route::get('/{attachmentId}', 'AdminPanel\AttachmentsController@showAttachmentById');
+        });
     });
 
     Route::group(['prefix' => 'checkers'], function () {
@@ -61,7 +73,7 @@ Route::group(['prefix' => 'adminPanel', 'middleware' => 'auth.admin'], function(
         Route::get('/edit/{id}', 'AdminPanel\CheckersController@showEditCheckerForm');
         Route::post('/edit/{id}', 'AdminPanel\CheckersController@editChecker');
         
-        Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById'); // last, because if number passed - we show checker by that id
+        Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById');
     });
 
     Route::group(['prefix' => 'tournaments'], function() {
@@ -88,29 +100,6 @@ Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'
     Route::get('/', 'Tournament\MainController@showTournament');
 });
 
-/*
-Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess:id'], function($id) {
-    Route::get('', 'Tournament\MainController@showTournament');
-});
-*/
-
-//Route::get('/tournaments/{id}', 'Tournament\MainController@showTournament');
-
-/*
-Route::group(['prefix' => 'tournaments'], function() {
-    Route::group(['prefix' =>'{id}', 'middleware' => 'tournamentAccess'], function() {
-        Route::get('/', 'Tournament\MainController@showTournament');
-    });
-});
-*/
-//Route::get('/tournaments/{id}', function($id) {
-    /*
-    Route::group(['prefix' => '/{id}', 'middleware' => 'tournamentAccess:id'], function() {
-        Route::get('/', 'Tournament\MainController@showTournament');
-    });
-    */
-//}) ;
-
 Route::group(['prefix' => 'userProfile'], function() {
     // for current user
     Route::get('/', 'UserProfileController@showAuthUserView');
@@ -122,4 +111,8 @@ Route::group(['prefix' => 'userProfile'], function() {
     Route::get('/{id}', 'UserProfileController@showUserView');
     Route::get('/update/{id}', 'UserProfileController@showUpdateProfileToAdminView');
     Route::post('/update/{id}', 'UserProfileController@updateUserProfileAdmin');
+});
+
+Route::group(['prefix' => 'download'], function() {
+   Route::get('/game/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachment');
 });

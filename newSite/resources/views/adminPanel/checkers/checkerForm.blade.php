@@ -16,7 +16,7 @@
             <div class="row"><p><strong>There is no added games at DB!</strong></p></div>
 
             <div class="row">
-                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">Create checker</a>
+                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">Create game</a>
                 <a href="{{ url()->previous() }}" class="btn btn-primary btn-lg" role="button">Back</a>
             </div>
         </div>

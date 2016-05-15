@@ -5,6 +5,23 @@
 
 @section('tournamentContent')
 
+    <style>
+        .downloadHref li {
+            display: block;
+        }
+
+        .downloadHref li:before {
+            /*Using a Bootstrap glyphicon as the bullet point*/
+            content: "\e025";
+            font-family: 'Glyphicons Halflings';
+            font-size: 10px;
+            float: left;
+            margin-top: 3px;
+            margin-left: -17px;
+            color: #000000;
+        }
+    </style>
+
     <div class="panel panel-info">
         <div class="panel-heading">
             Game: <strong>{{ $tournament->game->name }}</strong>
@@ -17,7 +34,19 @@
             {!! $tournament->game->description !!}
 
             <p><strong>Attachments:</strong></p>
-            Coming soon!
+            <div class="downloadHref">
+                <ul>
+                    @foreach($tournament->game->attachments as $attachment)
+                        <li>
+                            <a href="{{ url('download/game/' . $tournament->game->id . '/attachment/' . $attachment->id) }}">
+                                {{ $attachment->originalName }}
+                            </a>
+                            ({{ $attachment->description }})
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
         </div>
     </div>
 

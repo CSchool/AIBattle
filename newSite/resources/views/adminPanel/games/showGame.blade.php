@@ -38,7 +38,13 @@
         </div>
 
         <div class="panel-footer clearfix">
-            @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/games'), 'editLink' => url('adminPanel/games/edit', [$game->id]), 'editName' => 'game'])
+            @include('assets.editRedirectFooter', [
+                'backLink' => url('adminPanel/games'),
+                'editLink' => url('adminPanel/games/edit', [$game->id]),
+                'editName' => 'game',
+                'specialMode' => 'attachment',
+                'attachmentRoute' => url('/adminPanel/games', [$game->id, 'attachments'])
+                ])
         </div>
     </div>
 

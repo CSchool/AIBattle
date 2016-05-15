@@ -13,6 +13,10 @@ class Game extends Model
         return $this->hasMany('AIBattle\Checker');
     }
 
+    public function attachments() {
+        return $this->hasMany('AIBattle\Attachment');
+    }
+
     public function getVisualizerData() {
         if ($this->hasVisualizer && Storage::disk('local')->has('visualizers/' . $this->id))
             return Storage::disk('local')->get('visualizers/' . $this->id);
