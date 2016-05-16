@@ -38,7 +38,7 @@
                 <ul>
                     @foreach($tournament->game->attachments as $attachment)
                         <li>
-                            <a href="{{ url('download/game/' . $tournament->game->id . '/attachment/' . $attachment->id) }}">
+                            <a href="{{ url('download/tournament/' . $tournament->id . '/attachment/' . $attachment->id) }}">
                                 {{ $attachment->originalName }}
                             </a>
                             ({{ $attachment->description }})

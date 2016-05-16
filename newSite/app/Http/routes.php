@@ -114,5 +114,6 @@ Route::group(['prefix' => 'userProfile'], function() {
 });
 
 Route::group(['prefix' => 'download'], function() {
-   Route::get('/game/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachment');
+    Route::get('/game/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachment')->middleware('auth.admin');
+    Route::get('/tournament/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachmentByTournament');
 });
