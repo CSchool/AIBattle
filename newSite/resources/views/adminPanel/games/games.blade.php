@@ -1,14 +1,18 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Games')
-@section('APtitle', 'Administration Panel - Games')
+@section('title', trans('adminPanel/games.gamesTitle'))
+@section('APtitle', trans('adminPanel/games.gamesHeading'))
 
 @section('APcontent')
 
     @if (isset($games) && count($games) > 0)
 
         <div class="text-center">
-            <div class="row"><a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">Create game</a></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/games.gamesCreateGame') }}
+                </a>
+            </div>
             <br>
         </div>
 
@@ -16,7 +20,7 @@
             <thead>
             <tr class="success">
                 <td>#</td>
-                <td>Game</td>
+                <td>{{ trans('shared.game') }}</td>
             </tr>
             </thead>
             <tbody>
@@ -36,11 +40,15 @@
         {!! $games->render() !!}
     @else
         <div class="alert alert-warning text-center">
-            <div class="row"><h3>Warning!</h3></div>
+            <div class="row"><h3>{{ trans('adminPanel/games.gamesWarning') }}</h3></div>
 
-            <div class="row"><p>There are no games at all! Do you want to create game?</p></div>
+            <div class="row"><p>{{ trans('adminPanel/games.gamesWarningMessage') }}</p></div>
 
-            <div class="row"><a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">Create game</a></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/games.gamesCreateGame') }}
+                </a>
+            </div>
         </div>
     @endif
 @endsection

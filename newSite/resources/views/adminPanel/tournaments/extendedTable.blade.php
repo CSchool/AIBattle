@@ -1,7 +1,7 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Tournaments')
-@section('APtitle', 'Administration Panel - Tournaments')
+@section('title', trans('adminPanel/tournaments.extendedTableTitle'))
+@section('APtitle', trans('adminPanel/tournaments.extendedTableHeading'))
 
 @section('APcontent')
     @if (count($tournaments) > 0)
@@ -16,9 +16,17 @@
         </div>
     @else
         <div class="alert alert-warning text-center">
-            <div class="row"><h3>Warning!</h3></div>
-            <div class="row"><p>There are no {{mb_strtolower($title)}} tournaments at all! </p></div>
-            <div class="row"><a href="{{ url('/adminPanel/tournaments') }}" class="btn btn-success btn-lg" role="button">Back</a></div>
+            <div class="row"><h3>{{ trans('adminPanel/tournaments.extendedTableWarning') }}</h3></div>
+            <div class="row">
+                <p>
+                    {{ trans('adminPanel/tournaments.extendedTableWarningMessage', ['state' => mb_strtolower( trans('adminPanel/tournaments.tournamentState1' . ucfirst($title)))]) }}
+                </p>
+            </div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/tournaments') }}" class="btn btn-success btn-lg" role="button">
+                    Back
+                </a>
+            </div>
         </div>
     @endif
 @endsection

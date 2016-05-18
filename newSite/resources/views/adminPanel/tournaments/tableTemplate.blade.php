@@ -1,11 +1,11 @@
 <table class="table table-bordered table-hover">
     <thead>
-    <tr class="success">
-        <td>#</td>
-        <td>Tournament</td>
-        <td>Game</td>
-        <td>Default Checker</td>
-    </tr>
+        <tr class="success">
+            <td>ID</td>
+            <td>{{ trans('shared.tournament') }}</td>
+            <td>{{ trans('shared.game') }}</td>
+            <td>{{ trans('adminPanel/tournaments.tournamentDefaultChecker') }}</td>
+        </tr>
     </thead>
     <tbody>
     @foreach($tournaments as $tournament)

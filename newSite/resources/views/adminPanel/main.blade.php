@@ -1,20 +1,44 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel')
-@section('APtitle', 'Administration Panel - Main Page')
+@section('title', trans('adminPanel/main.title'))
+@section('APtitle', trans('adminPanel/main.pageHeader'))
 
 @section('APcontent')
 
 <div class="panel panel-primary">
-    <div class="panel-heading">Administration</div>
+    <div class="panel-heading">{{ trans('adminPanel/main.panelHeading') }}</div>
     <div class="panel-body">
         <ul class="list-inline text-center">
-            <li><a href="{{ url('/adminPanel/games') }}" class="btn btn-success" role="button">Games</a></li>
-            <li><a href="{{ url('/adminPanel/checkers') }}" class="btn btn-success" role="button">Checkers</a></li>
-            <li><a href="{{ url('/adminPanel/tournaments') }}" class="btn btn-success" role="button">Tournaments</a></li>
-            <li><a href="#" class="btn btn-success" role="button">Rounds</a></li>
-            <li><a href="{{ url('/adminPanel/users') }}" class="btn btn-success" role="button">Users</a></li>
-            <li><a href="{{ url('/adminPanel/news') }}" class="btn btn-success" role="button">News</a></li>
+            <li>
+                <a href="{{ url('/adminPanel/games') }}" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.gamesLink') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/adminPanel/checkers') }}" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.checkersLink') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/adminPanel/tournaments') }}" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.tournamentsLink') }}
+                </a>
+            </li>
+            <li>
+                <a href="#" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.roundsLink') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/adminPanel/users') }}" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.usersLink') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/adminPanel/news') }}" class="btn btn-success" role="button">
+                    {{ trans('adminPanel/main.newsLink') }}
+                </a>
+            </li>
         </ul>
     </div>
 </div>

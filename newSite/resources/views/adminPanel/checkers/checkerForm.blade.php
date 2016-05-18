@@ -1,11 +1,11 @@
 @extends('layouts.adminPanelLayout')
 
 @if ($mode == "create")
-    @section('title', 'Administration Panel - Create Checker')
-    @section('APtitle', 'Administration Panel - Create Checker')
+    @section('title', trans('adminPanel/checkers.checkerFormTitleCreate'))
+    @section('APtitle', trans('adminPanel/checkers.checkerFormHeadingCreate'))
 @elseif ($mode == "edit")
-    @section('title', 'Administration Panel - Edit Checker')
-    @section('APtitle', 'Administration Panel - Edit Checker')
+    @section('title', trans('adminPanel/checkers.checkerFormTitleEdit'))
+    @section('APtitle', trans('adminPanel/checkers.checkerFormHeadingEdit'))
 @endif
 
 @section('APcontent')
@@ -13,11 +13,12 @@
 
     @if (count($games) == 0)
         <div class="alert alert-danger text-center">
-            <div class="row"><p><strong>There is no added games at DB!</strong></p></div>
+            <div class="row"><p><strong>{{ trans('adminPanel/checkers.checkerFormNoGames') }}</strong></p></div>
 
             <div class="row">
-                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">Create game</a>
-                <a href="{{ url()->previous() }}" class="btn btn-primary btn-lg" role="button">Back</a>
+                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/checkers.checkerFormCreateGame') }}
+                </a>
             </div>
         </div>
     @else
@@ -25,9 +26,9 @@
 
             <div class="panel-heading">
                 @if ($mode == "create")
-                    Create checker # {{ $checkersCount }}
+                    {{ trans('adminPanel/checkers.checkerFormCreateGame', ['count' => $checkersCount]) }}
                 @elseif ($mode == "edit")
-                    Edit checker # {{ $checker->id }}
+                    {{ trans('adminPanel/checkers.checkerFormCreateGame', ['id' => $checker->id]) }}
                 @endif
             </div>
 
@@ -35,7 +36,7 @@
                 {{ Form::open(array('files' => true, 'method' => 'post'))}}
 
                 <div class="form-group">
-                    <label for="game">Game:</label>
+                    <label for="game">{{ trans('adminPanel/checkers.checkerGame') }}:</label>
                     <select class="form-control" name="game" id="game">
                         @foreach($games as $gameElement)
                             <option value="{{ $gameElement->id }}"
@@ -47,24 +48,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name">Name:</label>
+                    <label for="name">{{ trans('adminPanel/checkers.checkerName') }}:</label>
                     <input type="text" class="form-control" name="name" id="name"
                        @if ($mode == "edit") value="{{ $checker->name }}" @endif />
                 </div>
 
                 <div class="form-group">
-                    <label for="hasSeed">RNG:</label>
+                    <label for="hasSeed">{{ trans('adminPanel/checkers.checkerFormSeedLabel') }}:</label>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" name="hasSeed" id="hasSeed" value="0"
                             @if ($mode == "edit" && $checker->hasSeed) checked @endif>
-                            Use a default value from round settings
+                            {{ trans('adminPanel/checkers.checkerFormSeedMessage') }}
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('checkerSource:') !!}
+                    {!! Form::label( trans('adminPanel/checkers.checkerFormSourceLabel') ) !!}
                     {!! Form::file('checkerSource', null) !!}
                 </div>
 
@@ -72,7 +73,11 @@
             </div>
 
             <div class="panel-footer clearfix">
-                @include('assets.editFormFooter', array('link' => url('adminPanel/checkers'), 'name' => 'checker'))
+                @include('assets.editFormFooter', array(
+                    'link' => url('adminPanel/checkers'),
+                    'name' => trans('adminPanel/checkers.checkerFormEditFormFooter')
+                    )
+                )
             </div>
 
             {{ Form::close() }}

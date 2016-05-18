@@ -1,11 +1,11 @@
 @extends('layouts.adminPanelLayout')
 
 @if ($mode == "create")
-    @section('title', 'Administration Panel - Create Attachment')
-    @section('APtitle', 'Administration Panel - Create Attachment')
+    @section('title', trans('adminPanel/attachments.attachmentFormTitleCreate'))
+    @section('APtitle', trans('adminPanel/attachments.attachmentFormHeadingCreate'))
 @elseif ($mode == "edit")
-    @section('title', 'Administration Panel - Edit Attachment')
-    @section('APtitle', 'Administration Panel - Edit Attachment')
+    @section('title', trans('adminPanel/attachments.attachmentFormTitleEdit'))
+    @section('APtitle', trans('adminPanel/attachments.attachmentFormHeadingEdit'))
 @endif
 
 @section('APcontent')
@@ -15,9 +15,9 @@
 
         <div class="panel-heading">
             @if ($mode == "create")
-                Create attachment # {{ $attachmentsCount }} for game "{{ $gameName }}"
+                 {{ trans('adminPanel/attachments.attachmentFormTitleCreate', ['count' => $attachmentsCount, 'name' => $gameName]) }}
             @elseif ($mode == "edit")
-                Edit attachment # {{ $attachment->id }} for game "{{ $gameName }}"
+                {{ trans('adminPanel/attachments.attachmentFormPanelHeadingEdit', ['id' => $attachment->id, 'name' => $gameName]) }}
             @endif
 
         </div>
@@ -26,19 +26,23 @@
             {{ Form::open(array('files' => true, 'method' => 'post'))}}
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">{{ trans('adminPanel/attachments.attachmentDescription') }}:</label>
                 <input type="text" class="form-control" name="description" id="description"
                    @if ($mode == "edit") value="{{ $attachment->description }}" @endif />
             </div>
 
             <div class="form-group">
-                {!! Form::label('attachmentSource:') !!}
+                {!! Form::label(trans('adminPanel/attachments.attachmentFormSourceLabel')) !!}
                 {!! Form::file('attachmentSource', null) !!}
             </div>
         </div>
 
         <div class="panel-footer clearfix">
-            @include('assets.editFormFooter', array('link' => url('adminPanel/attachments'), 'name' => 'attachment'))
+            @include('assets.editFormFooter', array(
+                'link' => url('adminPanel/games/' . $attachment->game_id . '/attachments'),
+                'name' => trans('adminPanel/attachments.editFormFooterName')
+                )
+            )
         </div>
 
         {{ Form::close() }}

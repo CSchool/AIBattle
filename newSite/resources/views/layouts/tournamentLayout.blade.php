@@ -16,9 +16,15 @@
 
         <div class="text-center groupMargin">
             <div class="btn-group">
-                <a href="#" id="informationLink" class="btn btn-primary">Information</a>
-                <a href="#" id="roundsLink" class="btn btn-primary">Rounds</a>
-                <a href="#" id="strategiesLink" class="btn btn-primary">Strategies</a>
+                <a href="{{ url('/tournaments', [$tournament->id]) }}" id="informationLink" class="btn btn-primary">
+                    {{ trans('layouts/tournamentLayout.information') }}
+                </a>
+                <a href="#" id="roundsLink" class="btn btn-primary">
+                    {{ trans('layouts/tournamentLayout.rounds') }}
+                </a>
+                <a href="#" id="strategiesLink" class="btn btn-primary">
+                    {{ trans('layouts/tournamentLayout.strategies') }}
+                </a>
             </div>
         </div>
 

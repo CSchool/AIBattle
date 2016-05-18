@@ -1,14 +1,18 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Checkers')
-@section('APtitle', 'Administration Panel - Checkers')
+@section('title', trans('adminPanel/checkers.checkersTitle'))
+@section('APtitle', trans('adminPanel/checkers.checkersHeader'))
 
 @section('APcontent')
 
     @if (isset($checkers) && count($checkers) > 0)
 
         <div class="text-center">
-            <div class="row"><a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">Create checker</a></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/checkers.checkersCreate') }}
+                </a>
+            </div>
             <br>
         </div>
 
@@ -16,7 +20,7 @@
             <thead>
             <tr class="success">
                 <td>#</td>
-                <td>Checker</td>
+                <td>{{ trans('shared.checker') }}</td>
             </tr>
             </thead>
             <tbody>
@@ -36,11 +40,15 @@
         {!! $checkers->render() !!}
     @else
         <div class="alert alert-warning text-center">
-            <div class="row"><h3>Warning!</h3></div>
+            <div class="row"><h3>{{ trans('adminPanel/checkers.checkersWarning') }}</h3></div>
 
-            <div class="row"><p>There are no checkers at all! Do you want to create checker?</p></div>
+            <div class="row"><p>{{ trans('adminPanel/checkers.checkersWarningMessage') }}</p></div>
 
-            <div class="row"><a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">Create checker</a></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/checkers.checkersCreate') }}
+                </a>
+            </div>
         </div>
     @endif
 @endsection

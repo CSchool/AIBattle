@@ -1,6 +1,6 @@
 @extends('layouts.tournamentLayout')
 
-@section('title', 'Tournament #' . $tournament->id)
+@section('title', trans('tournaments/main.title', ['id' => $tournament->id]))
 @section('tournamentTitle', $tournament->name)
 
 @section('tournamentContent')
@@ -24,16 +24,16 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            Game: <strong>{{ $tournament->game->name }}</strong>
+            {{ trans('shared.game') }}: <strong>{{ $tournament->game->name }}</strong>
         </div>
         <div class="panel-body">
-            <p><strong>Tournament description:</strong></p>
+            <p><strong>{{ trans('tournaments/main.tournamentDescription') }}:</strong></p>
             {!! $tournament->description !!}
 
-            <p><strong>Game description:</strong></p>
+            <p><strong>{{ trans('tournaments/main.gameDescription') }}:</strong></p>
             {!! $tournament->game->description !!}
 
-            <p><strong>Attachments:</strong></p>
+            <p><strong>{{ trans('shared.attachments') }}:</strong></p>
             <div class="downloadHref">
                 <ul>
                     @foreach($tournament->game->attachments as $attachment)

@@ -1,11 +1,11 @@
 @extends('layouts.adminPanelLayout')
 
 @if ($mode == "create")
-    @section('title', 'Administration Panel - Create Game')
-    @section('APtitle', 'Administration Panel - Create Game')
+    @section('title', trans('adminPanel/games.gameFormTitleCreate'))
+    @section('APtitle', trans('adminPanel/games.gameFormPageHeadingCreate'))
 @elseif ($mode == "edit")
-    @section('title', 'Administration Panel - Edit Game')
-    @section('APtitle', 'Administration Panel - Edit Game')
+    @section('title', trans('adminPanel/games.gameFormTitleEdit'))
+    @section('APtitle', trans('adminPanel/games.gameFormPageHeadingEdit'))
 @endif
 
 @section('APcontent')
@@ -15,9 +15,9 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             @if ($mode == "create")
-                Create game # {{ $gameCount }}
+                {{ trans('adminPanel/games.gameFormPanelHeadingCreate') . ' ' . $gameCount }}
             @elseif ($mode == "edit")
-                Edit game # {{ $game->id }}
+                {{ trans('adminPanel/games.gameFormPanelHeadingEdit') . ' ' . $game->id }}
             @endif
         </div>
         <div class="panel-body">
@@ -28,42 +28,42 @@
             @endif
 
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">{{ trans('adminPanel/games.gameName') }}:</label>
                 <input type="text" class="form-control" name="name" id="name"
                        @if ($mode == "edit") value="{{ $game->name }}" @endif />
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">{{ trans('adminPanel/games.gameDescription') }}:</label>
                 <textarea class="form-control" name="description" id="description">
                     @if ($mode == "edit") {{ $game->description }} @endif
                 </textarea>
             </div>
 
             <div class="form-group">
-                <label for="timeLimit">Time (ms):</label>
+                <label for="timeLimit">{{ trans('adminPanel/games.gameTimeLimit') }}:</label>
                 <input type="text" class="form-control" name="timeLimit" id="timeLimit"
                     @if ($mode == "edit")  value="{{ $game->timeLimit }}" @elseif ($mode == "create") value="1000" @endif  />
             </div>
 
             <div class="form-group">
-                <label for="memoryLimit">Memory limit (kb):</label>
+                <label for="memoryLimit">{{ trans('adminPanel/games.gameMemoryLimit') }}:</label>
                 <input type="text" class="form-control" name="memoryLimit" id="memoryLimit"
                    @if ($mode == "edit")  value="{{ $game->memoryLimit }}" @elseif ($mode == "create") value="64000" @endif/>
             </div>
 
             <div class="form-group">
-                {!! Form::label('Visualizer') !!}
+                {!! Form::label(trans('adminPanel/games.gameVisualizer')) !!}
                 {!! Form::file('visualizer', null) !!}
                 @if ($mode == "edit" && $game->hasVisualizer)
                     <div class="checkbox">
-                        <label><input type="checkbox" name="deleteVisualizer" value="">Delete visualizer</label>
+                        <label><input type="checkbox" name="deleteVisualizer" value="">{{ trans('adminPanel/games.gameDeleteVisualizer') }}</label>
                     </div>
                 @endif
             </div>
 
             <div class="panel-footer clearfix">
-                @include('assets.editFormFooter', array('link' => url('adminPanel/games'), 'name' => 'game'))
+                @include('assets.editFormFooter', array('link' => url('adminPanel/games'), 'name' => trans('adminPanel/games.editFormFooterName')))
             </div>
 
             {{ Form::close() }}

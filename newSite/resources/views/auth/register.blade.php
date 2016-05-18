@@ -1,12 +1,12 @@
 @extends('layouts.mainLayout')
 
-@section('title', 'Registration page')
+@section('title', trans('auth/register.title'))
 
 @section('content')
     <div class="container">
         <div class="col-md-4 col-md-offset-4">
             <div class="page-header text-center">
-                <h2>Registration in system</h2>
+                <h2>{{ trans('auth/register.registrationHeader') }}</h2>
             </div>
 
             @include('assets.error')
@@ -15,15 +15,15 @@
                 {!! csrf_field() !!}
 
                 <div class="form-group">
-                    <input type="login" class="form-control" name="username" placeholder="Nickname" />
+                    <input type="text" class="form-control" name="username" placeholder="{{ trans('auth/register.nickname') }}" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                    <input type="password" class="form-control" name="password" placeholder="{{ trans('shared.password') }}" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password_confirmation" placeholder="Password conformation" />
+                    <input type="password" class="form-control" name="password_confirmation" placeholder="{{ trans('shared.passwordConfirmation') }}" />
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Create account</button>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">{{ trans('auth/register.createAccount') }}</button>
             </form>
         </div>
 

@@ -23,6 +23,8 @@ class CreateStrategiesTable extends Migration
             
             $table->string('status', 3)->default('OK');
             $table->string('language', 8);
+            $table->string('name');
+            $table->text('description');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');

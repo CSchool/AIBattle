@@ -17,6 +17,7 @@
 * Активные (running) турниры отображаются в navbar шапки сайта;
 * В отображение турниров для пользователя добавлены болванка для отображения информации о турнире;
 * Добавление/редактирование/удаление документов (attachments) к игре в администраторской панели + отображение документов к игре в турнирах
+* Локализация сайта (русская и английская версии)
 Список будет обновляться по мере разработки!
 
 ## Как запустить и посмотреть?
@@ -93,6 +94,11 @@
     `php artisan db:seed`
 
 11. Обратиться к сайту!
+
+## TODO:
+
+1. Добавить флаг страны в top-panel при выборе языка
+2. Доделать базовый функционал проведения турнира (бой стратегий между собой)
 
 ## Основные моменты и положения в коде
 
@@ -549,3 +555,37 @@
 на
 
     'debug' => env('APP_DEBUG', false),
+
+### Localization (Локализация)
+
+Вся локализация представлена по пути `resources/lang`. На текущий момент времени есть поддержка русского и английского языков.
+
+Для локализации всех страниц сайта для всех маршрутов был создан middleware `LanguageMiddleware`, в котором при помощи команды `App::setLocale` задается локаль.
+
+Пример файла локализации:
+
+        (english version - lang/en/tournaments/main.php)
+
+        <?php
+            return [
+                'title' => 'Tournament # :id',
+                'gameDescription' => 'Game description',
+                'tournamentDescription' => 'Tournament description',
+            ];
+
+        (russian version - lang/ru/tournaments/main.php)
+
+        <?php
+            return [
+                'title' => 'Турнир № :id',
+                'gameDescription' => 'Описание игры',
+                'tournamentDescription' => 'Описание турнира',
+            ];
+
+Вставка в представление (view) локализованной строки происходит при помощи команды-хелпера `trans(pathToFile.string)`, где `pathToFile` - имя файла локализации, `string` - ключ ассоциативного массива:
+
+            <div class="panel-heading">
+                {{ trans('shared.game') }}: <strong>{{ $tournament->game->name }}</strong>
+            </div>
+
+            @section('title', trans('tournaments/main.title', ['id' => $tournament->id]))

@@ -1,11 +1,11 @@
 @extends('layouts.adminPanelLayout')
 
 @if ($mode == "create")
-    @section('title', 'Administration Panel - Create Tournament')
-    @section('APtitle', 'Administration Panel - Create Tournament')
+    @section('title', trans('adminPanel/tournaments.tournamentFormTitleCreate'))
+    @section('APtitle', trans('adminPanel/tournaments.tournamentFormHeaderCreate'))
 @elseif ($mode == "edit")
-    @section('title', 'Administration Panel - Edit Tournament')
-    @section('APtitle', 'Administration Panel - Edit Tournament')
+    @section('title', trans('adminPanel/tournaments.tournamentFormTitleEdit'))
+    @section('APtitle', trans('adminPanel/tournaments.tournamentFormHeaderEdit'))
 @endif
 
 @section('APcontent')
@@ -14,9 +14,9 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             @if ($mode == "create")
-                Create tournament # {{ $tournamentCount }}
+                {{ trans('adminPanel/tournaments.tournamentFormPanelHeadingCreate', ['count' => $tournamentCount]) }}
             @elseif ($mode == "edit")
-                Edit tournament # {{ $tournament->id }}
+                {{ trans('adminPanel/tournaments.tournamentFormPanelHeadingCreate', ['count' => $tournament->id]) }}
             @endif
         </div>
         <div class="panel-body">
@@ -27,20 +27,20 @@
             @endif
 
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">{{ trans('adminPanel/tournaments.tournamentName') }}:</label>
                 <input type="text" class="form-control" name="name" id="name"
                        @if ($mode == "edit") value="{{ $tournament->name }}" @endif />
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">{{ trans('adminPanel/tournaments.tournamentDescription') }}:</label>
                     <textarea class="form-control" name="description" id="description">
                         @if ($mode == "edit") {{ $tournament->description }} @endif
                     </textarea>
             </div>
 
             <div class="form-group">
-                <label for="game">Game:</label>
+                <label for="game">{{ trans('shared.game') }}:</label>
                 <select class="form-control" name="game" id="game">
                     @foreach($games as $gameElement)
                         <option value="{{ $gameElement->id }}"
@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-group">
-                <label for="checker">Checker by default:</label>
+                <label for="checker">{{ trans('adminPanel/tournaments.tournamentDefaultChecker') }}:</label>
                 <select class="form-control" name="checker" id="checker">
                     @foreach($checkers as $checker)
                         <option value="{{ $checker->id }}"
@@ -64,17 +64,27 @@
             </div>
 
             <div class="form-group">
-                <label for="state">State:</label>
+                <label for="state">{{ trans('adminPanel/tournaments.tournamentState') }}:</label>
                 <select class="form-control" name="state" id="state">
-                    <option value="preparing" @if ($mode == "edit" && $tournament->state == "preparing") selected @endif>Preparing</option>
-                    <option value="running" @if ($mode == "edit" && $tournament->state == "running") selected @endif>Running</option>
-                    <option value="closed" @if ($mode == "edit" && $tournament->state == "closed") selected @endif>Closed</option>
+                    <option value="preparing" @if ($mode == "edit" && $tournament->state == "preparing") selected @endif>
+                        {{ trans('adminPanel/tournaments.tournamentStatePreparing') }}
+                    </option>
+                    <option value="running" @if ($mode == "edit" && $tournament->state == "running") selected @endif>
+                        {{ trans('adminPanel/tournaments.tournamentStateRunning') }}
+                    </option>
+                    <option value="closed" @if ($mode == "edit" && $tournament->state == "closed") selected @endif>
+                        {{ trans('adminPanel/tournaments.tournamentStateClosed') }}
+                    </option>
                 </select>
             </div>
         </div>
 
         <div class="panel-footer clearfix">
-            @include('assets.editFormFooter', array('link' => url('adminPanel/tournaments'), 'name' => 'tournament'))
+            @include('assets.editFormFooter', array(
+                'link' => url('adminPanel/tournaments'),
+                'name' => trans('adminPanel/tournaments.tournamentFormEditFormFooter')
+                )
+            )
         </div>
 
         {{ Form::close() }}

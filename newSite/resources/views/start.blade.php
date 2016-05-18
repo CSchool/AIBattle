@@ -1,6 +1,6 @@
 @extends('layouts.mainLayout')
 
-@section('title', 'Main page')
+@section('title', trans('start.title'))
 
 @section('content')
     <div class="container">
@@ -18,7 +18,7 @@
                         {!! $element->text !!}
                     </div>
                     <div class="panel-footer">
-                        <div class="text-right">Comments (0)</div>
+                        <div class="text-right">{{ trans('start.comments') }} (0)</div>
                     </div>
                 </div>
             @endforeach

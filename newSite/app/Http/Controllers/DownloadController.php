@@ -26,7 +26,6 @@ class DownloadController extends Controller
             $attachment = Attachment::find($attachmentId);
             return response()->download(base_path() . '/storage/app/attachments/' . $attachment->id, $attachment->originalName);
         }
-
         else
             abort(404);
     }

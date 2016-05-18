@@ -58,7 +58,7 @@
 
                         <!-- tournaments -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tournaments <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ trans('layouts/mainLayout.tournaments') }} <b class="caret"></b></a>
                             <ul class = "dropdown-menu">
                                 @foreach ($globalCurrentTournaments as $tournament)
                                     <li><a href="{{ url('/tournaments', [$tournament->id]) }}">{{ $tournament->name }}</a></li>
@@ -71,7 +71,9 @@
                             <!-- adminPanel -->
                             <li>
                                 <a href="{{ url('adminPanel') }}">
-                                    <div class="text-danger"><span class="glyphicon glyphicon-wrench"></span> Control panel</div>
+                                    <div class="text-danger">
+                                        <span class="glyphicon glyphicon-wrench"></span> {{ trans('layouts/mainLayout.adminPanel') }}
+                                    </div>
                                 </a>
                             </li>
                         @endif
@@ -79,19 +81,29 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-flag"></span> {{ trans('layouts/mainLayout.language') }}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url('/locale/en') }}">{{ trans('layouts/mainLayout.enLanguage') }}</a></li>
+                                <li><a href="{{ url('/locale/ru') }}">{{ trans('layouts/mainLayout.rusLanguage') }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle profilePadding" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> {{ $globalCurrentUser->username or 'default' }}
+                                <span class="glyphicon glyphicon-user"></span> {{ $globalCurrentUser->username or trans('layouts/mainLayout.anonymous') }}
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 @if (!isset($globalCurrentUser))
-                                    <li><a href="{{url('auth/login')}}">Enter</a></li>
+                                    <li><a href="{{url('auth/login')}}">{{ trans('layouts/mainLayout.login') }}</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url('auth/register')}}">Register</a></li>
+                                    <li><a href="{{url('auth/register')}}">{{ trans('layouts/mainLayout.register') }}</a></li>
                                 @else
-                                    <li><a href="{{url('/userProfile')}}">Profile</a></li>
+                                    <li><a href="{{url('/userProfile')}}">{{ trans('layouts/mainLayout.userProfile') }}</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{url('auth/logout')}}">Logout</a></li>
+                                    <li><a href="{{url('auth/logout')}}">{{ trans('layouts/mainLayout.logout') }}</a></li>
                                 @endif
                             </ul>
                         </li>

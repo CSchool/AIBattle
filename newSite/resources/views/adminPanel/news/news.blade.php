@@ -1,29 +1,27 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - News')
-@section('APtitle', 'Administration Panel - News')
-
-<style>
-    .bottomHref {
-        margin-bottom: 30px;
-    }
-</style>
+@section('title', trans('adminPanel/news.newsTitle'))
+@section('APtitle', trans('adminPanel/news.newsHeader'))
 
 @section('APcontent')
 
     @if (isset($news) && count($news) > 0)
 
         <div class="text-center">
-            <div class="row"><a href="{{ url('/adminPanel/news/create') }}" class="btn btn-success btn-lg" role="button">Create news</a></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/news/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/news.newsCreate') }}
+                </a>
+            </div>
             <br>
         </div>
 
         <table class="table table-bordered table-hover">
             <thead>
-            <tr class="success">
-                <td>#</td>
-                <td>News</td>
-            </tr>
+                <tr class="success">
+                    <td>#</td>
+                    <td>{{ trans('shared.news') }}</td>
+                </tr>
             </thead>
             <tbody>
             @foreach($news as $element)
@@ -42,15 +40,13 @@
         {!! $news->render() !!}
     @else
         <div class="alert alert-warning text-center">
-            <div class="row"><h3>Warning!</h3></div>
-            <div class="row"><p>There are no news at all! Do you want to create news?</p></div>
-            <div class="row"><a href="{{ url('/adminPanel/news/create') }}" class="btn btn-success btn-lg" role="button">Create news</a></div>
+            <div class="row"><h3>{{ trans('adminPanel/news.newsWarning') }}</h3></div>
+            <div class="row"><p>{{ trans('adminPanel/news.newsWarningMessage') }}</p></div>
+            <div class="row">
+                <a href="{{ url('/adminPanel/news/create') }}" class="btn btn-success btn-lg" role="button">
+                    {{ trans('adminPanel/news.newsCreate') }}
+                </a>
+            </div>
         </div>
     @endif
-
-    <div class="text-center">
-        <div class="row bottomHref">
-            <a href="{{ url('/adminPanel') }}" class="btn btn-primary btn-lg " role="button">Back to main menu</a>
-        </div>
-    </div>
 @endsection

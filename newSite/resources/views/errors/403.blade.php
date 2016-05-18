@@ -26,7 +26,8 @@
         <div class="container">
             <div class=" vertical-center">
                 <div class="alert alert-danger text-center center-block">
-                    <h1>Access denied!</h1>
+                    <h1>403</h1>
+                    <h2>{{ trans('shared.403Message') }}</h2>
                 </div>
             </div>
         </div>

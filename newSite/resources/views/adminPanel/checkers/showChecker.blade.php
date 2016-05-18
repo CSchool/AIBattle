@@ -1,30 +1,33 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Show Checker')
-@section('APtitle', 'Administration Panel - Checker')
+@section('title', trans('adminPanel/checkers.showCheckerTitle'))
+@section('APtitle', trans('adminPanel/checkers.showCheckerHeader'))
 
 @section('APcontent')
 
+    {{ Form::hidden('codeTextShow', trans('adminPanel/checkers.showCheckerShowCode')) }}
+    {{ Form::hidden('codeTextHide', trans('adminPanel/checkers.showCheckerHideCode')) }}
+
     <div class="panel panel-primary">
         <div class="panel-heading">
-            Checker # {{ $checker->id }}
+            {{ trans('adminPanel/checkers.showCheckerPanelHeader', ['id' => $checker->id]) }}
         </div>
         <div class="panel-body">
-            <p><strong>Name </strong> {{ $checker->name }} </p>
+            <p><strong>{{ trans('adminPanel/checkers.checkerName') }}: </strong> {{ $checker->name }} </p>
 
-            <p><strong>Game:</strong> <a href="{{ url('adminPanel/games', [$game->id]) }}">{{ $game->name }}</a></p>
+            <p><strong>{{ trans('adminPanel/checkers.checkerGame') }}:</strong> <a href="{{ url('adminPanel/games', [$game->id]) }}">{{ $game->name }}</a></p>
 
-            <p><strong>Has seed: </strong>
+            <p><strong>{{ trans('adminPanel/checkers.showCheckerHasSeed') }}: </strong>
                 @if ($checker->hasSeed)
-                    true
+                    {{ trans('adminPanel/checkers.showCheckerHasSeedTrue') }}
                 @else
-                    false
+                    {{ trans('adminPanel/checkers.showCheckerHasSeedFalse') }}
                 @endif
             </p>
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#code" id="codeHref" class="btn btn-info" data-toggle="collapse">Show code <span class="glyphicon glyphicon-chevron-down"></span></a>
+                    <a href="#code" id="codeHref" class="btn btn-info" data-toggle="collapse">{{ trans('adminPanel/checkers.showCheckerShowCode') }} <span class="glyphicon glyphicon-chevron-down"></span></a>
                     <div id="code" class="collapse">
                         <pre class="line-numbers"><code class="language-javascript">{{ $checkerData }}</code></pre>
                     </div>
@@ -34,7 +37,7 @@
         </div>
 
         <div class="panel-footer clearfix">
-            @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/checkers'), 'editLink' => url('adminPanel/checkers/edit', [$checker->id]), 'editName' => 'checker'])
+            @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/checkers'), 'editLink' => url('adminPanel/checkers/edit', [$checker->id]), 'editName' => trans('adminPanel/checkers.showCheckerEditRedirectFooter')])
         </div>
     </div>
 
@@ -44,11 +47,11 @@
             var code = $('#code');
 
             code.on('shown.bs.collapse', function () {
-                $('#codeHref').html("Hide code <span class='glyphicon glyphicon-chevron-up'></span>");
+                $('#codeHref').html($('input[name=codeTextHide]').val() + " <span class='glyphicon glyphicon-chevron-up'></span>");
             });
 
             code.on('hidden.bs.collapse', function () {
-                $('#codeHref').html("Show code <span class='glyphicon glyphicon-chevron-down'></span>");
+                $('#codeHref').html($('input[name=codeTextShow]').val() + " <span class='glyphicon glyphicon-chevron-down'></span>");
             });
         });
     </script>

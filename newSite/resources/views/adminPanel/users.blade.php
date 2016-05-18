@@ -1,7 +1,7 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Users')
-@section('APtitle', 'Administration Panel - Users')
+@section('title', trans('adminPanel/users.usersTitle'))
+@section('APtitle', trans('adminPanel/users.usersHeader'))
 
 @section('APcontent')
 
@@ -10,11 +10,11 @@
             <thead>
                 <tr>
                     <td>ID</td>
-                    <td>Login</td>
-                    <td>Group</td>
-                    <td>Surname</td>
-                    <td>Name</td>
-                    <td>Patronymic</td>
+                    <td>{{ trans('adminPanel/users.usersLogin') }}</td>
+                    <td>{{ trans('shared.group') }}</td>
+                    <td>{{ trans('userProfile/shared.surname') }}</td>
+                    <td>{{ trans('userProfile/shared.name') }}</td>
+                    <td>{{ trans('userProfile/shared.patronymic') }}</td>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                     ">
                         <td>{{ $element->id }}</td>
                         <td><a href="{{ url('/userProfile', [$element->id]) }}">{{ $element->username }}</a></td>
-                        <td>{{ $element->group }}</td>
+                        <td>{{ trans('shared.group' . ucfirst($element->group)) }}</td>
                         <td>{{ $element->surname }}</td>
                         <td>{{ $element->name }}</td>
                         <td>{{ $element->patronymic }}</td>
@@ -40,7 +40,7 @@
         {!! $users->render() !!}
     @else
         <div class="alert alert-warning">
-            There is no users in the system!
+            {{ trans('adminPanel/users.usersNoUsers') }}
         </div>
     @endif
 

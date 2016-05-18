@@ -31,6 +31,10 @@ class Kernel extends HttpKernel
             \AIBattle\Http\Middleware\VerifyCsrfToken::class,
         ],
 
+        'locale' => [
+            \AIBattle\Http\Middleware\LanguageMiddleware::class,
+        ],
+
         'api' => [
             'throttle:60,1',
         ],

@@ -1,31 +1,34 @@
 @extends('layouts.adminPanelLayout')
 
-@section('title', 'Administration Panel - Shows news')
-@section('APtitle', 'Administration Panel - News')
+@section('title', trans('adminPanel/news.showNewsTitle'))
+@section('APtitle', trans('adminPanel/news.showNewsHeader'))
 
 @section('APcontent')
     <div class="panel panel-primary">
-        <div class="panel-heading">News # {{ $news->id }}</div>
+        <div class="panel-heading">{{ trans('adminPanel/news.showNewsPanelHeader', ['id' => $news->id]) }}</div>
         <div class="panel-body">
             <div class="form-group">
-                <label for="title">Title:</label>
+                <label for="title">{{ trans('adminPanel/news.newsFormTitle') }}:</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ $news->header }}" disabled/>
             </div>
 
             <div class="form-group">
-                <label for="newsText">Text:</label>
+                <label for="newsText">{{ trans('adminPanel/news.newsFormText') }}:</label>
                 <textarea class="form-control" name="newsText" id="newsText" disabled>{{ $news->text }}</textarea>
             </div>
 
             <div class="form-group">
-                <label for="datetimepicker">Date:</label>
+                <label for="datetimepicker">{{ trans('adminPanel/news.newsFormDate') }}:</label>
                 <div class='input-group date'>
                     <input type='text' class="form-control" name="datetimepicker" id="datetimepicker" value="{{ $news->date->format('d/m/Y') }}" disabled />
                 </div>
             </div>
 
             <div class="panel-footer clearfix">
-                @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/news'), 'editLink' => url('adminPanel/news/edit', [$news->id]), 'editName' => 'news'])
+                @include('assets.editRedirectFooter', [
+                    'backLink' => url('adminPanel/news'),
+                    'editLink' => url('adminPanel/news/edit', [$news->id]),
+                    'editName' => trans('adminPanel/news.showNewsEditRedirectFooter')])
             </div>
         </div>
 
