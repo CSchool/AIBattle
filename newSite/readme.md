@@ -81,19 +81,52 @@
 
 8. Скопировать проект из папки `newSite` и положить его в расшаренную папку
 
-8. Запустить образ: `vagrant up` в папке Homestead из пункта 3
+9. Создать файл .env в корне проекта, где необходимо перечислить необходимые параметры для подключения к базам данных. 
 
-9. Получить доступ к образу: `vagrant ssh`
+Пример файла:
 
-10. В папке с проектом докачать зависимости: `composer update`
+        APP_ENV=local
+        APP_DEBUG=true
+        APP_KEY=base64:WFMl78waC6S+lvLrcBcmuLqUznnnhjLafwc7173opkU=
+        APP_URL=http://localhost
 
-11. В папке с проектом произвести миграцию таблиц (т.е. занесение таблиц в БД) и seeding (заполнение таблиц значениями):
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=homestead
+        DB_USERNAME=homestead
+        DB_PASSWORD=secret
+        
+        CACHE_DRIVER=file
+        SESSION_DRIVER=file
+        QUEUE_DRIVER=sync
+        
+        REDIS_HOST=127.0.0.1
+        REDIS_PASSWORD=null
+        REDIS_PORT=6379
+        
+        MAIL_DRIVER=smtp
+        MAIL_HOST=mailtrap.io
+        MAIL_PORT=2525
+        MAIL_USERNAME=null
+        MAIL_PASSWORD=null
+        MAIL_ENCRYPTION=null
+        
+На боевом сервере, естественно, настройки доступа всё же стоит поменять!
+
+10. Запустить образ: `vagrant up` в папке Homestead из пункта 3
+
+11. Получить доступ к образу: `vagrant ssh`
+
+12. В папке с проектом докачать зависимости: `composer update`
+
+13. В папке с проектом произвести миграцию таблиц (т.е. занесение таблиц в БД) и seeding (заполнение таблиц значениями):
 
     `php artisan migrate`
 
     `php artisan db:seed`
 
-11. Обратиться к сайту!
+14. Обратиться к сайту!
 
 ## TODO:
 
