@@ -81,15 +81,13 @@
 
 8. Скопировать проект из папки `newSite` и положить его в расшаренную папку
 
-9. Создать файл .env в корне проекта, где необходимо перечислить необходимые параметры для подключения к базам данных. 
-
-Пример файла:
+9. Создать файл .env в корне проекта, где необходимо перечислить необходимые параметры для подключения к базам данных. На боевом сервере, естественно, настройки доступа всё же стоит поменять!
 
         APP_ENV=local
         APP_DEBUG=true
         APP_KEY=base64:WFMl78waC6S+lvLrcBcmuLqUznnnhjLafwc7173opkU=
         APP_URL=http://localhost
-
+    
         DB_CONNECTION=mysql
         DB_HOST=127.0.0.1
         DB_PORT=3306
@@ -111,8 +109,6 @@
         MAIL_USERNAME=null
         MAIL_PASSWORD=null
         MAIL_ENCRYPTION=null
-        
-На боевом сервере, естественно, настройки доступа всё же стоит поменять!
 
 10. Запустить образ: `vagrant up` в папке Homestead из пункта 3
 
@@ -125,8 +121,10 @@
     `php artisan migrate`
 
     `php artisan db:seed`
+    
+14. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
 
-14. Обратиться к сайту!
+15. Обратиться к сайту!
 
 ## TODO:
 
