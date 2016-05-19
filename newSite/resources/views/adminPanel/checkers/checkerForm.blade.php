@@ -12,15 +12,7 @@
     @include('assets.error')
 
     @if (count($games) == 0)
-        <div class="alert alert-danger text-center">
-            <div class="row"><p><strong>{{ trans('adminPanel/checkers.checkerFormNoGames') }}</strong></p></div>
-
-            <div class="row">
-                <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">
-                    {{ trans('adminPanel/checkers.checkerFormCreateGame') }}
-                </a>
-            </div>
-        </div>
+        @include('assets.errorNoGame')
     @else
         <div class="panel panel-primary">
 

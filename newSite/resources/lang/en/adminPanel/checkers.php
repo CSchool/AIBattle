@@ -8,8 +8,7 @@ return [
     'checkerFormTitleEdit' => 'Administration Panel - Edit Checker',
     'checkerFormHeadingEdit' => 'Administration Panel - Edit Checker',
 
-    'checkerFormNoGames' => 'There is no added games at DB!',
-    'checkerFormCreateGame' => 'Create game',
+    
 
     'checkerFormCreate' => 'Create checker # :count',
     'checkerFormEdit' => 'Edit checker # :id',

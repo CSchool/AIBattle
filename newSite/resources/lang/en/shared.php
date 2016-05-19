@@ -13,6 +13,8 @@ return [
     'attachments' => 'Attachments',
     'news' => 'Новости',
 
+    'NoGamesMessage' => 'There is no added games at DB!',
+    'NoGamesCreateGame' => 'Create game',
 
     'create' => 'Create',
     'edit' => 'Edit',

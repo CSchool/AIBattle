@@ -8,8 +8,7 @@ return [
     'checkerFormTitleEdit' => 'Панель управления - изменения тестировщика',
     'checkerFormHeadingEdit' => 'Панель управления - изменения тестировщика',
 
-    'checkerFormNoGames' => 'В базе данных не найдено игр!',
-    'checkerFormCreateGame' => 'Создать игру',
+
 
     'checkerFormCreate' => 'Создание тестировщика № :count',
     'checkerFormEdit' => 'Изменение тестировщика № :id',
