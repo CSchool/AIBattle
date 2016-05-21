@@ -19,7 +19,7 @@ class DownloadController extends Controller
         if ($attachment->game_id == $game)
             return response()->download(base_path() . '/storage/app/attachments/' . $attachment->id, $attachment->originalName);
         else
-            abort(404);
+            abort(404, 'File not found!');
     }
 
     public function downloadAttachmentByTournament($tournament, $attachmentId) {
@@ -28,7 +28,7 @@ class DownloadController extends Controller
             return response()->download(base_path() . '/storage/app/attachments/' . $attachment->id, $attachment->originalName);
         }
         else
-            abort(404);
+            abort(404, 'File not found!');
     }
     
     public function downloadGameArchive($gameId) {
@@ -37,6 +37,6 @@ class DownloadController extends Controller
         if (Storage::disk('local')->has('games/' . $game->id . '.zip'))
             return response()->download(base_path() . '/storage/app/games/' . $game->id . '.zip', $game->name . '.zip');
         else
-            abort(404);
+            abort(404, 'File not found!');
     }
 }

@@ -23,11 +23,16 @@
     </head>
 
     <body>
+
         <div class="container">
             <div class=" vertical-center">
                 <div class="alert alert-danger text-center center-block">
                     <h1>404</h1>
-                    <h2>{{ trans('shared.404Message' )}}</h2>
+                    @if (empty($exception->getMessage()))
+                        <h2>{{ trans('shared.404Message') }}</h2>
+                    @else
+                        <h2>{{ $exception->getMessage() }}</h2>
+                    @endif
                 </div>
             </div>
         </div>
