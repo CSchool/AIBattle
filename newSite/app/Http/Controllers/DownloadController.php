@@ -33,6 +33,10 @@ class DownloadController extends Controller
     
     public function downloadGameArchive($gameId) {
         $game = Game::findOrFail($gameId);
-        return response()->download(base_path() . '/storage/app/games/' . $game->id . '.zip', $game->name . '.zip');
+
+        if (Storage::disk('local')->has('games/' . $game->id . '.zip'))
+            return response()->download(base_path() . '/storage/app/games/' . $game->id . '.zip', $game->name . '.zip');
+        else
+            abort(404);
     }
 }
