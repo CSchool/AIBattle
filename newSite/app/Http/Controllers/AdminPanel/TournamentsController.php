@@ -34,7 +34,7 @@ class TournamentsController extends Controller
             'mode' => 'create',
             'tournamentCount' => count(Tournament::all()) + 1,
             'games' => Game::all(),
-            'checkers' => Game::groupBy('id')->first()->checkers()->getResults() // yep, get first game at DB
+            'checkers' => Game::groupBy('id')->firstOrFail()->checkers()->getResults() // yep, get first game at DB
         ]);
     }
 

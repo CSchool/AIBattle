@@ -11,7 +11,10 @@ return [
 
     'gameFormPanelHeadingCreate' => 'Create game #',
     'gameFormPanelHeadingEdit' => 'Edit game #',
+    'archiveMessage' => 'You can pass an archive with game!',
+    'archiveLabel' => 'Archive (zip):',
     'editFormFooterName' => 'game',
+
 
     // games
 

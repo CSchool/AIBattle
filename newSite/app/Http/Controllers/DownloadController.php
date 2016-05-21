@@ -3,6 +3,7 @@
 namespace AIBattle\Http\Controllers;
 
 use AIBattle\Attachment;
+use AIBattle\Game;
 use AIBattle\Tournament;
 use Illuminate\Http\Request;
 
@@ -28,5 +29,10 @@ class DownloadController extends Controller
         }
         else
             abort(404);
+    }
+    
+    public function downloadGameArchive($gameId) {
+        $game = Game::findOrFail($gameId);
+        return response()->download(base_path() . '/storage/app/games/' . $game->id . '.zip', $game->name . '.zip');
     }
 }

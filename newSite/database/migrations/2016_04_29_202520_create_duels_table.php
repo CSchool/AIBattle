@@ -13,6 +13,8 @@ class CreateDuelsTable extends Migration
     public function up()
     {
         Schema::create('duels', function (Blueprint $table) {
+
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 

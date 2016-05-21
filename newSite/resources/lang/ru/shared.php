@@ -31,4 +31,6 @@ return [
     'groupNews' => 'Писатель новостей',
     'groupAdmin' => 'Администратор',
     'groupBanned' => 'Заблокированный',
+
+    'downloadGameArchive' => 'Скачать архив',
 ];

@@ -155,10 +155,14 @@ return [
         AIBattle\Providers\AuthServiceProvider::class,
         AIBattle\Providers\EventServiceProvider::class,
         AIBattle\Providers\RouteServiceProvider::class,
+        AIBattle\Providers\OnGameDeleting::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // Laravel IDE helper
 
         // debugbar
         Barryvdh\Debugbar\ServiceProvider::class,
+
+        // zip
+        Chumper\Zipper\ZipperServiceProvider::class,
     ],
 
     /*
@@ -206,6 +210,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // zip
+        'Zipper' => Chumper\Zipper\Zipper::class,
 
     ],
 

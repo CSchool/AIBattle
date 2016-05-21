@@ -14,6 +14,7 @@ class CreateNewscommentsTable extends Migration
     {
         Schema::create('newscomments', function (Blueprint $table) {
 
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 

@@ -13,6 +13,8 @@ class CreateRoundstatisticsTable extends Migration
     public function up()
     {
         Schema::create('roundstatistics', function (Blueprint $table) {
+
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 

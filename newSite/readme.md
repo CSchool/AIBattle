@@ -17,7 +17,11 @@
 * Активные (running) турниры отображаются в navbar шапки сайта;
 * В отображение турниров для пользователя добавлены болванка для отображения информации о турнире;
 * Добавление/редактирование/удаление документов (attachments) к игре в администраторской панели + отображение документов к игре в турнирах
-* Локализация сайта (русская и английская версии)
+* Локализация сайта (русская и английская версии);
+* Добавлена работа с архивами игр. Архивы можно загружать при создании игры, скачивать их при просмотре игры. При добавлении файла к игре происходит автоматическое обновление архива.
+При использовании команды `php artisan games:load` в корне проекта можно загрузить все архивы с играми в БД. Подробнее читать раздел `Custom Artisan commands - games:load`;
+
+
 Список будет обновляться по мере разработки!
 
 ## Как запустить и посмотреть?
@@ -121,15 +125,73 @@
     `php artisan migrate`
 
     `php artisan db:seed`
-    
-14. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
 
-15. Обратиться к сайту!
+14. **(Optional!)** В папке с проектом вызвать команду `php artisan games:load`, которая загружает игры и файлы к ним в базу данных.
+
+15. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
+
+16. Обратиться к сайту!
 
 ## TODO:
 
 1. Добавить флаг страны в top-panel при выборе языка
 2. Доделать базовый функционал проведения турнира (бой стратегий между собой)
+
+## Custom Artisan commands
+
+### games:load
+
+Данная команда позволяет загружать из zip-архивов информацию о играх и их файлах (attachments). Архивы должны храниться в папке `app/storage/app/games/archive`.
+
+Структура архива:
+
+        archive_name\
+            description.json (required)
+            visualizer.js (optional)
+            attachments\ (optional)
+                attachments.json (required if attachemnts were added)
+                attachment1
+                attachment2
+                ...
+                attachmentN
+
+Пример файла description.json:
+
+        {
+            "id": 1,
+            "created_at": "2016-05-21 13:37:36",
+            "updated_at": "2016-05-21 13:37:36",
+            "name": "Крестики-нолики",
+            "description": "<p>Обычная игра крестики-нолики 3х3<\/p>",
+            "hasVisualizer": 1,
+            "timeLimit": 1000,
+            "memoryLimit": 64000
+        }
+
+Поля "name", "description", "hasVisualizer", "timeLimit", "memoryLimit" - **обязательны!** Если `hasVisualizer == true`, то должен присуствовать файл `visualizer.js`
+
+Пример файла attachments.json:
+
+        [
+            {
+                "id": 1,
+                "created_at": "2016-05-21 13:38:06",
+                "updated_at": "2016-05-21 13:38:06",
+                "game_id": 1,
+                "originalName": "XO.docx",
+                "description": "Описание игры"
+            },
+            {
+                "id": 2,
+                "created_at": "2016-05-21 13:38:30",
+                "updated_at": "2016-05-21 13:38:30",
+                "game_id": 1,
+                "originalName": "sample.cpp",
+                "description": "Рандомная стратегия"
+            }
+        ]
+
+Поля "originalName", "description" - **обязательны!**
 
 ## Основные моменты и положения в коде
 

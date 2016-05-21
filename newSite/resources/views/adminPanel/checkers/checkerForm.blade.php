@@ -18,9 +18,9 @@
 
             <div class="panel-heading">
                 @if ($mode == "create")
-                    {{ trans('adminPanel/checkers.checkerFormCreateGame', ['count' => $checkersCount]) }}
+                    {{ trans('adminPanel/checkers.checkerFormCreate', ['count' => $checkersCount]) }}
                 @elseif ($mode == "edit")
-                    {{ trans('adminPanel/checkers.checkerFormCreateGame', ['id' => $checker->id]) }}
+                    {{ trans('adminPanel/checkers.checkerFormEdit', ['id' => $checker->id]) }}
                 @endif
             </div>
 

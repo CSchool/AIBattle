@@ -15,7 +15,7 @@
 
         <div class="panel-heading">
             @if ($mode == "create")
-                 {{ trans('adminPanel/attachments.attachmentFormTitleCreate', ['count' => $attachmentsCount, 'name' => $gameName]) }}
+                 {{ trans('adminPanel/attachments.attachmentFormPanelHeadingCreate', ['count' => $attachmentsCount, 'name' => $gameName]) }}
             @elseif ($mode == "edit")
                 {{ trans('adminPanel/attachments.attachmentFormPanelHeadingEdit', ['id' => $attachment->id, 'name' => $gameName]) }}
             @endif
@@ -37,13 +37,23 @@
             </div>
         </div>
 
-        <div class="panel-footer clearfix">
-            @include('assets.editFormFooter', array(
-                'link' => url('adminPanel/games/' . $attachment->game_id . '/attachments'),
-                'name' => trans('adminPanel/attachments.editFormFooterName')
+        @if ($mode == "edit")
+            <div class="panel-footer clearfix">
+                @include('assets.editFormFooter', array(
+                    'link' => url('adminPanel/games/' . $attachment->game_id . '/attachments'),
+                    'name' => trans('adminPanel/attachments.editFormFooterName')
+                    )
                 )
-            )
-        </div>
+            </div>
+        @elseif ($mode == "create")
+            <div class="panel-footer clearfix">
+                @include('assets.editFormFooter', array(
+                    'link' => url('adminPanel/games/' . $gameId . '/attachments'),
+                    'name' => trans('adminPanel/attachments.editFormFooterName')
+                    )
+                )
+            </div>
+        @endif
 
         {{ Form::close() }}
     </div>

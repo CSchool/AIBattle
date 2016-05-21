@@ -8,8 +8,6 @@ return [
     'checkerFormTitleEdit' => 'Administration Panel - Edit Checker',
     'checkerFormHeadingEdit' => 'Administration Panel - Edit Checker',
 
-    
-
     'checkerFormCreate' => 'Create checker # :count',
     'checkerFormEdit' => 'Edit checker # :id',
     'checkerFormSeedLabel' => 'RNG',
@@ -25,7 +23,6 @@ return [
     'checkersWarning' => 'Warning!',
     'checkersWarningMessage' => 'There are no checkers at all! Do you want to create checker?',
     
-
     // showChecker
 
     'showCheckerTitle' => 'Administration Panel - Show Checker',

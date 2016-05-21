@@ -13,6 +13,8 @@ class CreateCheckersTable extends Migration
     public function up()
     {
         Schema::create('checkers', function (Blueprint $table) {
+            
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 

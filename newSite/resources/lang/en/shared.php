@@ -31,4 +31,6 @@ return [
     'groupNews' => 'Newsmaker',
     'groupAdmin' => 'Administrator',
     'groupBanned' => 'Banned',
+    
+    'downloadGameArchive' => 'Download archive',
 ];

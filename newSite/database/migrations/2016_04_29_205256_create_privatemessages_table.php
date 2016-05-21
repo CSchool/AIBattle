@@ -13,6 +13,8 @@ class CreatePrivatemessagesTable extends Migration
     public function up()
     {
         Schema::create('privatemessages', function (Blueprint $table) {
+
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 

@@ -3,11 +3,11 @@
 namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Game;
+use AIBattle\Helpers\GameArchive;
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class GamesController extends Controller
@@ -32,28 +32,40 @@ class GamesController extends Controller
 
     public function createGame(Request $request) {
 
-        $this->validate($request, [
-            'name' => 'required|max:32',
-            'description' => 'required',
-            'timeLimit' => 'required|min:50|numeric',
-            'memoryLimit' => 'required|min:10|numeric',
-        ]);
+        if ($request->hasFile('gameArchive')) {
 
-        $game = new Game();
+            $this->validate($request, [
+                'gameArchive' => 'required|mimes:zip'
+            ]);
 
-        $game->name = $request->input('name');
-        $game->description = $request->input('description');
-        $game->timeLimit = $request->input('timeLimit');
-        $game->memoryLimit = $request->input('memoryLimit');
+            GameArchive::loadArchive($request->file('gameArchive')->getPathname());
+        }
+        else {
+            $this->validate($request, [
+                'name' => 'required|max:32',
+                'description' => 'required',
+                'timeLimit' => 'required|min:50|numeric',
+                'memoryLimit' => 'required|min:10|numeric',
+            ]);
 
-        $game->save();
+            $game = new Game();
 
-        if ($request->hasFile('visualizer')) {
-            $game->hasVisualizer = true;
+            $game->name = $request->input('name');
+            $game->description = $request->input('description');
+            $game->timeLimit = $request->input('timeLimit');
+            $game->memoryLimit = $request->input('memoryLimit');
+
             $game->save();
-            $request->file('visualizer')->move(base_path() . '/storage/app/visualizers/', $game->id);
-        } else {
-            $game->save();
+
+            if ($request->hasFile('visualizer')) {
+                $game->hasVisualizer = true;
+                $game->save();
+                $request->file('visualizer')->move(base_path() . '/storage/app/visualizers/', $game->id);
+            } else {
+                $game->save();
+            }
+
+            GameArchive::createArchive($game);
         }
 
         return redirect('adminPanel/games');
@@ -78,7 +90,7 @@ class GamesController extends Controller
                 'memoryLimit' => 'required|min:10|numeric',
             ]);
 
-            $game = Game::findOrFail($id );
+            $game = Game::findOrFail($id);
 
             $game->name = $request->input('name');
             $game->description = $request->input('description');
@@ -98,6 +110,8 @@ class GamesController extends Controller
             }
 
             $game->save();
+
+            GameArchive::createArchive($game);
 
             return redirect('adminPanel/games');
 

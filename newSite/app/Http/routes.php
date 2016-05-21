@@ -118,6 +118,8 @@ Route::group(['middleware' => 'locale'], function() {
     Route::group(['prefix' => 'download'], function() {
         Route::get('/game/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachment')->middleware('auth.admin');
         Route::get('/tournament/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachmentByTournament');
+
+        Route::get('/game/{id}/archive', 'DownloadController@downloadGameArchive')->middleware('auth.admin');
     });
 
     Route::get('locale/{locale}', 'StartController@switchLanguage');

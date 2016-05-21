@@ -11,6 +11,8 @@ return [
 
     'gameFormPanelHeadingCreate' => 'Создание игры №',
     'gameFormPanelHeadingEdit' => 'Изменение игры №',
+    'archiveMessage' => 'Вы можете загрузить архив с игрой!',
+    'archiveLabel' => 'Архив (zip):',
     'editFormFooterName' => 'игру',
 
     // games

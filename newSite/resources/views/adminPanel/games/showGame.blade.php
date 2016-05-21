@@ -48,6 +48,7 @@
                 'editLink' => url('adminPanel/games/edit', [$game->id]),
                 'editName' => trans('adminPanel/games.showGameEditRedirectFooterName'),
                 'specialMode' => 'attachment',
+                'archiveLink' => '/download/game/' . $game->id . '/archive',
                 'attachmentRoute' => url('/adminPanel/games', [$game->id, 'attachments'])
                 ])
         </div>

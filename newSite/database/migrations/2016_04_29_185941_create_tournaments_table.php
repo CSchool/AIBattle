@@ -13,19 +13,26 @@ class CreateTournamentsTable extends Migration
     public function up()
     {
         Schema::create('tournaments', function (Blueprint $table) {
-
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->timestamps();
 
             $table->integer('game_id')->unsigned();
-            $table->integer('defaultChecker')->unsigned()->nullable(); // dont forget that we hadn't default checker!
+            $table->integer('defaultChecker')->unsigned()->nullable();
+
             $table->string('name', 32);
             $table->text('description');
             $table->string('state');
 
-            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-            $table->foreign('defaultChecker')->references('id')->on('checkers')->onDelete('set null');
+        });
 
+
+        Schema::table('tournaments', function ($table) {
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+        });
+
+        Schema::table('tournaments', function ($table) {
+            $table->foreign('defaultChecker')->references('id')->on('checkers')->onDelete('no action');
         });
     }
 

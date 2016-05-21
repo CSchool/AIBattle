@@ -27,6 +27,19 @@
                 {{ Form::hidden('gameId', $game->id ) }}
             @endif
 
+            @if ($mode == "create")
+                <div class="alert alert-info">
+                    <p>{{ trans('adminPanel/games.archiveMessage') }}</p>
+                    <br>
+                    <div class="form-group">
+                        {!! Form::label(trans('adminPanel/games.archiveLabel')) !!}
+                        {!! Form::file('gameArchive') !!}
+                    </div>
+                </div>
+            @endif
+
+            <hr>
+
             <div class="form-group">
                 <label for="name">{{ trans('adminPanel/games.gameName') }}:</label>
                 <input type="text" class="form-control" name="name" id="name"
@@ -92,6 +105,11 @@
             });
 
             checkbox.val('0');
+
+            $(':input[name=gameArchive]').change(function () {
+                $(":input").not("[name=gameArchive], [name=create], [name=update], [name=delete], [name=_token]").prop('disabled', $(this).val() != "");
+            });
+
         });
     </script>
 @endsection

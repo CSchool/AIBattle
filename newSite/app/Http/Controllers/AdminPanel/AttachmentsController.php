@@ -4,6 +4,7 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Attachment;
 use AIBattle\Game;
+use AIBattle\Helpers\GameArchive;
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
@@ -25,6 +26,7 @@ class AttachmentsController extends Controller
             'mode' => 'create',
             'attachmentsCount' => $game->attachments->count() + 1,
             'gameName' => $game->name,
+            'gameId' => $game->id,
         ]);
     }
 
@@ -73,6 +75,8 @@ class AttachmentsController extends Controller
 
         $request->file('attachmentSource')->move(base_path() . '/storage/app/attachments/', $attachment->id);
 
+        GameArchive::createArchive($game);
+
         return redirect('adminPanel/games/' . $game->id . '/attachments');
     }
 
@@ -98,6 +102,8 @@ class AttachmentsController extends Controller
 
                 $attachment->save();
             }
+
+            GameArchive::createArchive($game);
 
             return redirect('adminPanel/games/' . $game->id . '/attachments');
         } else
