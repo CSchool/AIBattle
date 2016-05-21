@@ -54,7 +54,7 @@ class TournamentsController extends Controller
         return view('adminPanel/tournaments/tournamentForm', [
             'mode' => 'edit',
             'tournament' => $tournament,
-            'games' => Game::all(),
+            'games' => Game::has('checkers')->get(),
             'checkers' => $tournament->game->checkers
         ]);
     }
