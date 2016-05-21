@@ -33,6 +33,14 @@ return [
     'showGameVisualizerNotExist' => 'У игры нет визуализатора!',
     'showGameEditRedirectFooterName' => 'игру',
 
+    // warnings
+
+    'NoGamesMessage' => 'В базе данных не найдено игр!',
+    'NoGamesCreateGame' => 'Создать игру',
+
+    'NoGameWithCheckersMessage' => 'В базе данных не найдено игр с тестировщиками',
+    'NoGamesWithCheckersCreate' => 'Создать тестировщик',
+
     // shared
 
     'gameName' => 'Название',

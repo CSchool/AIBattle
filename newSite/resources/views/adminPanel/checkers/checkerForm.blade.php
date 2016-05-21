@@ -12,7 +12,11 @@
     @include('assets.error')
 
     @if (count($games) == 0)
-        @include('assets.errorNoGame')
+        @include('assets.warningBlock', [
+            'warningMessage' => trans('adminPanel/games.NoGamesMessage'),
+            'url' => url('/adminPanel/games/create'),
+            'buttonText' => trans('adminPanel/games.NoGamesCreateGame'),
+        ])
     @else
         <div class="panel panel-primary">
 

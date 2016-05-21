@@ -13,9 +13,6 @@ return [
     'attachments' => 'Файлы',
     'news' => 'News',
 
-    'NoGamesMessage' => 'В базе данных не найдено игр!',
-    'NoGamesCreateGame' => 'Создать игру',
-
     'create' => 'Создать',
     'edit' => 'Изменить',
     'update' => 'Обновить',

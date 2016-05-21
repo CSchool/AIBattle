@@ -11,6 +11,7 @@ return [
     'tournamentFormPanelHeadingCreate' => 'Create tournament # :count',
     'tournamentFormPanelHeadingEdit' => 'Edit tournament # :id',
     'tournamentFormEditFormFooter' => 'tournament',
+    'tournamentFormGamePopupMessage' => 'Games with at least one checker was selected',
 
     // tournaments
 

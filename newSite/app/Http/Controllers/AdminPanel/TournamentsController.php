@@ -5,6 +5,7 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 use AIBattle\Checker;
 use AIBattle\Game;
 use AIBattle\Tournament;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
@@ -30,11 +31,14 @@ class TournamentsController extends Controller
     }
 
     public function showCreateTournamentForm() {
+
+        $games = Game::has('checkers')->get();
+
         return view('adminPanel/tournaments/tournamentForm', [
             'mode' => 'create',
             'tournamentCount' => count(Tournament::all()) + 1,
-            'games' => Game::all(),
-            'checkers' => Game::groupBy('id')->firstOrFail()->checkers()->getResults() // yep, get first game at DB
+            'games' => $games,
+            'checkers' => count($games) > 0 ? $games->first()->checkers : new Collection(),
         ]);
     }
 

@@ -12,7 +12,11 @@
     @include('assets.error')
 
     @if (count($games) == 0)
-        @include('assets.errorNoGame')
+        @include('assets.warningBlock', [
+            'warningMessage' => trans('adminPanel/games.NoGameWithCheckersMessage'),
+            'url' => url('/adminPanel/checkers/create'),
+            'buttonText' => trans('adminPanel/games.NoGamesWithCheckersCreate'),
+        ])
     @else
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -43,7 +47,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="game">{{ trans('shared.game') }}:</label>
+                    <label for="game">
+                        {{ trans('shared.game') }}:
+                        <a data-toggle="popover" data-content="{{ trans('adminPanel/tournaments.tournamentFormGamePopupMessage') }}">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </a>
+                    </label>
                     <select class="form-control" name="game" id="game">
                         @foreach($games as $gameElement)
                             <option value="{{ $gameElement->id }}"
@@ -101,6 +110,8 @@
                     selector: '#description',
                     menubar: false
                 });
+
+                $('[data-toggle="popover"]').popover();
 
                 var game = $('#game');
 

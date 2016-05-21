@@ -11,6 +11,7 @@ return [
     'tournamentFormPanelHeadingCreate' => 'Создание турнира № :count',
     'tournamentFormPanelHeadingEdit' => 'Изменение турнира № # :id',
     'tournamentFormEditFormFooter' => 'турнир',
+    'tournamentFormGamePopupMessage' => 'Выбраны игры, у которых есть хотя бы один тестировщик',
 
     // tournaments
 
@@ -36,6 +37,7 @@ return [
     'extendedTableHeading' => 'Панель управления - турниры',
     'extendedTableWarning' => 'Внимание!',
     'extendedTableWarningMessage' => 'В базе данных :state турниры не обнаружены!',
+
 
 
 

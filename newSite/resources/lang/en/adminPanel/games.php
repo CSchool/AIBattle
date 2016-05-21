@@ -34,6 +34,14 @@ return [
     'showGameVisualizerNotExist' => 'This game hasn\'t got visualizer!',
     'showGameEditRedirectFooterName' => 'game',
 
+    // warning
+
+    'NoGamesMessage' => 'There is no added games in DB!',
+    'NoGamesCreateGame' => 'Create game',
+
+    'NoGameWithCheckersMessage' => 'There is no games with checkers in DB!',
+    'NoGamesWithCheckersCreate' => 'Create checker',
+    
     // shared
 
     'gameName' => 'Name',
@@ -42,5 +50,7 @@ return [
     'gameMemoryLimit' => 'Memory limit (kb)',
     'gameVisualizer' => 'Visualizer',
     'gameDeleteVisualizer' => 'Delete visualizer',
+    
+    
 
 ];
