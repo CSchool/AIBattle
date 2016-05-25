@@ -36,6 +36,7 @@ class StrategiesController extends Controller
         return view('tournaments/strategies/strategyForm', [
             'mode' => 'create',
             'tournament' => $tournament,
+            'backLink' => url('tournaments/'. $tournamentId .'/strategies')
         ]);
     }
 
