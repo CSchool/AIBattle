@@ -17,7 +17,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('layouts.mainLayout', function($view) {
-
             $view
                 ->with('globalCurrentUser', Auth::user())
                 ->with('globalCurrentTournaments', Tournament::where('state', 'running')->get(['id', 'name']));

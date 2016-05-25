@@ -93,6 +93,15 @@ Route::group(['middleware' => 'locale'], function() {
             Route::get('/ajax/getCheckersByGameId/{id}', ['uses' =>'AdminPanel\TournamentsController@getCheckersByGameId']);
 
             Route::get('/{id}', 'AdminPanel\TournamentsController@showTournamentById');
+            Route::get('/{id}/strategies', 'AdminPanel\TournamentsController@showUsersStrategies');
+
+            Route::get('/{id}/strategies/edit/{strategyId}', 'Tournament\StrategiesController@showEditStrategyFormAdminPanel');
+            Route::post('/{id}/strategies/edit/{strategyId}', 'Tournament\StrategiesController@editStrategyAdminPanel');
+
+            Route::get('/{id}/strategies/{strategyId}', 'Tournament\StrategiesController@showStrategyProfileAdminPanel');
+            Route::get('/{id}/strategies/{strategyId}/setActive', 'Tournament\StrategiesController@setStrategyActiveAdminPanel');
+
+
         });
 
         Route::get('/users', 'AdminPanel\UsersController@showUsers');
@@ -100,6 +109,19 @@ Route::group(['middleware' => 'locale'], function() {
 
     Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'], function() {
         Route::get('/', 'Tournament\MainController@showTournament');
+
+        Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
+            Route::get('/', 'Tournament\StrategiesController@showStrategies');
+
+            Route::get('/create', 'Tournament\StrategiesController@showCreateStrategyForm');
+            Route::post('/create', 'Tournament\StrategiesController@createStrategy');
+
+            Route::get('/edit/{strategyId}', 'Tournament\StrategiesController@showEditStrategyFormPublic');
+            Route::post('/edit/{strategyId}', 'Tournament\StrategiesController@editStrategyPublic');
+
+            Route::get('/{strategyId}', 'Tournament\StrategiesController@showStrategyProfilePublic');
+            Route::get('/{strategyId}/setActive', 'Tournament\StrategiesController@setStrategyActivePublic');
+        });
     });
 
     Route::group(['prefix' => 'userProfile'], function() {

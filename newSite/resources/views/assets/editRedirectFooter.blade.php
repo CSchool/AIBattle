@@ -27,5 +27,21 @@
                 {{ trans('shared.edit') . ' ' . $editName }}
             </a>
         </div>
+    @elseif ($specialMode == "tournament")
+        <div class="col-md-3">
+            <a href="{{ $roundsLink }}" class="btn btn-info btn-lg btn-block">
+                {{ trans('shared.rounds') }}
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ $strategiesLink }}" class="btn btn-warning btn-lg btn-block">
+                {{ trans('shared.strategies') }}
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ $editLink }}" class="btn btn-success btn-lg btn-block">
+                {{ trans('shared.edit') . ' ' . $editName }}
+            </a>
+        </div>
     @endif
 </div>

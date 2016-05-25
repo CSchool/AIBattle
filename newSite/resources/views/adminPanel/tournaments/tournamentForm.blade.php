@@ -47,12 +47,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="game">
-                        {{ trans('shared.game') }}:
-                        <a data-toggle="popover" data-content="{{ trans('adminPanel/tournaments.tournamentFormGamePopupMessage') }}">
-                            <span class="glyphicon glyphicon-info-sign"></span>
-                        </a>
-                    </label>
+                    <label for="game">{{ trans('shared.game') }}:</label>
+                    <a data-toggle="popover" data-trigger="hover" data-content="{{ trans('adminPanel/tournaments.tournamentFormGamePopupMessage') }}">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </a>
                     <select class="form-control" name="game" id="game">
                         @foreach($games as $gameElement)
                             <option value="{{ $gameElement->id }}"

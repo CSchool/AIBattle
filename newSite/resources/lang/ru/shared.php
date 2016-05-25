@@ -11,7 +11,10 @@ return [
     'tournament' => 'Турнир',
     'checker' => 'Тестировщик',
     'attachments' => 'Файлы',
-    'news' => 'News',
+    'news' => 'Новости',
+    'strategy' => 'Стратегия',
+    'rounds' => 'Раунды',
+    'strategies' => 'Стратегии',
 
     'create' => 'Создать',
     'edit' => 'Изменить',

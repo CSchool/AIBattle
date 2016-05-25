@@ -11,7 +11,10 @@ return [
     'tournament' => 'Tournament',
     'checker' => 'Checker',
     'attachments' => 'Attachments',
-    'news' => 'Новости',
+    'news' => 'News',
+    'strategy' => 'Strategy',
+    'rounds' => 'Rounds',
+    'strategies' => 'Strategies',
 
     'create' => 'Create',
     'edit' => 'Edit',

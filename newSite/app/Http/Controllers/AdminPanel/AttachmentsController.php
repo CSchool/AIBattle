@@ -87,7 +87,6 @@ class AttachmentsController extends Controller
         if ($game->attachments()->where('id', $attachmentId)->first()) {
 
             if ($request->has('delete')) {
-
                 Storage::disk('local')->delete('attachments/' . $attachment->id);
                 $attachment->delete();
             } elseif ($request->has('update')) {

@@ -22,9 +22,12 @@
                 <a href="#" id="roundsLink" class="btn btn-primary">
                     {{ trans('layouts/tournamentLayout.rounds') }}
                 </a>
-                <a href="#" id="strategiesLink" class="btn btn-primary">
-                    {{ trans('layouts/tournamentLayout.strategies') }}
-                </a>
+
+                @if (Auth::user())
+                    <a href="{{ url('/tournaments', [$tournament->id, 'strategies']) }}" id="strategiesLink" class="btn btn-primary">
+                        {{ trans('layouts/tournamentLayout.strategies') }}
+                    </a>
+                @endif
             </div>
         </div>
 

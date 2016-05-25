@@ -38,7 +38,10 @@ return [
     'extendedTableWarning' => 'Warning!',
     'extendedTableWarningMessage' => 'There are no :state tournaments at all!',
 
+    // usersTournaments
 
+    'usersTournamentsTitle' =>  'Users strategies of tournament ":tournament"',
+    'usersTournamentsHeader' =>  'Users strategies of tournament ":tournament"',
 
     // shared
 
@@ -52,4 +55,5 @@ return [
     'tournamentState1Running' => 'Running',
     'tournamentStateClosed' => 'Closed',
     'tournamentState1Closed' => 'Closed',
+    
 ];

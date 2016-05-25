@@ -4,6 +4,7 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Checker;
 use AIBattle\Game;
+use AIBattle\Strategy;
 use AIBattle\Tournament;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -82,6 +83,16 @@ class TournamentsController extends Controller
             default:
                 abort(404);
         }
+    }
+
+    public function showUsersStrategies($id) {
+        $tournament = Tournament::findOrFail($id);
+        $strategies = Strategy::with('user')->where('tournament_id', $id)->orderBy('id', 'desc')->simplePaginate(25);
+
+        return view('adminPanel/tournaments/userStrategies', [
+            'tournament' => $tournament,
+            'strategies' => $strategies
+        ]);
     }
 
     public function createTournament(Request $request) {

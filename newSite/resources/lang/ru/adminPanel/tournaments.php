@@ -39,7 +39,9 @@ return [
     'extendedTableWarningMessage' => 'В базе данных :state турниры не обнаружены!',
 
 
-
+    // usersTournaments
+    'usersTournamentsTitle' =>  'Стратегии пользователей турнира ":tournament"',
+    'usersTournamentsHeader' =>  'Стратегии пользователей турнира ":tournament"',
 
     // shared
 

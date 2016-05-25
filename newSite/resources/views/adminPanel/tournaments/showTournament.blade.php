@@ -24,7 +24,11 @@
             @include('assets.editRedirectFooter', [
                 'backLink' => url('adminPanel/tournaments'),
                 'editLink' => url('adminPanel/tournaments/edit', [$tournament->id]),
-                'editName' => trans('adminPanel/tournaments.showTournamentEditRedirectFooter')]
+                'editName' => trans('adminPanel/tournaments.showTournamentEditRedirectFooter'),
+                'specialMode' => 'tournament',
+                'roundsLink' => '#',
+                'strategiesLink' => url('adminPanel/tournaments/' . $tournament->id . '/strategies'),
+                ]
             )
         </div>
     </div>

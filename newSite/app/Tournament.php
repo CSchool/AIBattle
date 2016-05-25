@@ -16,6 +16,10 @@ class Tournament extends Model
         return $this->belongsTo('AIBattle\Checker', 'defaultChecker');
     }
 
+    public function strategies() {
+        return $this->hasMany('AIBattle\Strategy');
+    }
+
     public function getGame() {
         return Game::findOrFail($this->game_id);
     }

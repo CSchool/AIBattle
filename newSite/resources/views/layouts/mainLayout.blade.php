@@ -13,6 +13,7 @@
         <script src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
         <script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
         <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+
         <script src="{{ URL::asset('js/prism.js') }}"></script>
         <script src="{{ URL::asset('js/prism-line-numbers.min.js') }}"></script>
 
