@@ -61,6 +61,7 @@ class LoadGames extends Command
         $this->removeFiles('attachments');
         $this->removeFiles('games');
         $this->removeFiles('visualizers');
+        $this->removeFiles('testers');
 
         // load games
 
@@ -75,7 +76,7 @@ class LoadGames extends Command
 
         }
 
-        $this->info('All games and attachments was added!');
+        $this->info('All games, attachments and checkers was added!');
 
     }
 }

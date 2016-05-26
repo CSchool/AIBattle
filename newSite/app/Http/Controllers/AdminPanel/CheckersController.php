@@ -4,6 +4,7 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Checker;
 use AIBattle\Game;
+use AIBattle\Helpers\GameArchive;
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
@@ -65,6 +66,8 @@ class CheckersController extends Controller
             throw new ProcessFailedException($process);
         }
 
+        GameArchive::createArchive($checker->game);
+
         return redirect('adminPanel/checkers');
 
     }
@@ -106,6 +109,8 @@ class CheckersController extends Controller
 
         } else
             abort(404);
+
+        GameArchive::createArchive($checker->game);
 
         return redirect('adminPanel/checkers');
     }

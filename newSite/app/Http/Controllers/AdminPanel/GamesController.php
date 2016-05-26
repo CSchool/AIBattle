@@ -62,6 +62,7 @@ class GamesController extends Controller
                 $game->save();
                 $request->file('visualizer')->move(base_path() . '/storage/app/visualizers/', $game->id);
             } else {
+                $game->hasVisualizer = false;
                 $game->save();
             }
 

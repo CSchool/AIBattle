@@ -4,14 +4,44 @@ namespace AIBattle\Helpers;
 
 
 use AIBattle\Attachment;
+use AIBattle\Checker;
 use AIBattle\Game;
 use Chumper\Zipper\Zipper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class GameArchive {
 
+    /**
+     * @param string $name
+     * @param Collection $elements
+     * @param integer $gameId
+     * @param Command|null $command
+     */
+    private static function archiveMakeSection($name, $elements, $gameId, Command $command = null) {
+
+        if ($elements->count() > 0) {
+
+            if ($command)
+                $command->comment(ucfirst($name) . " count - " . $elements->count());
+
+            Storage::disk('local')->makeDirectory('games/' . $gameId . '/' . $name);
+
+            $json = $elements->toJson(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+            Storage::disk('local')->put('games/' . $gameId . '/' . $name .'/' . $name . '.json', $json);
+
+            if ($command)
+                $command->line($json);
+
+            foreach ($elements as $element) {
+                $elementName = Schema::hasColumn($element->getTable(), 'originalName') ? $element->originalName : $element->id;
+                Storage::disk('local')->copy( $name . '/' . $element->id, 'games/' . $gameId . '/' . $name . '/' . $elementName);
+            }
+        }
+    }
 
     /**
      * Create game zip archive
@@ -33,27 +63,10 @@ class GameArchive {
             Storage::disk('local')->copy('visualizers/' . $game->id, 'games/' . $game->id . '/visualizer.js');
 
         // get information about attachments
-        $attachments = $game->attachments;
+        GameArchive::archiveMakeSection('attachments', $game->attachments, $game->id, $command);
 
-        if ($attachments->count() > 0) {
-
-            if ($command)
-                $command->comment("Attachemnts count - " . $attachments->count());
-
-            Storage::disk('local')->makeDirectory('games/' . $game->id . '/attachments');
-
-            $attachmentsJson = $attachments->toJson(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-
-            Storage::disk('local')->put('games/' . $game->id . '/attachments/attachments.json', $attachmentsJson);
-
-            if ($command)
-                $command->line($attachmentsJson);
-
-            // copy files
-            foreach ($attachments as $attachment) {
-                Storage::disk('local')->copy('attachments/' . $attachment->id, 'games/' . $game->id . '/attachments/' . $attachment->originalName);
-            }
-        }
+        // get information about checkers
+        GameArchive::archiveMakeSection('testers', $game->checkers, $game->id, $command);
 
         // make zip file!
         Storage::disk('local')->delete('games/' . $game->id . '.zip');
@@ -91,6 +104,9 @@ class GameArchive {
         if ($game->hasVisualizer)
             Storage::disk('local')->move('games/archive/tmp/visualizer.js', 'visualizers/' . $game->id);
 
+
+        // attachments
+
         if (Storage::disk('local')->has('games/archive/tmp/attachments/attachments.json')) {
 
             $jsonAttachments = Storage::disk('local')->get('games/archive/tmp/attachments/attachments.json');
@@ -108,6 +124,27 @@ class GameArchive {
 
                 Storage::disk('local')->move('games/archive/tmp/attachments/' . $newAttachment->originalName, 'attachments/' . $newAttachment->id);
             }
+        }
+
+        // testers
+
+        if (Storage::disk('local')->has('games/archive/tmp/testers/testers.json')) {
+            $jsonTesters = Storage::disk('local')->get('games/archive/tmp/testers/testers.json');
+
+            $testers = json_decode($jsonTesters, true);
+
+            foreach ($testers as $tester) {
+                $newTester = new Checker();
+
+                $newTester->name = $tester['name'];
+                $newTester->hasSeed = $tester['hasSeed'];
+                $newTester->game_id = $game->id;
+
+                $newTester->save();
+
+                Storage::disk('local')->move('games/archive/tmp/testers/' . $tester['id'], 'testers/' . $newTester->id);
+            }
+
         }
 
         GameArchive::createArchive($game, $command);
