@@ -17,6 +17,7 @@ return [
     'showStrategiesTrainingLink' => 'Тренировка',
     'showStrategiesStrategyStatus' => 'Статус',
 
+    'showStrategiesActiveStrategy' => 'Ваша текущая стратегия: ',
 
     // strategyForm
 

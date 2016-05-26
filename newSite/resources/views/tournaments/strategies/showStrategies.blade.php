@@ -27,7 +27,27 @@
             </div>
 
             <div class="panel-body">
+
+                @if (isset($activeStrategy))
+                    <div class="alert alert-success">
+                        <p>{{ trans('tournaments/strategies.showStrategiesActiveStrategy') }}
+                            <a href="{{ url('tournaments/' . $tournament->id . '/strategies', [$activeStrategy->id]) }}" role="button">{{ $activeStrategy->id}} - {{ $activeStrategy->name }}</a>
+
+                            @if (!empty($activeStrategy->description))
+                                <a
+                                        data-toggle="popover"
+                                        data-trigger="hover"
+                                        data-content="{{ $activeStrategy->description }}"
+                                >
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                </a>
+                            @endif
+                        </p>
+                    </div>
+                @endif
+
                 <table class="table table-bordered table-hover">
+
                     <thead>
                     <tr>
                         <td>#</td>
@@ -35,35 +55,8 @@
                         <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
                     </tr>
                     </thead>
+
                     <tbody>
-
-                    @if (isset($activeStrategy))
-                        <tr class = "warning">
-                            <td>
-                                {{ $activeStrategy->id }}
-                            </td>
-                            <td>
-                                <a href="{{ url('tournaments/' . $tournament->id . '/strategies', [$activeStrategy->id]) }}" role="button">{{ $activeStrategy->name }}</a>
-
-                                @if (!empty($activeStrategy->description))
-                                    <a
-                                            data-toggle="popover"
-                                            data-trigger="hover"
-                                            data-content="{{ $activeStrategy->description }}"
-                                    >
-                                        <span class="glyphicon glyphicon-info-sign"></span>
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $activeStrategy->status }}
-                            </td>
-                        </tr>
-
-                        <tr class="blank_row">
-                            <td colspan="3"></td>
-                        </tr>
-                    @endif
 
                     @foreach($strategies as $strategy)
                         <tr
