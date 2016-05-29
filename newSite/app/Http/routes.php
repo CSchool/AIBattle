@@ -110,8 +110,12 @@ Route::group(['middleware' => 'locale'], function() {
     Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'], function() {
         Route::get('/', 'Tournament\MainController@showTournament');
 
+        Route::get('/tournamentTable', ['as' => 'tournament.table', 'uses' => 'Tournament\StrategiesController@getTournamentStrategiesTable']);
+
         Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
             Route::get('/', 'Tournament\StrategiesController@showStrategies');
+
+
 
             Route::get('/create', 'Tournament\StrategiesController@showCreateStrategyForm');
             Route::post('/create', 'Tournament\StrategiesController@createStrategy');

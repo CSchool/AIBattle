@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.2.*",
         "barryvdh/laravel-ide-helper": "^2.1",
         "barryvdh/laravel-debugbar": "^2.2",
-        "chumper/zipper": "0.6.x"
+        "chumper/zipper": "0.6.x",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

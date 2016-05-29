@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,6 +163,9 @@ return [
 
         // zip
         Chumper\Zipper\ZipperServiceProvider::class,
+
+        // datatables
+        Yajra\Datatables\DatatablesServiceProvider::class,
     ],
 
     /*
@@ -213,6 +216,10 @@ return [
 
         // zip
         'Zipper' => Chumper\Zipper\Zipper::class,
+
+        // Datatables
+
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     ],
 

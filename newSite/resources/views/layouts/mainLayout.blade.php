@@ -9,6 +9,8 @@
         <link href="{{ URL::asset('css/jquery-ui-1.10.4.min.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/prism.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/prism-line-numbers.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/prism-line-numbers.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/datatables.min.css') }}" rel="stylesheet">
 
         <script src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
         <script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
@@ -16,6 +18,9 @@
 
         <script src="{{ URL::asset('js/prism.js') }}"></script>
         <script src="{{ URL::asset('js/prism-line-numbers.min.js') }}"></script>
+
+        <script src="{{ URL::asset('js/datatables.min.js') }}"></script>
+
 
         <title>AIBattle - @yield('title')</title>
     </head>

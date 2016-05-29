@@ -62,6 +62,7 @@ class LoadGames extends Command
         $this->removeFiles('games');
         $this->removeFiles('visualizers');
         $this->removeFiles('testers');
+        $this->removeFiles('testers_bin');
 
         // load games
 

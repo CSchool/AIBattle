@@ -12,7 +12,7 @@ return [
 
     'showStrategiesPanelHeader' => 'Загруженные стратегии для турнира ":tournaments"',
 
-    'showStrategiesFailedCompilation' => 'Ваша стратегия не была скомпилирована! Для просмотра причины, пожалуйста, перейдите в профиль стратегии и нажмите на "Показ&nbsp;лога"',
+    'showStrategiesFailedCompilation' => "Ваша стратегия не была скомпилирована! Для просмотра причины, пожалуйста, перейдите в профиль стратегии и нажмите на 'Показ&nbsp;лога'",
 
     'showStrategiesTrainingLink' => 'Тренировка',
     'showStrategiesStrategyStatus' => 'Статус',

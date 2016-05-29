@@ -11,6 +11,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class GameArchive {
 
@@ -143,6 +145,12 @@ class GameArchive {
                 $newTester->save();
 
                 Storage::disk('local')->move('games/archive/tmp/testers/' . $tester['id'], 'testers/' . $newTester->id);
+
+                $process= new Process('/bin/bash gccChecker.sh ' . $newTester->id, base_path() . '/storage/app/compilers/' , ['PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games']);
+                $process->run();
+
+                if (!$process->isSuccessful())
+                    throw new ProcessFailedException($process);
             }
 
         }

@@ -13,6 +13,7 @@ use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Yajra\Datatables\Datatables;
 
 class StrategiesController extends Controller
 {
@@ -25,9 +26,54 @@ class StrategiesController extends Controller
 
         return view('tournaments/strategies/showStrategies', [
             'tournament' => $tournament,
-            'strategies' => $tournament->strategies()->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->simplePaginate(30),
+            'strategies' => $tournament->strategies()->where('user_id', Auth::user()->id)->count(), 
             'activeStrategy' => $activeStrategy,
         ]);
+    }
+
+    private function popoverTag($text, $isError = false) {
+        $sign = $isError ? 'glyphicon-fire' : 'glyphicon-info-sign';
+        return "<a data-toggle=\"popover\" data-trigger=\"hover\" data-content=\"$text\"><span class=\"glyphicon $sign\"></span></a>";
+    }
+
+    public function getTournamentStrategiesTable($tournamentId) {
+        $strategies = Tournament::findOrFail($tournamentId)
+                        ->strategies()
+                        ->where('user_id', Auth::user()->id)
+                        ->where('status', '!=', 'ACT')
+                        ->select(['id', 'name', 'description', 'status', 'tournament_id']);
+
+        return Datatables::of($strategies)
+            ->removeColumn('description')
+            ->removeColumn('tournament_id')
+            ->editColumn('name', function ($strategy) {
+                $additionalText = '';
+
+                if ($strategy->status == 'ERR')
+                    $additionalText = $this->popoverTag(trans('tournaments/strategies.showStrategiesFailedCompilation'), true);
+                elseif (!empty($strategy->description))
+                    $additionalText = $this->popoverTag(strip_tags($strategy->description));
+
+                return '<a href=' . url('tournaments/' . $strategy->tournament_id . '/strategies', [$strategy->id]) . '>' . $strategy->name . '</a> ' . $additionalText;
+            })
+            ->setRowId('id')
+            ->setRowClass(function ($strategy) {
+                switch ($strategy->status) {
+                    case 'ACT':
+                        return 'warning';
+                        break;
+                    case 'OK':
+                        return 'success';
+                        break;
+                    case 'ERR':
+                        return 'danger';
+                        break;
+                    default:
+                        return 'default';
+                        break;
+                }
+            })
+            ->make(true);
     }
 
     public function showCreateStrategyForm($tournamentId) {

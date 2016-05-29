@@ -12,7 +12,7 @@ return [
 
     'showStrategiesPanelHeader' => 'Loaded strategies for tournament ":tournaments"',
     
-    'showStrategiesFailedCompilation' => 'Your strategy didn\'t compile! For log accessing, please, open your strategy\'s profile and click on "Show&nbsp;log"',
+    'showStrategiesFailedCompilation' => "Your strategy didn't compile! For log accessing, please, open your strategy's profile and click on 'Show&nbsp;log'",
 
     'showStrategiesActiveStrategy' => 'Your active strategy is: ',
 

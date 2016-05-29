@@ -10,6 +10,8 @@
     "jquery": "^2.2.3",
     "bootstrap": "^3.3.6",
     "prism": "^1.5.0",
-    "tinymce": "^4.3.12"
+    "tinymce": "^4.3.12",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12"
   }
 }
