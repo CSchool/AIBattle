@@ -51,25 +51,25 @@
                     </div>
                 @endif
 
-                <table id="strategies" class="table table-bordered table-hover">
+                <div class="table-responsive">
+                    <table id="strategies" class="table table-bordered table-hover nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>{{ trans('shared.strategy') }}</td>
+                                <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
+                            </tr>
+                        </thead>
 
-                    <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>{{ trans('shared.strategy') }}</td>
-                            <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
-                        </tr>
-                    </thead>
-
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-
-                </table>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
             </div>
 
@@ -95,6 +95,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": '{!! route('tournament.table', $tournament->id) !!}',
+            'responsive': true,
             @if (App::getLocale() == 'ru')
                 "language": {
                     url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
@@ -108,9 +109,6 @@
             'initComplete': function () {
 
                 var column = this.api().column(2);
-
-                //.appendTo( $(column.footer()).empty() )
-
 
                 var select = $('<select class="input-large"><option value=""></option></select>')
                         .appendTo($(column.footer()).empty())
