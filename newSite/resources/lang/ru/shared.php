@@ -33,4 +33,5 @@ return [
     'groupBanned' => 'Заблокированный',
 
     'downloadGameArchive' => 'Скачать архив',
+    'result' => 'Результат',
 ];

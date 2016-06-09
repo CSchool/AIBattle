@@ -110,7 +110,24 @@ Route::group(['middleware' => 'locale'], function() {
     Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'], function() {
         Route::get('/', 'Tournament\MainController@showTournament');
 
-        Route::get('/tournamentTable', ['as' => 'tournament.table', 'uses' => 'Tournament\StrategiesController@getTournamentStrategiesTable']);
+        Route::get('/tournamentTable', [
+            'as' => 'tournament.table',
+            'uses' => 'Tournament\StrategiesController@getTournamentStrategiesTable'
+        ]);
+        
+        Route::get('/trainingCompetition', [
+            'as' => 'tournament.trainingCompetition',
+            'uses' => 'Tournament\StrategiesController@getTrainingStrategiesForCompetition'
+        ]);
+        
+        Route::get('/trainingDuels', [
+           'as' => 'tournament.trainingDuels',
+            'uses' => 'Tournament\StrategiesController@getTrainingDuels'
+        ]);
+
+        Route::get('/training', 'Tournament\StrategiesController@showTraining');
+        Route::get('/training/download/{duelId}', 'DownloadController@downloadLog');
+        Route::get('/training/start/{strategyId}', 'Tournament\StrategiesController@startTraining');
 
         Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
             Route::get('/', 'Tournament\StrategiesController@showStrategies');

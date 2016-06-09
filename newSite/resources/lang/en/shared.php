@@ -33,4 +33,5 @@ return [
     'groupBanned' => 'Banned',
     
     'downloadGameArchive' => 'Download archive',
+    'result' => 'Result',
 ];

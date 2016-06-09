@@ -76,7 +76,7 @@
             <div class="panel-footer clearfix">
                 <div class="row">
                     <div class="col-md-3">
-                        <a href="#" class="btn btn-lg btn-warning btn-block">
+                        <a href="{{ url('tournaments', [$tournament->id, 'training']) }}" class="btn btn-lg btn-warning btn-block">
                             {{ trans('tournaments/strategies.showStrategiesTrainingLink') }}
                         </a>
                     </div>

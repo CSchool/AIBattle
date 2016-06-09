@@ -3,11 +3,14 @@
 namespace AIBattle\Http\Controllers;
 
 use AIBattle\Attachment;
+use AIBattle\Duel;
 use AIBattle\Game;
 use AIBattle\Tournament;
+use AIBattle\User;
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DownloadController extends Controller
@@ -38,5 +41,34 @@ class DownloadController extends Controller
             return response()->download(base_path() . '/storage/app/games/' . $game->id . '.zip', $game->name . '.zip');
         else
             abort(404, 'File not found!');
+    }
+
+    public function downloadLog($tournamentId, $duelId) {
+        // check permissions
+
+        $duel = Duel::findOrFail($duelId);
+        $tournament = Tournament::findOrFail($tournamentId);
+
+        $userId = Auth::user()->id;
+
+        $duelUsers = Duel::join('strategies as s1', 'duels.strategy1', '=', 's1.id')
+                                ->join('strategies as s2', 'duels.strategy2', '=', 's2.id')
+                                ->join('users as usr1', 's1.user_id', '=', 'usr1.id')
+                                ->join('users as usr2', 's2.user_id', '=', 'usr2.id')
+                                ->where('duels.id', $duelId)
+                                ->where(function ($query) use(&$userId) {
+                                    $query->where('usr1.id', $userId)->orWhere('usr2.id', $userId);
+                                })
+                                ->count();
+
+        if (User::isAdmin() || $duelUsers > 0) {
+            if (Storage::disk('local')->has('logs/' . $duelId)) {
+                return response()->download(base_path() . '/storage/app/logs/' . $duelId);
+            } else {
+                abort(404, 'Log not found!');
+            }
+        } else {
+            abort(403);
+        }
     }
 }

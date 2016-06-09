@@ -62,4 +62,18 @@ return [
     'strategyProfileMakeActualStrategy' => 'Сделать текущей',
     'strategyProfilePanelFooterEdit' => 'стратегию',
 
+    // training
+
+    'trainingTitle' => 'Тренировки турнира ":tournament"',
+    'trainingHeader' => 'Тренировки турнира ":tournament"',
+    'trainingResultHeader' => 'Результаты тренировки турнира ":tournament"',
+    'trainingCompetitionHeader' => 'Начать тренировку',
+
+    'trainingStrategy' => 'Стратегия :id',
+    'trainingPlayer' => 'Игрок',
+    'trainingAction' => 'Действие',
+    'trainingStartCompetition' => 'Играть',
+    'trainingDuelPlayer' => 'Игрок :number',
+    'trainingViewGame' => 'Смотреть',
+    
 ];

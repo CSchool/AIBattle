@@ -63,4 +63,19 @@ return [
     
     'strategyProfileMakeActualStrategy' => 'Set as active',
     'strategyProfilePanelFooterEdit' => 'strategy',
+
+
+    // training
+
+    'trainingTitle' => 'Trainings of tournament ":tournament"',
+    'trainingHeader' => 'Trainings of tournament ":tournament"',
+    'trainingResultHeader' => 'Results of tournament\'s trainings ":tournament"',
+    'trainingCompetitionHeader' => 'Make training',
+    
+    'trainingStrategy' => 'Strategy :id',
+    'trainingPlayer' => 'Player',
+    'trainingAction' => 'Action',
+    'trainingStartCompetition' => 'Play',
+    'trainingDuelPlayer' => 'Player :number',
+    'trainingViewGame' => 'View',
 ];
