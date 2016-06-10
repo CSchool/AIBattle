@@ -69,6 +69,11 @@ class StrategiesController extends Controller
 
                 return '<a href=' . url('tournaments/' . $strategy->tournament_id . '/strategies', [$strategy->id]) . '>' . $strategy->name . '</a> ' . $additionalText;
             })
+            ->addColumn('setActive', function($strategy) {
+                if ($strategy->status == 'OK') {
+                    return '<a href="' . url('tournaments/' . $strategy->tournament->id . '/strategies/' . $strategy->id . '/setActive') . '" class="btn-xs btn-warning"><i class="glyphicon glyphicon-ok"></i> ' . trans('tournaments/strategies.strategyProfileMakeActualStrategy') . '</a>';
+                }
+            })
             ->setRowId('id')
             ->setRowClass(function ($strategy) {
                 switch ($strategy->status) {
@@ -101,9 +106,6 @@ class StrategiesController extends Controller
         $userId = Auth::user()->id;
 
         return Datatables::of($strategies)
-            ->removeColumn('tournament_id')
-            ->removeColumn('user_id')
-            ->removeColumn('status')
             ->editColumn('name', function ($strategy) use(&$userId) {
                 if ($strategy->user_id == $userId)
                     return $strategy->name;
@@ -291,8 +293,11 @@ class StrategiesController extends Controller
             ($strategy->tournament == $tournament && $strategy->game == $tournament->game && $strategy->user == Auth::user())
             || User::isAdmin()
         ) {
-            $strategy->setActive(Auth::user()->id, $tournament->id);
-            $strategy->save();
+
+            if ($strategy->status == 'OK') {
+                $strategy->setActive(Auth::user()->id, $tournament->id);
+                $strategy->save();
+            }
 
             return redirect($backLink);
         }

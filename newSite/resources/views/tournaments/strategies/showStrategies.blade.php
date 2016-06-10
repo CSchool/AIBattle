@@ -52,17 +52,19 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table id="strategies" class="table table-bordered table-hover nowrap" width="100%">
+                    <table id="strategies" class="table table-hover nowrap" width="100%">
                         <thead>
                             <tr>
                                 <td>#</td>
                                 <td>{{ trans('shared.strategy') }}</td>
                                 <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
+                                <td>Test</td>
                             </tr>
                         </thead>
 
                         <tfoot>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -104,7 +106,12 @@
             "columns": [
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
-                { data: 'status', name: 'status' }
+                { data: 'status', name: 'status' },
+                { data: 'setActive', name: 'setActive'}
+            ],
+            "columnDefs": [
+                { width: "5%",  targets: [2, 3] },
+                { width: "10%", targets: 0}
             ],
             'initComplete': function () {
 
