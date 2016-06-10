@@ -129,6 +129,8 @@
 
     `php artisan db:seed`
 
+15. Выполнить команду `php artisan queue:listen` (начинаем слушать очередь, в которой будут выполняться задания)
+
 15. **(Optional!)** В папке с проектом вызвать команду `php artisan games:load`, которая загружает игры и файлы к ним в базу данных.
 
 16. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
@@ -139,6 +141,14 @@
 
 1. Добавить флаг страны в top-panel при выборе языка
 2. Доделать базовый функционал проведения турнира (бой стратегий между собой)
+
+## Working with queue
+
+Для просмотра заданий, который не смогли выполниться, необходимо воспользоваться командой `php artisan queue:failed`.
+
+Для перезапуска задания использовать `php artisanqueue:restart id`, где `id` - номер проваленной задачи.
+
+
 
 ## Custom Artisan commands
 
