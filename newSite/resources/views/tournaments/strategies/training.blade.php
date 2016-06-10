@@ -39,7 +39,7 @@
         <div class="panel-body">
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table id="competition" class="table table-bordered table-hover nowrap" width="100%">
+                    <table id="competition" class="table  table-hover nowrap" width="100%">
                         <thead>
                             <tr class="default">
                                 <td>#</td>
@@ -85,14 +85,16 @@
             },
             @endif
             "columns": [
+                { data: 'id', name: 'id'},
                 { data: 'user1', name: 'user1' },
                 { data: 'user2', name: 'user2' },
                 { data: 'status', name: 'status' },
                 { data: 'hasVisualizer', name: 'Games.hasVisualizer', orderable: false, searchable: false }
             ],
+            "order": [[ 0, "desc" ]],
             @if ($tournament->game->hasVisualizer)
             "columnDefs": [
-                { "width": "5%", className: "text-center", "targets": [2,3]}
+                { "width": "5%", className: "text-center", "targets": [3,4]}
             ],
             @else
             "columnDefs": [
@@ -101,7 +103,7 @@
             @endif
             'initComplete': function() {
 
-                var columns = [0, 1];
+                var columns = [1, 2];
 
                 for (var i = 0; i < columns.length; ++i) {
                     var column = this.api().column(columns[i]);

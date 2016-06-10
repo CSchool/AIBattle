@@ -58,7 +58,7 @@ class DuelsQuery {
                 $query->where('s1.tournament_id', $tournamentId)->where('s2.tournament_id', $tournamentId);
             });
 
-        $data = $data->select('duels.id as id', 'usr1.username as user1', 'usr2.username as user2', 'duels.status', 'games.hasVisualizer');
+        $data->select('duels.id as id', 'usr1.username as user1', 'usr2.username as user2', 'duels.status', 'games.hasVisualizer');
 
         return $data;
     }

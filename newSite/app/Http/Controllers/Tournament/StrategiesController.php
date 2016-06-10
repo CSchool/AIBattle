@@ -155,18 +155,20 @@ class StrategiesController extends Controller
                 $statusArray = explode(' ', $data['status']);
                 $linkClass = "info";
 
-                if ($data['user1'] == $userName || $data['user2'] == $userName) {
-                    if (str_contains($data['status'], 'WIN')) {
-                        if ($data['user' . $statusArray[1]] == $userName) {
-                            $linkClass = "success";
+                if (count($statusArray) > 1) {
+                    if ($data['user1'] == $userName || $data['user2'] == $userName) {
+                        if (str_contains($data['status'], 'WIN')) {
+                            if ($data['user' . $statusArray[1]] == $userName) {
+                                $linkClass = "success";
+                            } else {
+                                $linkClass = "danger";
+                            }
                         } else {
-                            $linkClass = "danger";
-                        }
-                    } else {
-                        // something wrong, check if it our fail or not
-                        if ($data['user' . $statusArray[1]] == $userName) {
-                            // something wrong with us
-                            $linkClass = "danger";
+                            // something wrong, check if it our fail or not
+                            if ($data['user' . $statusArray[1]] == $userName) {
+                                // something wrong with us
+                                $linkClass = "danger";
+                            }
                         }
                     }
                 }

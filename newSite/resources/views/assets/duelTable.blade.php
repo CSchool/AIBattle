@@ -1,7 +1,8 @@
 <div class="table-responsive">
-    <table id="{{ $tableId }}" class="table table-bordered table-hover nowrap" width="100%">
+    <table id="{{ $tableId }}" class="table table-hover nowrap" width="100%">
         <thead>
             <tr class="default">
+                <td>#</td>
                 <td>{{ trans('tournaments/strategies.trainingDuelPlayer', ['number' => 1]) }}</td>
                 <td>{{ trans('tournaments/strategies.trainingDuelPlayer', ['number' => 2]) }}</td>
                 <td>{{ trans('shared.result') }}</td>
@@ -13,6 +14,7 @@
 
         <tfoot>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
