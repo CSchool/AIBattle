@@ -78,4 +78,15 @@ return [
     'trainingStartCompetition' => 'Play',
     'trainingDuelPlayer' => 'Player :number',
     'trainingViewGame' => 'View',
+
+    // visualizeGame
+
+    'visualizeGameTitle' => 'Visualization of ":game"',
+    'visualizeGameHeader' => 'Game duel of ":game" between :user1 and :user2',
+
+    'visualizeGameReset' => 'Reset',
+    'visualizeGameStart' => 'Start',
+    'visualizeGameStop' => 'Stop',
+    'visualizeGameNextTurn' => 'Next turn',
+    'visualizeGamePrevTurn' => 'Previous turn',
 ];

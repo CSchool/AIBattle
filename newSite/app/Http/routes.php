@@ -128,6 +128,7 @@ Route::group(['middleware' => 'locale'], function() {
         Route::get('/training', 'Tournament\StrategiesController@showTraining');
         Route::get('/training/download/{duelId}', 'DownloadController@downloadLog');
         Route::get('/training/start/{strategyId}', 'Tournament\StrategiesController@startTraining');
+        Route::get('/training/{duelId}', 'Tournament\StrategiesController@showTrainingVisualizer');
 
         Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
             Route::get('/', 'Tournament\StrategiesController@showStrategies');

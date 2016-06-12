@@ -75,5 +75,16 @@ return [
     'trainingStartCompetition' => 'Играть',
     'trainingDuelPlayer' => 'Игрок :number',
     'trainingViewGame' => 'Смотреть',
+
+    // visualizeGame
+
+    'visualizeGameTitle' => 'Визуализация ":game"',
+    'visualizeGameHeader' => 'Партия по игре ":game" между :user1 и :user2',
+
+    'visualizeGameReset' => 'Сброс',
+    'visualizeGameStart' => 'Старт',
+    'visualizeGameStop' => 'Стоп',
+    'visualizeGameNextTurn' => 'Следующий ход',
+    'visualizeGamePrevTurn' => 'Предыдущий ход',
     
 ];

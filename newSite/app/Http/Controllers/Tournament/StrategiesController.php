@@ -2,20 +2,24 @@
 
 namespace AIBattle\Http\Controllers\Tournament;
 
-use AIBattle\Duel;
+
 use AIBattle\Helpers\CompilerProcess;
+use AIBattle\Helpers\Content;
 use AIBattle\Helpers\DuelsQuery;
 use AIBattle\Helpers\EncodingConvert;
 use AIBattle\Jobs\RunDuel;
 use AIBattle\Strategy;
 use AIBattle\Tournament;
 use AIBattle\User;
-use Illuminate\Database\Eloquent\Collection;
+use AIBattle\Duel;
+
 use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 
@@ -154,7 +158,7 @@ class StrategiesController extends Controller
 
                 $data = (array)$data;
 
-                $statusArray = explode(' ', $data['status']);
+                $statusArray = explode(' ', trim($data['status']));
                 $linkClass = "info";
 
                 if (count($statusArray) > 1) {
@@ -173,12 +177,16 @@ class StrategiesController extends Controller
                             }
                         }
                     }
+                } else {
+                    if ($statusArray[0] == "TIE") {
+                        $linkClass = "primary";
+                    }
                 }
 
                 return '<a href="' . action('DownloadController@downloadLog', [$tournament->id, $data['id']]) . '" class="btn-xs btn-' . $linkClass . '"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
             })
-            ->editColumn('hasVisualizer', function($data) {
-                return '<a href="#" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
+            ->editColumn('hasVisualizer', function($data) use(&$tournamentId) {
+                return '<a href="' . url('tournaments/' . $tournamentId . '/training/' . $data->id) . '"  target="_blank" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
             })
             ->make(true);
     }
@@ -313,6 +321,51 @@ class StrategiesController extends Controller
     public function setStrategyActiveAdminPanel($tournamentId, $strategyId) {
         return $this->setStrategyActive($tournamentId, $strategyId, 'adminPanel/tournaments/' . $tournamentId . '/strategies');
     }
+
+    public function showTrainingVisualizer($tournamentId, $duelId) {
+        $tournament = Tournament::findOrFail($tournamentId);
+
+        if ($tournament->game->hasVisualizer) {
+
+            $duel = DB::table('duels')
+                        ->join('strategies as s1', 'duels.strategy1', '=', 's1.id')
+                        ->join('strategies as s2', 'duels.strategy2', '=', 's2.id')
+                        ->join('users as usr1', 's1.user_id', '=', 'usr1.id')
+                        ->join('users as usr2', 's2.user_id', '=', 'usr2.id')
+                        ->where('duels.id', '=', $duelId)
+                        ->select(   'duels.id as id',
+                                    'duels.status',
+                                    'usr1.username as user1',
+                                    'usr2.username as user2',
+                                    'usr1.id as u1_id',
+                                    'usr2.id as u2_id')
+                        ->get();
+
+            if (count($duel) == 0)
+                abort(404);
+
+            $userId = Auth::user()->id;
+            $user1 = $duel[0]->user1;
+            $user2 = $duel[0]->user2;
+
+
+            if (User::isAdmin() || $duel[0]->u1_id == $userId || $duel[0]->u2_id == $userId) {
+                return view('tournaments/strategies/visualizeGame', [
+                    'game' => $tournament->game->name,
+                    'status' => $duel[0]->status,
+                    'user1' => $user1,
+                    'user2' => $user2,
+                    'log' => Content::getVisualization($duel[0]->id),
+                    'visualizer' => $tournament->game->getVisualizerData(),
+                ]);
+            } else
+                abort(403);
+
+        } else {
+            abort(404);
+        }
+    }
+
 
     public function createStrategy(Request $request, $id)
     {
