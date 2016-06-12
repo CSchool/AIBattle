@@ -42,4 +42,14 @@ class EncodingConvert {
         else
             Log::error('Error while getting encoding: ' . $process->getErrorOutput());
     }
+
+    public static function getConvertedContent($path) {
+        $encoding = EncodingConvert::getFileEncoding($path);
+        $content = Storage::disk('local')->get($path);
+
+        if ($encoding != 'UTF-8')
+            return mb_convert_encoding($content, 'utf-8', $encoding);
+        else
+            return $content;
+    }
 }

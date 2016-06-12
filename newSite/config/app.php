@@ -166,6 +166,9 @@ return [
 
         // datatables
         Yajra\Datatables\DatatablesServiceProvider::class,
+
+        // async queue
+        Barryvdh\Queue\AsyncServiceProvider::class,
     ],
 
     /*

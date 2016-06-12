@@ -102,7 +102,7 @@
         
         CACHE_DRIVER=file
         SESSION_DRIVER=file
-        QUEUE_DRIVER=sync
+        QUEUE_DRIVER=async
         
         REDIS_HOST=127.0.0.1
         REDIS_PASSWORD=null
@@ -114,6 +114,8 @@
         MAIL_USERNAME=null
         MAIL_PASSWORD=null
         MAIL_ENCRYPTION=null
+
+`QUEUE_DRIVER=async` --- данная строчка необходима для асинхронного выполнения задач компиляции!!!
 
 10. Запустить образ: `vagrant up` в папке Homestead из пункта 3
 

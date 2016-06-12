@@ -21,7 +21,6 @@
 
         <script src="{{ URL::asset('js/datatables.min.js') }}"></script>
 
-
         <title>AIBattle - @yield('title')</title>
     </head>
 

@@ -240,18 +240,9 @@ class StrategiesController extends Controller
         ) {
 
             // iso-8859-1
-            $codeEncoding = EncodingConvert::getFileEncoding('executions/' . $strategy->id);
-            $logEncoding = EncodingConvert::getFileEncoding('compilelogs/' . $strategy->id . '.txt');
 
-            $code = Storage::disk('local')->get('/executions/' . $strategy->id);
-            $log = Storage::disk('local')->get('/compilelogs/' . $strategy->id . '.txt');
-
-
-            if ($codeEncoding != 'UTF-8')
-                $code = mb_convert_encoding($code, 'utf-8', $codeEncoding);
-
-            if ($logEncoding != 'UTF-8')
-                $log = mb_convert_encoding($log, 'utf-8', $logEncoding);
+            $code = EncodingConvert::getConvertedContent('executions/' . $strategy->id);
+            $log = EncodingConvert::getConvertedContent('compilelogs/' . $strategy->id . '.txt');
 
             return view($view , [
                 'tournament' => $tournament,

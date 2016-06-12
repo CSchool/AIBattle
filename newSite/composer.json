@@ -11,7 +11,8 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "barryvdh/laravel-debugbar": "^2.2",
         "chumper/zipper": "0.6.x",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "barryvdh/laravel-async-queue": "0.4.x"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

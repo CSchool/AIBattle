@@ -56,6 +56,7 @@ function startup(width, height)
 	draw();
     setLog($('input[name="log"]').val());
 
+
 };
 
 function update()
