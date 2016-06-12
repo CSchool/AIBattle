@@ -183,10 +183,24 @@ class StrategiesController extends Controller
                     }
                 }
 
-                return '<a href="' . action('DownloadController@downloadLog', [$tournament->id, $data['id']]) . '" class="btn-xs btn-' . $linkClass . '"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
+                $action = '#';
+                if ($statusArray[0] != "W") {
+                    $action = action('DownloadController@downloadLog', [$tournament->id, $data['id']]);
+                }
+
+                return '<a href="' . $action . '" class="btn-xs btn-' . $linkClass . '"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
             })
             ->editColumn('hasVisualizer', function($data) use(&$tournamentId) {
-                return '<a href="' . url('tournaments/' . $tournamentId . '/training/' . $data->id) . '"  target="_blank" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
+
+                $data = (array)$data;
+                $statusArray = explode(' ', trim($data['status']));
+                $href = "#";
+
+                if ($statusArray[0] != "W") {
+                    $href = url('tournaments/' . $tournamentId . '/training/' . $data['id']);
+                }
+
+                return '<a href="' . $href . '"  target="_blank" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
             })
             ->make(true);
     }
