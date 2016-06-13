@@ -53,6 +53,13 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('/{id}', 'AdminPanel\GamesController@showGameById');
 
+            Route::group(['prefix' => 'table'], function() {
+               Route::get('/gamesTable', [
+                   'as' => 'admin.gamesTable',
+                   'uses' => 'AdminPanel\GamesController@gamesTable',
+               ]);
+            });
+
             Route::group(['prefix' => '/{id}/attachments'], function() {
                 Route::get('/', 'AdminPanel\AttachmentsController@showAttachments');
 

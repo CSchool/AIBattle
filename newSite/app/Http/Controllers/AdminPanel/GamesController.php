@@ -9,11 +9,27 @@ use Illuminate\Http\Request;
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Yajra\Datatables\Datatables;
 
 class GamesController extends Controller
 {
     public function showGames() {
-        return view('adminPanel/games/games', ['games' => Game::orderBy('id')->simplePaginate(10)]);
+        return view('adminPanel/games/games', ['games' => Game::all()->count()]);
+    }
+
+    public function gamesTable() {
+        $games = Game::all(["id", "name"]);
+
+        return Datatables::of($games)
+            ->editColumn("name", function($game) {
+                return '<a href="' . url('/adminPanel/games', [$game->id]) . '" role="button">' . $game->name . '</a>';
+            })
+            ->addColumn('attachments', function($game) {
+                //
+                return '<a href="' . url('/adminPanel/games', [$game->id, 'attachments']) . '" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('shared.show') . '</a>';
+
+            })
+            ->make(true);
     }
 
     public function showCreateGameForm() {

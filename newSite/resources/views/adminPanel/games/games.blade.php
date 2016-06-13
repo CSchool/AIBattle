@@ -5,8 +5,13 @@
 
 @section('APcontent')
 
-    @if (isset($games) && count($games) > 0)
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
 
+    @if ($games > 0)
         <div class="text-center">
             <div class="row">
                 <a href="{{ url('/adminPanel/games/create') }}" class="btn btn-success btn-lg" role="button">
@@ -16,28 +21,18 @@
             <br>
         </div>
 
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr class="success">
-                <td>#</td>
-                <td>{{ trans('shared.game') }}</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($games as $game)
-                <tr>
-                    <td>
-                        {{ $game->id }}
-                    </td>
-                    <td>
-                        <a href="{{ url('/adminPanel/games', [$game->id]) }}" role="button">{{ $game->name }}</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="games" class="table table-hover nowrap" width="100%">
+                <thead>
+                    <tr class="success">
+                        <td>#</td>
+                        <td>{{ trans('shared.game') }}</td>
+                        <td>{{ trans('shared.attachments') }}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
 
-        {!! $games->render() !!}
     @else
         <div class="alert alert-warning text-center">
             <div class="row"><h3>{{ trans('adminPanel/games.gamesWarning') }}</h3></div>
@@ -51,4 +46,26 @@
             </div>
         </div>
     @endif
+
+    <script>
+        var table = $('#games').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": '{!! route('admin.gamesTable') !!}',
+            'responsive': true,
+            @if (App::getLocale() == 'ru')
+            "language": {
+                url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
+            },
+            @endif
+            "columns": [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'attachments', name: 'attachments', orderable: false, searchable: false }
+            ],
+            "columnDefs": [
+                { "width": "5%", className: "text-center", "targets": [0,2]}
+            ]
+        });
+    </script>
 @endsection
