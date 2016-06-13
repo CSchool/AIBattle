@@ -125,10 +125,14 @@ Route::group(['middleware' => 'locale'], function() {
             'uses' => 'Tournament\StrategiesController@getTrainingDuels'
         ]);
 
-        Route::get('/training', 'Tournament\StrategiesController@showTraining');
-        Route::get('/training/download/{duelId}', 'DownloadController@downloadLog');
-        Route::get('/training/start/{strategyId}', 'Tournament\StrategiesController@startTraining');
-        Route::get('/training/{duelId}', 'Tournament\StrategiesController@showTrainingVisualizer');
+        Route::group(['prefix' => 'training', 'middleware' => 'auth'], function() {
+            Route::get('/', 'Tournament\StrategiesController@showTraining');
+            Route::get('/download/{duelId}', 'DownloadController@downloadLog');
+            Route::get('/start/{strategyId}', 'Tournament\StrategiesController@startTraining');
+            Route::get('/{duelId}', 'Tournament\StrategiesController@showTrainingVisualizer');
+        });
+
+
 
         Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
             Route::get('/', 'Tournament\StrategiesController@showStrategies');
