@@ -29,28 +29,26 @@ function startup(width, height)
 
 	document.getElementById('hiddenScore').style.display = 'none';
     
-    console.log(window.location.hostname);
-    
     block = new Image();
-    block.src = getImage('/visualizers/tanks/Wall.png'); //'{{ URL::asset("visualizers/tanks/Wall.png") }}' ; //"./images/Wall.png";
+    block.src = getImage('/visualizers/tanks/Wall.png'); 
     
     tank1 = new Image();
-    tank1.src = getImage('/visualizers/tanks/Tank1.png'); //'{{ URL::asset("visualizers/tanks/Tank1.png") }}' ;//"./images/Tank1.png";
+    tank1.src = getImage('/visualizers/tanks/Tank1.png'); 
 
     tank2 = new Image();
-    tank2.src = getImage('/visualizers/tanks/Tank2.png'); //'{{ URL::asset("visualizers/tanks/Tank2.png") }}' ;//"./images/Tank2.png";
+    tank2.src = getImage('/visualizers/tanks/Tank2.png'); 
 
     flag1 = new Image();
-    flag1.src = getImage('/visualizers/tanks/Flag1.png'); //'{{ URL::asset("visualizers/tanks/Flag1.png") }}' ; //"./images/Flag1.png";
+    flag1.src = getImage('/visualizers/tanks/Flag1.png'); 
 
     flag2 = new Image();
-    flag2.src = getImage('/visualizers/tanks/Flag2.png'); //'{{ URL::asset("visualizers/tanks/Flag2.png") }}' ; //"./images/Flag2.png";
+    flag2.src = getImage('/visualizers/tanks/Flag2.png'); 
 
     energy = new Image();
-    energy.src = getImage('/visualizers/tanks/Energy.png'); //'{{ URL::asset("visualizers/tanks/Energy.png") }}' ; //"./images/Energy.png";
+    energy.src = getImage('/visualizers/tanks/Energy.png'); 
 
     bullet = new Image();
-    bullet.src = getImage('/visualizers/tanks/Bullet.png'); //'{{ URL::asset("visualizers/tanks/Bullet.png") }}' ; //"./images/Bullet.png";
+    bullet.src = getImage('/visualizers/tanks/Bullet.png'); 
 
     setLog($('input[name="log"]').val());
     resize(width, height);
