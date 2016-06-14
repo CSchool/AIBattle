@@ -48,6 +48,8 @@
 Текущий недостаток - относительно медленная работа сайта из браузера (отклик простых страниц ~500ms),
 если виртуализироваться под Windows, если делать виртуализацию под Linux (или сделать настройку сразу под нативную систему), то такой проблемы не замечается.
 
+**Update 14.06.2016:** По данной [ссылке](https://websanova.com/blog/laravel/speeding-up-homestead-on-windows-using-nfs) описан способ подключения nfs для Windows для ускорения отклика сайта.
+
 Порядок установки:
 
 1. Скачать [VirtualBox](https://www.virtualbox.org/) и [Vagrant](https://www.vagrantup.com/);
@@ -75,6 +77,57 @@
         sites:
             - map: {Name} // homestead.app
               to: {Path3} // example - /home/vagrant/Code/Laravel/public
+
+
+Пример файла конфигурации `Homestead.yaml`:
+
+Linux:
+
+        ip: "192.168.10.10"
+        memory: 2048
+        cpus: 1
+        provider: virtualbox
+
+        authorize: ~/.ssh/id_rsa.pub
+
+        keys:
+        - ~/.ssh/id_rsa
+
+        folders:
+        - map: ~/site/AIBattle
+        to: /home/vagrant/Code
+        type: nfs
+
+        sites:
+        - map: homestead.app
+        to: /home/vagrant/Code/AIBattle/public
+
+        databases:
+        - homestead
+
+Windows:
+
+        ip: "192.168.10.10"
+        memory: 2048
+        cpus: 1
+        provider: virtualbox
+
+        authorize: D:\LKSH\AIBattle\id_rsa.pub
+
+        keys:
+            - D:\LKSH\AIBattle\id_rsa
+
+        folders:
+            - map: D:\LKSH\AIBattle\Code
+              to: /home/vagrant/Code
+
+        sites:
+            - map: AIBattle.app
+              to: /home/vagrant/Code/AIBattle/public
+
+        databases:
+            - homestead
+
 
 7. Добавить в файл с хостами упоминание о домене (`/etc/host` - Linux, `C:\Windows\System32\drivers\etc\hosts` - Windows)
 
@@ -131,13 +184,14 @@
 
     `php artisan db:seed`
 
-15. Выполнить команду `php artisan queue:listen` (начинаем слушать очередь, в которой будут выполняться задания)
 
 15. **(Optional!)** В папке с проектом вызвать команду `php artisan games:load`, которая загружает игры и файлы к ним в базу данных.
 
-16. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
+16. Выполнить команду `php artisan queue:listen &amp;` (начинаем слушать очередь, в которой будут выполняться задания - amp - амперсанд)
 
-17. Обратиться к сайту!
+17. Скопировать execution.lib (или execution.a), execution.h и testlib.h в подкаталоги storage/app/libs и storage/app/includes
+
+18. Обратиться к сайту!
 
 ## TODO:
 
