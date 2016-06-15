@@ -10,13 +10,26 @@ use Illuminate\Http\Request;
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Yajra\Datatables\Datatables;
 
 class AttachmentsController extends Controller
 {
     public function showAttachments($id) {
         $game = Game::findOrFail($id);
 
-        return view('adminPanel/games/attachments/attachments', ['attachments' => $game->attachments()->simplePaginate(10), 'game' => $game]);
+        return view('adminPanel/games/attachments/attachments', ['attachments' => $game->attachments()->count(), 'game' => $game]);
+    }
+
+    public function attachmentsTable($id) {
+        $game = Game::findOrFail($id);
+        
+        $attachments = $game->attachments()->select(['id', 'originalName']);
+
+        return Datatables::of($attachments)
+                ->editColumn("originalName", function($attachment) use(&$id) {
+                    return '<a href="' . url('/adminPanel/games', [$id, 'attachments', $attachment->id]) . '" role="button">' . $attachment->originalName . '</a>';
+                })
+                ->make(true);
     }
 
     public function showCreateAttachmentForm($id) {

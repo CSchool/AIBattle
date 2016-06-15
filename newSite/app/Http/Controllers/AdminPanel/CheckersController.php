@@ -10,14 +10,30 @@ use Illuminate\Http\Request;
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Yajra\Datatables\Datatables;
 
 class CheckersController extends Controller
 {
     public function showCheckers() {
-        return view('adminPanel/checkers/checkers', ['checkers' => Checker::orderBy('id')->simplePaginate(10)]);
+        return view('adminPanel/checkers/checkers', ['checkers' => Checker::all()->count()]);
+    }
+
+    public function checkersTable() {
+        $checkers = DB::table('checkers')->join('games as g', 'checkers.game_id', '=', 'g.id')
+                    ->select(['checkers.id as id', 'checkers.name as checkerName', 'g.id as gameId', 'g.name as gameName']);
+
+        return Datatables::of($checkers)
+                ->editColumn('checkerName', function ($data) {
+                    return '<a href="' . url('/adminPanel/checkers', [$data->id]) . '" role="button">' . $data->checkerName . '</a>';
+                })
+                ->editColumn('gameName', function($data) {
+                    return '<a href="' . url('/adminPanel/games', [$data->gameId]) . '" "><i class="glyphicon glyphicon-tower"></i> ' . $data->gameName . '</a>';
+                })
+                ->make(true);
     }
     
     public function showCreateCheckerForm() {

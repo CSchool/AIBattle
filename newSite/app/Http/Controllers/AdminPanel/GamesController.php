@@ -25,9 +25,7 @@ class GamesController extends Controller
                 return '<a href="' . url('/adminPanel/games', [$game->id]) . '" role="button">' . $game->name . '</a>';
             })
             ->addColumn('attachments', function($game) {
-                //
-                return '<a href="' . url('/adminPanel/games', [$game->id, 'attachments']) . '" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('shared.show') . '</a>';
-
+                return '<a href="' . url('/adminPanel/games', [$game->id, 'attachments']) . '" class="btn-xs btn-warning"><i class="glyphicon glyphicon-pencil"></i> ' . trans('shared.show') . '</a>';
             })
             ->make(true);
     }

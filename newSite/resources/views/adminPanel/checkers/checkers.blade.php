@@ -5,7 +5,7 @@
 
 @section('APcontent')
 
-    @if (isset($checkers) && count($checkers) > 0)
+    @if ($checkers > 0)
 
         <div class="text-center">
             <div class="row">
@@ -16,28 +16,39 @@
             <br>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table id="checkers" class="table table-bordered table-hover">
             <thead>
             <tr class="success">
                 <td>#</td>
                 <td>{{ trans('shared.checker') }}</td>
+                <td>{{ trans('shared.game') }}</td>
             </tr>
             </thead>
-            <tbody>
-            @foreach($checkers as $checker)
-                <tr>
-                    <td>
-                        {{ $checker->id }}
-                    </td>
-                    <td>
-                        <a href="{{ url('/adminPanel/checkers', [$checker->id]) }}" role="button">{{ $checker->name }}</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
+
         </table>
 
-        {!! $checkers->render() !!}
+        <script>
+            var table = $('#checkers').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": '{!! route('admin.checkersTable') !!}',
+                'responsive': true,
+                @if (App::getLocale() == 'ru')
+                "language": {
+                    url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
+                },
+                @endif
+                "columns": [
+                    { data: 'id', name: 'id' },
+                    { data: 'checkerName', name: 'checkerName' },
+                    { data: 'gameName', name: 'gameName' }
+                ],
+                "columnDefs": [
+                    { "width": "5%", className: "text-center", "targets": 0},
+                    { "width": "25%", className: "text-center", "targets": 2}
+                ]
+            });
+        </script>
     @else
         <div class="alert alert-warning text-center">
             <div class="row"><h3>{{ trans('adminPanel/checkers.checkersWarning') }}</h3></div>

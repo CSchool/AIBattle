@@ -4,7 +4,7 @@
 @section('APtitle', trans('adminPanel/attachments.attachmentsHeading'))
 
 @section('APcontent')
-    @if (isset($attachments) && count($attachments) > 0)
+    @if ($attachments > 0)
 
         <div class="text-center">
             <div class="row">
@@ -15,28 +15,35 @@
             <br>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table id="attachments" class="table table-hover">
             <thead>
             <tr class="success">
                 <td>#</td>
                 <td>{{ trans('adminPanel/attachments.attachmentOriginalName') }}</td>
             </tr>
             </thead>
-            <tbody>
-            @foreach($attachments as $attachment)
-                <tr>
-                    <td>
-                        {{ $attachment->id }}
-                    </td>
-                    <td>
-                        <a href="{{ url('/adminPanel/games', [$game->id, 'attachments', $attachment->id]) }}" role="button">{{ $attachment->originalName }}</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
 
-        {!! $attachments->render() !!}
+        <script>
+            var table = $('#attachments').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": '{!! route('admin.attachmentsTable', $game->id) !!}',
+                'responsive': true,
+                @if (App::getLocale() == 'ru')
+                "language": {
+                    url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
+                },
+                @endif
+                "columns": [
+                    { data: 'id', name: 'id' },
+                    { data: 'originalName', name: 'originalName' }
+                ],
+                "columnDefs": [
+                    { "width": "5%", className: "text-center", "targets": 0}
+                ]
+            });
+        </script>
 
     @else
         <div class="alert alert-warning text-center">

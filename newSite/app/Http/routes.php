@@ -54,10 +54,20 @@ Route::group(['middleware' => 'locale'], function() {
             Route::get('/{id}', 'AdminPanel\GamesController@showGameById');
 
             Route::group(['prefix' => 'table'], function() {
-               Route::get('/gamesTable', [
+                Route::get('/gamesTable', [
                    'as' => 'admin.gamesTable',
                    'uses' => 'AdminPanel\GamesController@gamesTable',
-               ]);
+                ]);
+
+                Route::get('/attachmentsTable/{gameId}', [
+                    'as' => 'admin.attachmentsTable',
+                    'uses' => 'AdminPanel\AttachmentsController@attachmentsTable',
+                ]);
+
+                Route::get('/checkersTable', [
+                    'as' => 'admin.checkersTable',
+                    'uses' => 'AdminPanel\CheckersController@checkersTable',
+                ]);
             });
 
             Route::group(['prefix' => '/{id}/attachments'], function() {
