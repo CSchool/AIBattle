@@ -11,13 +11,27 @@ use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\Datatables\Facades\Datatables;
 
 class NewsController extends Controller
 {
     //
 
     public function showNews() {
-        return view('adminPanel/news/news', ['news' => News::orderBy('id', 'desc')->simplePaginate(5)]);
+        return view('adminPanel/news/news', ['news' => News::all()->count()]);
+    }
+    
+    public function newsTable() {
+        $news = News::select('id', 'header', 'date')->orderBy('id', 'desc');
+
+        return Datatables::of($news)
+                ->editColumn('header', function ($news) {
+                    return '<a href="' . url('/adminPanel/news', [$news->id]) . '" role="button">' . $news->header . '</a>';
+                })
+                ->editColumn('date', function ($news) {
+                    return $news->date->format('d/m/Y');
+                })
+                ->make(true);
     }
     
     public function showCreateNewsForm() {

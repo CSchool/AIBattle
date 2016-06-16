@@ -21,6 +21,12 @@ return [
     'tournamentsRunning' => 'Открытые (:count)',
     'tournamentsPreparing' => 'Готовящиеся (:count)',
     'tournamentsClosed' => 'Закрытые (:count)',
+    'tournamentList' => 'Список турниров',
+    'tournaments_running' => 'Открытый',
+    'tournaments_preparing' => 'Подготовка',
+    'tournaments_closed' => 'Закрытый',
+    'tournamentsState' => 'Состояние',
+
     'tournamentsViewOther' => 'Посмотреть остальные',
     'tournamentsWarning' => 'Внимание!',
     'tournamentsWarningMessage' => 'В базе данных турниры не найдены! Хотите создать турнир?',

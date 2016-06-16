@@ -12,6 +12,8 @@ return [
     'checker' => 'Checker',
     'attachments' => 'Attachments',
     'news' => 'News',
+    'date' => 'Date',
+    'comments' => 'Comments',
     'strategy' => 'Strategy',
     'rounds' => 'Rounds',
     'strategies' => 'Strategies',

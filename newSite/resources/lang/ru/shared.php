@@ -12,6 +12,8 @@ return [
     'checker' => 'Тестировщик',
     'attachments' => 'Файлы',
     'news' => 'Новости',
+    'date' => 'Дата',
+    'comments' => 'Комментарии',
     'strategy' => 'Стратегия',
     'rounds' => 'Раунды',
     'strategies' => 'Стратегии',

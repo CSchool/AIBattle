@@ -5,39 +5,74 @@
 
 @section('APcontent')
 
-    @if (isset($users) && count($users) > 0)
-        <table class="table table-bordered table-hover">
+    @if ($users > 0)
+
+        <style>
+            .dataTables_filter {
+                display: none;
+            }
+
+            tfoot {
+                display: table-header-group;
+            }
+        </style>
+
+        <table id="users" class="table table-hover" width="100%">
             <thead>
-                <tr>
-                    <td>ID</td>
+                <tr class="success">
+                    <td>#</td>
                     <td>{{ trans('adminPanel/users.usersLogin') }}</td>
                     <td>{{ trans('shared.group') }}</td>
-                    <td>{{ trans('userProfile/shared.surname') }}</td>
-                    <td>{{ trans('userProfile/shared.name') }}</td>
-                    <td>{{ trans('userProfile/shared.patronymic') }}</td>
                 </tr>
             </thead>
-            <tbody>
-                @foreach($users as $element)
-                    <tr class="
-                    @if ($element->group == "admin")
-                        info
-                    @elseif ($element->group == "banned")
-                        danger
-                    @endif
-                    ">
-                        <td>{{ $element->id }}</td>
-                        <td><a href="{{ url('/userProfile', [$element->id]) }}">{{ $element->username }}</a></td>
-                        <td>{{ trans('shared.group' . ucfirst($element->group)) }}</td>
-                        <td>{{ $element->surname }}</td>
-                        <td>{{ $element->name }}</td>
-                        <td>{{ $element->patronymic }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
 
-        {!! $users->render() !!}
+        <script>
+            var table = $('#users').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: '{!! route('admin.usersTable') !!}'
+                },
+                'responsive': true,
+                @if (App::getLocale() == 'ru')
+                "language": {
+                    url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
+                },
+                @endif
+                "columns": [
+                    { data: 'id', name: 'id' },
+                    { data: 'username', name: 'username' },
+                    { data: 'group', name: 'group' }
+                ],
+                "columnDefs": [
+                    { "width": "5%", className: "text-center", "targets": 0}
+                ],
+                'initComplete': function () {
+                    var column = this.api().column(2);
+
+                    var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? val : '', true, false).draw();
+                            } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                }
+            });
+        </script>
+
     @else
         <div class="alert alert-warning">
             {{ trans('adminPanel/users.usersNoUsers') }}

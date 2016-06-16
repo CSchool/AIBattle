@@ -5,7 +5,13 @@
 
 @section('APcontent')
 
-    @if (isset($news) && count($news) > 0)
+    @if ($news > 0)
+
+        <style>
+            .dataTables_filter {
+                display: none;
+            }
+        </style>
 
         <div class="text-center">
             <div class="row">
@@ -16,28 +22,39 @@
             <br>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table id="news" class="table table-hover" width="100%">
             <thead>
                 <tr class="success">
                     <td>#</td>
                     <td>{{ trans('shared.news') }}</td>
+                    <td>{{ trans('shared.date') }}</td>
                 </tr>
             </thead>
-            <tbody>
-            @foreach($news as $element)
-                <tr>
-                    <td>
-                        {{ $element->id }}
-                    </td>
-                    <td>
-                        <a href="{{ url('/adminPanel/news', [$element->id]) }}" role="button">{{ $element->header }}</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
 
-        {!! $news->render() !!}
+        <script>
+            var table = $('#news').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: '{!! route('admin.newsTable') !!}'
+                },
+                'responsive': true,
+                @if (App::getLocale() == 'ru')
+                "language": {
+                    url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
+                },
+                @endif
+                "columns": [
+                    { data: 'id', name: 'id' },
+                    { data: 'header', name: 'header' },
+                    { data: 'date', name: 'date' }
+                ],
+                "columnDefs": [
+                    { "width": "5%", className: "text-center", "targets": 0}
+                ]
+            });
+        </script>
     @else
         <div class="alert alert-warning text-center">
             <div class="row"><h3>{{ trans('adminPanel/news.newsWarning') }}</h3></div>

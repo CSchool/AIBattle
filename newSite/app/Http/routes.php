@@ -68,6 +68,21 @@ Route::group(['middleware' => 'locale'], function() {
                     'as' => 'admin.checkersTable',
                     'uses' => 'AdminPanel\CheckersController@checkersTable',
                 ]);
+
+                Route::get('/tournamentsTable', [
+                    'as' => 'admin.tournamentsTable',
+                    'uses' => 'AdminPanel\TournamentsController@getTournaments',
+                ]);
+
+                Route::get('/newsTable', [
+                    'as' => 'admin.newsTable', 
+                    'uses' => 'AdminPanel\NewsController@newsTable',
+                ]);
+
+                Route::get('/usersTable', [
+                    'as' => 'admin.usersTable',
+                    'uses' => 'AdminPanel\UsersController@usersTable',
+                ]);
             });
 
             Route::group(['prefix' => '/{id}/attachments'], function() {

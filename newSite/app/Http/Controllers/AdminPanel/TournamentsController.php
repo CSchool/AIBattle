@@ -13,10 +13,13 @@ use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Facades\Datatables;
 
 class TournamentsController extends Controller
 {
-    //
+    /*
+     * OLD VERSION WITH tournaments_old.blade.php
     public function showTournaments() {
 
         $headerCount = 5;
@@ -29,6 +32,58 @@ class TournamentsController extends Controller
             'preparingCount' => Tournament::with('game', 'checker')->orderBy('id')->where('state', 'preparing')->count(),
             'closedCount' => Tournament::with('game', 'checker')->orderBy('id')->where('state', 'closed')->count()
         ]);
+    }*/
+
+    public function showTournaments() {
+        return view('adminPanel/tournaments/tournaments', [
+            'runningCount' => Tournament::with('game', 'checker')->where('state', 'running')->count(),
+            'preparingCount' => Tournament::with('game', 'checker')->where('state', 'preparing')->count(),
+            'closedCount' => Tournament::with('game', 'checker')->where('state', 'closed')->count()
+        ]);
+    }
+
+    public function getTournaments(Request $request) {
+        $tournaments = DB::table('tournaments')
+                            ->join('games', 'tournaments.game_id', '=', 'games.id')
+                            ->join('checkers', 'tournaments.defaultChecker', '=', 'checkers.id')
+                            ->select(   'tournaments.id as id',
+                                        'tournaments.name as name',
+                                        'tournaments.state as state',
+                                        'games.id as gameId',
+                                        'games.name as gameName',
+                                        'checkers.id as checkerId',
+                                        'checkers.name as checkerName'
+                            );
+
+
+        return Datatables::of($tournaments)
+                ->filter(function ($query) use (&$request) {
+
+                    $map = array(
+                        "gameId" => "games.id",
+                        "checkerId" => "checkers.id",
+                        "state" => "tournaments.state"
+                    );
+
+                    foreach ($map as $key => $value) {
+                        if ($request->has($key)) {
+                            $query->where($value, '=', $request->get($key));
+                        }
+                    }
+                })
+                ->editColumn('name', function($data) {
+                    return '<a href="' . url('/adminPanel/tournaments', [$data->id]) . '" role="button">' . $data->name . '</a>';
+                })
+                ->editColumn('state', function($data) {
+                    return trans('adminPanel/tournaments.tournaments_' . $data->state);
+                })
+                ->editColumn('gameName', function($data) {
+                    return '<a href="' . url('/adminPanel/games', [$data->gameId]) . '" role="button">' . $data->gameName . '</a>';
+                })
+                ->editColumn('checkerName', function($data) {
+                    return '<a href="' . url('/adminPanel/checkers', [$data->checkerId]) . '" role="button">' . $data->checkerName . '</a>';
+                })
+                ->make(true);
     }
 
     public function showCreateTournamentForm() {

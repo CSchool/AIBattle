@@ -11,6 +11,7 @@ use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -22,16 +23,21 @@ class CheckersController extends Controller
         return view('adminPanel/checkers/checkers', ['checkers' => Checker::all()->count()]);
     }
 
-    public function checkersTable() {
+    public function checkersTable(Request $request) {
         $checkers = DB::table('checkers')->join('games as g', 'checkers.game_id', '=', 'g.id')
                     ->select(['checkers.id as id', 'checkers.name as checkerName', 'g.id as gameId', 'g.name as gameName']);
 
         return Datatables::of($checkers)
+                ->filter(function($query) use(&$request) {
+                    if ($request->has('gameId')) {
+                        $query->where('g.id', '=', $request->get('gameId'));
+                    }
+                })
                 ->editColumn('checkerName', function ($data) {
                     return '<a href="' . url('/adminPanel/checkers', [$data->id]) . '" role="button">' . $data->checkerName . '</a>';
                 })
                 ->editColumn('gameName', function($data) {
-                    return '<a href="' . url('/adminPanel/games', [$data->gameId]) . '" "><i class="glyphicon glyphicon-tower"></i> ' . $data->gameName . '</a>';
+                    return '<a href="' . url('/adminPanel/games', [$data->gameId]) . '">' . $data->gameName . '</a>';
                 })
                 ->make(true);
     }
