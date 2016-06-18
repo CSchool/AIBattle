@@ -26,7 +26,7 @@
                 'editLink' => url('adminPanel/tournaments/edit', [$tournament->id]),
                 'editName' => trans('adminPanel/tournaments.showTournamentEditRedirectFooter'),
                 'specialMode' => 'tournament',
-                'roundsLink' => '#',
+                'roundsLink' => url('adminPanel/tournaments', [$tournament->id, 'rounds']),
                 'strategiesLink' => url('adminPanel/tournaments/' . $tournament->id . '/strategies'),
                 ]
             )

@@ -27,6 +27,7 @@ return [
 
     'errorMessage' => 'There were some problems',
 
+    'user' => 'User',
     'group' => 'Group',
     'groupUser' => 'User',
     'groupModerator' => 'Moderator',

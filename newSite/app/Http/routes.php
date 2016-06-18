@@ -111,6 +111,8 @@ Route::group(['middleware' => 'locale'], function() {
         });
 
         Route::group(['prefix' => 'tournaments'], function() {
+
+
             Route::get('/', 'AdminPanel\TournamentsController@showTournaments');
 
             Route::get('/create', 'AdminPanel\TournamentsController@showCreateTournamentForm');
@@ -132,6 +134,17 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('/{id}/strategies/{strategyId}', 'Tournament\StrategiesController@showStrategyProfileAdminPanel');
             Route::get('/{id}/strategies/{strategyId}/setActive', 'Tournament\StrategiesController@setStrategyActiveAdminPanel');
+
+            // rounds
+
+            Route::group(['prefix' => '/{id}/rounds'], function() {
+                Route::get('/', 'AdminPanel\RoundsController@showRounds');
+                Route::get('/create', 'AdminPanel\RoundsController@showCreateRound');
+                Route::get('/ajax/getPossiblePlayers', [
+                    'as' => 'admin.getPossibleUsers',
+                    'uses' =>  'AdminPanel\RoundsController@getPossiblePlayers',
+                ]);
+            });
 
 
         });

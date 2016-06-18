@@ -27,6 +27,7 @@ return [
 
     'errorMessage' => 'Обнаружены следующие ошибки',
 
+    'user' => 'Пользователь',
     'group' => 'Группа',
     'groupUser' => 'Пользователь',
     'groupModerator' => 'Модератор',
