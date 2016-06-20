@@ -20,4 +20,10 @@ return [
     'createRoundAction' => 'Action',
     'createRoundAddPlayer' => 'Add player',
     'createRoundRemovePlayer' => 'Remove player',
+    'createRoundOptions' => 'Options',
+    'createRoundRoundName' => 'Round name',
+    'createRoundSeed' => 'Seed',
+    'createRoundCheckers' => 'Checkers of game ":game"',
+    'createRoundAcceptAllPlayers' => 'Accept all players',
+    'createRoundStartRound' => 'Start round',
 ];

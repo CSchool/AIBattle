@@ -140,10 +140,14 @@ Route::group(['middleware' => 'locale'], function() {
             Route::group(['prefix' => '/{id}/rounds'], function() {
                 Route::get('/', 'AdminPanel\RoundsController@showRounds');
                 Route::get('/create', 'AdminPanel\RoundsController@showCreateRound');
+                Route::post('/create', 'AdminPanel\RoundsController@createRound');
+
                 Route::get('/ajax/getPossiblePlayers', [
                     'as' => 'admin.getPossibleUsers',
                     'uses' =>  'AdminPanel\RoundsController@getPossiblePlayers',
                 ]);
+
+
             });
 
 

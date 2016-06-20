@@ -20,6 +20,11 @@ return [
     'createRoundAction' => 'Действие',
     'createRoundAddPlayer' => 'Добавить игрока',
     'createRoundRemovePlayer' => 'Удалить игрока',
-
+    'createRoundOptions' => 'Опции',
+    'createRoundRoundName' => 'Название раунда',
+    'createRoundCheckers' => 'Тестировщики игры ":game"',
+    'createRoundSeed' => 'Зерно (seed)',
+    'createRoundAcceptAllPlayers' => 'Принять всех',
+    'createRoundStartRound' => 'Начать раунд',
 
 ];

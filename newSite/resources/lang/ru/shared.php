@@ -10,6 +10,7 @@ return [
     'game' => 'Игра',
     'tournament' => 'Турнир',
     'checker' => 'Тестировщик',
+    'checkers' => 'Тестировщики',
     'attachments' => 'Файлы',
     'news' => 'Новости',
     'date' => 'Дата',

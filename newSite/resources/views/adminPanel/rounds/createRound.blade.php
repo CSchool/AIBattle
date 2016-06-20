@@ -4,15 +4,66 @@
 @section('APtitle', trans('adminPanel/rounds.createRoundTitle', ['tournament' => $tournament->name]))
 
 @section('APcontent')
+
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+    <div id="errorDiv" class="alert alert-danger hidden">
+        <strong>{{ trans('shared.errorMessage') }}:</strong> <br><br>
+        <ul id="errorList">
+
+        </ul>
+    </div>
+
+    <div class="panel panel-success">
+
+        <div class="panel-heading">{{ trans('adminPanel/rounds.createRoundOptions') }}</div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="name">{{ trans('adminPanel/checkers.checkerName') }}:</label>
+                <input type="text" class="form-control" name="name" id="name"/>
+            </div>
+
+            <div class="form-group">
+                <label for="checker">{{ trans('adminPanel/rounds.createRoundCheckers', ["game" => $tournament->game->name]) }}:</label>
+                <select class="form-control" name="checker" id="checker">
+                    @foreach($checkers as $checkerElement)
+                        <option value="{{ $checkerElement->id }}">
+                            {{ $checkerElement->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="seed">{{ trans('adminPanel/rounds.createRoundSeed') }}:</label>
+                <input type="text" class="form-control" name="seed" id="seed"/>
+            </div>
+        </div>
+
+    </div>
+
     <div class="panel panel-info">
+
         <div class="panel-heading">{{ trans('adminPanel/rounds.createRoundPossibleUsersHeader') }}</div>
+
         <div class="panel-body">
             <table id="possiblePlayers" class="table table-hover" width="100%"></table>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-2">
+                    <button id="acceptAll" class="btn btn-success btn-block">{{ trans('adminPanel/rounds.createRoundAcceptAllPlayers') }}</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="panel panel-warning">
+
         <div class="panel-heading">{{ trans('adminPanel/rounds.createRoundAcceptedUsersHeader') }}</div>
+
         <div class="panel-body">
             <table id="acceptedPlayers" class="table table-hover" width="100%">
                 <thead>
@@ -24,14 +75,20 @@
                 </thead>
             </table>
         </div>
+
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-2">
+                    <button id="startRound" class="btn btn-success btn-block">{{ trans('adminPanel/rounds.createRoundStartRound') }}</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-
-        /* TODO:
-            Save chosen players into hidden input
-         */
-
         var possiblePlayers;
         var acceptedPlayers;
         var possiblePlayersTable;
@@ -103,8 +160,6 @@
                     }
                 });
 
-
-
                 possiblePlayersTable = possiblePlayers.DataTable({
                     data: data,
                     'responsive': true,
@@ -140,6 +195,59 @@
 
                 possiblePlayers.find('tbody').on('click', 'button', function () {
                     transferPlayer($(this).data('id'), buttonMap[0]);
+                });
+
+                $('#acceptAll').click(function () {
+                    possiblePlayers.find('tbody :button').each(function () {
+                        transferPlayer($(this).data('id'), buttonMap[0]);
+                    });
+                });
+
+                $('#startRound').click(function () {
+                    var data = {
+                        players: [],
+                        name: $('#name').val(),
+                        checker: $('#checker').val(),
+                        seed: $('#seed').val()
+                    };
+
+
+                    acceptedPlayersTable.rows().data().each(function (element, index) {
+                        data.players.push({
+                            player: element[0],
+                            strategyId: element[1]
+                        });
+                    });
+
+                    $.post('{{ url('adminPanel/tournaments', [$tournament->id, 'rounds', 'create']) }}',
+                        {
+                            data: data,
+                            _token: $('input[name=_token]').val()
+                        })
+                    .done(function(data) {
+                        console.log(data);
+
+                        if (data.status == 'ok') {
+                            window.location.replace('/adminPanel/tournaments/' + data.tournamentId + '/rounds');
+                        } else {
+                            var error = $('#errorDiv');
+                            error.removeClass("hidden");
+
+                            var errorList = $('#errorList');
+                            errorList.empty();
+
+                            $.each(data.errors, function (key, value) {
+                                errorList.append('<li>' + value + '</li>');
+                            });
+
+                            $("html, body").animate({ scrollTop: 0 }, "slow");
+                        }
+
+                    })
+                    .fail(function(xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                    });
+
                 });
             });
         });

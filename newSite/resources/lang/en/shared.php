@@ -10,6 +10,7 @@ return [
     'game' => 'Game',
     'tournament' => 'Tournament',
     'checker' => 'Checker',
+    'checkers' => 'Checkers',
     'attachments' => 'Attachments',
     'news' => 'News',
     'date' => 'Date',
