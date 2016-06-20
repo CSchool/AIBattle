@@ -3,6 +3,7 @@
 namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Checker;
+use AIBattle\Helpers\RoundMaker;
 use AIBattle\Round;
 use AIBattle\Strategy;
 use AIBattle\Tournament;
@@ -83,7 +84,15 @@ class RoundsController extends Controller
             if (count($errors) > 0) {
                 return response()->json(['status' => 'err', 'errors' => $errors]);
             } else {
-                return response()->json(['status' => 'ok']);
+
+                $duels = RoundMaker::makeRound($request["data"], $tournamentId);
+
+                // get all duels and start them!
+                foreach ($duels as $duel) {
+                    $this->dispatch($duel);
+                }
+
+                return response()->json(['status' => 'ok', 'tournamentId' => $tournamentId]);
             }
 
         } else {

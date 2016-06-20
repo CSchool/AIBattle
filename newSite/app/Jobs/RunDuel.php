@@ -6,6 +6,8 @@ use AIBattle\Checker;
 use AIBattle\Duel;
 use AIBattle\Helpers\DuelProcess;
 use AIBattle\Jobs\Job;
+use AIBattle\Round;
+use AIBattle\Score;
 use AIBattle\Strategy;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -33,19 +35,23 @@ class RunDuel extends Job implements ShouldQueue
      * @param Strategy $strategy1
      * @param Strategy $strategy2
      * @param Duel $duel
-     * @param int $round
+     * @param int $roundId
      */
-    public function __construct($strategy1, $strategy2, $duel, $round = -1)
+    public function __construct($strategy1, $strategy2, $duel, $roundId = -1)
     {
         $this->strategy1 = $strategy1;
         $this->strategy2 = $strategy2;
         $this->duel = $duel;
-        $this->round = $round;
+        $this->round = $roundId;
 
         // get data of checker and seed
 
-        if ($round = -1) {
-            // something here for non training
+        if ($roundId != -1) {
+
+            $round = Round::findOrFail($roundId);
+            $this->checker = $round->checker->id;
+            $this->seed = $round->seed;
+
         } else {
             $this->seed = date("Y");
         }
@@ -86,6 +92,10 @@ class RunDuel extends Job implements ShouldQueue
             ],
 
         ];
+
+        if ($this->hasSeed) {
+            $taskArray["action"]["cmd"] .= " " . $this->seed;
+        }
 
         foreach ($taskArray as $key => $task) {
             $process = DuelProcess::getProcess($task['cmd']);
@@ -154,7 +164,33 @@ class RunDuel extends Job implements ShouldQueue
         }
 
         if ($this->round != -1) {
-            // for non training
+            if ($curStat == "TIE" || $curStat == "IE") {
+                $members = [$this->strategy1, $this->strategy2];
+
+                foreach ($members as $strategy) {
+                    $this->setPlayerScore($strategy, ($curStat == "TIE") ? 1 : 0);
+                }
+            }
+            elseif ($curStat != "IL") {
+
+                $strategy = null;
+
+                if ($curStat == "WIN") {
+                    if ($playerId == 1) {
+                        $strategy = $this->strategy1;
+                    } else {
+                        $strategy = $this->strategy2;
+                    }
+                } else {
+                    if ($playerId == 1) {
+                        $strategy = $this->strategy2;
+                    } else {
+                        $strategy = $this->strategy1;
+                    }
+                }
+
+                $this->setPlayerScore($strategy, 2);
+            }
         }
 
         $result = "PLAYERS\n" . $this->strategy1->user->username . "\n" . $this->strategy2->user->username . "\n";
@@ -163,5 +199,16 @@ class RunDuel extends Job implements ShouldQueue
 
         $this->duel->status = $testerStat;
         $this->duel->save();
+    }
+
+    private function setPlayerScore($strategy, $value) {
+        $score = new Score();
+
+        $score->round_id = $this->round;
+        $score->strategy_id = $strategy->id;
+        $score->score = $value;
+
+        $score->save();
+
     }
 }
