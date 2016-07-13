@@ -71,6 +71,9 @@ class TournamentsController extends Controller
                         }
                     }
                 })
+                ->addColumn('rounds', function($data) {
+                    return '<a href="' . url('adminPanel/tournaments', [$data->id, 'rounds']) . '" class="btn-xs btn-info"><i class="glyphicon glyphicon-king"></i> ' . trans('shared.show') . '</a>';
+                })
                 ->editColumn('name', function($data) {
                     return '<a href="' . url('/adminPanel/tournaments', [$data->id]) . '" role="button">' . $data->name . '</a>';
                 })

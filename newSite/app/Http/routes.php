@@ -53,37 +53,7 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('/{id}', 'AdminPanel\GamesController@showGameById');
 
-            Route::group(['prefix' => 'table'], function() {
-                Route::get('/gamesTable', [
-                   'as' => 'admin.gamesTable',
-                   'uses' => 'AdminPanel\GamesController@gamesTable',
-                ]);
 
-                Route::get('/attachmentsTable/{gameId}', [
-                    'as' => 'admin.attachmentsTable',
-                    'uses' => 'AdminPanel\AttachmentsController@attachmentsTable',
-                ]);
-
-                Route::get('/checkersTable', [
-                    'as' => 'admin.checkersTable',
-                    'uses' => 'AdminPanel\CheckersController@checkersTable',
-                ]);
-
-                Route::get('/tournamentsTable', [
-                    'as' => 'admin.tournamentsTable',
-                    'uses' => 'AdminPanel\TournamentsController@getTournaments',
-                ]);
-
-                Route::get('/newsTable', [
-                    'as' => 'admin.newsTable', 
-                    'uses' => 'AdminPanel\NewsController@newsTable',
-                ]);
-
-                Route::get('/usersTable', [
-                    'as' => 'admin.usersTable',
-                    'uses' => 'AdminPanel\UsersController@usersTable',
-                ]);
-            });
 
             Route::group(['prefix' => '/{id}/attachments'], function() {
                 Route::get('/', 'AdminPanel\AttachmentsController@showAttachments');
@@ -111,8 +81,6 @@ Route::group(['middleware' => 'locale'], function() {
         });
 
         Route::group(['prefix' => 'tournaments'], function() {
-
-
             Route::get('/', 'AdminPanel\TournamentsController@showTournaments');
 
             Route::get('/create', 'AdminPanel\TournamentsController@showCreateTournamentForm');
@@ -146,14 +114,60 @@ Route::group(['middleware' => 'locale'], function() {
                     'as' => 'admin.getPossibleUsers',
                     'uses' =>  'AdminPanel\RoundsController@getPossiblePlayers',
                 ]);
-
-
+                
+                Route::get('/{roundId}/results', 'AdminPanel\RoundsController@showRoundResults');
             });
-
-
         });
 
         Route::get('/users', 'AdminPanel\UsersController@showUsers');
+
+        Route::group(['prefix' => 'table'], function() {
+            Route::get('/gamesTable', [
+                'as' => 'admin.gamesTable',
+                'uses' => 'AdminPanel\GamesController@gamesTable',
+            ]);
+
+            Route::get('/attachmentsTable/{gameId}', [
+                'as' => 'admin.attachmentsTable',
+                'uses' => 'AdminPanel\AttachmentsController@attachmentsTable',
+            ]);
+
+            Route::get('/checkersTable', [
+                'as' => 'admin.checkersTable',
+                'uses' => 'AdminPanel\CheckersController@checkersTable',
+            ]);
+
+            Route::get('/tournamentsTable', [
+                'as' => 'admin.tournamentsTable',
+                'uses' => 'AdminPanel\TournamentsController@getTournaments',
+            ]);
+
+            Route::get('/roundsTable/{tournamentId}', [
+                'as' => 'admin.roundsTable',
+                'uses' => 'AdminPanel\RoundsController@roundsTable'
+            ]);
+
+            Route::get('roundsTable/{roundId}/results', [
+                'as' => 'admin.roundResults',
+                'uses' => 'AdminPanel\RoundsController@showRoundScoreTable',
+            ]);
+
+            Route::get('roundsTable/{roundId}/duels', [
+                'as' => 'admin.roundDuels',
+                'uses' => 'AdminPanel\RoundsController@showRoundDuels',
+            ]);
+
+            Route::get('/newsTable', [
+                'as' => 'admin.newsTable',
+                'uses' => 'AdminPanel\NewsController@newsTable',
+            ]);
+
+            Route::get('/usersTable', [
+                'as' => 'admin.usersTable',
+                'uses' => 'AdminPanel\UsersController@usersTable',
+            ]);
+
+        });
     });
 
     Route::group(['prefix' => 'tournaments/{id}', 'middleware' => 'tournamentAccess'], function() {
@@ -181,12 +195,8 @@ Route::group(['middleware' => 'locale'], function() {
             Route::get('/{duelId}', 'Tournament\StrategiesController@showTrainingVisualizer');
         });
 
-
-
         Route::group(['prefix' => 'strategies', 'middleware' => 'auth'], function() {
             Route::get('/', 'Tournament\StrategiesController@showStrategies');
-
-
 
             Route::get('/create', 'Tournament\StrategiesController@showCreateStrategyForm');
             Route::post('/create', 'Tournament\StrategiesController@createStrategy');

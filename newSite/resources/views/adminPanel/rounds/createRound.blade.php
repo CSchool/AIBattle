@@ -35,10 +35,12 @@
                 </select>
             </div>
 
+            @if ($tournament->checker->hasSeed == 1)
             <div class="form-group">
                 <label for="seed">{{ trans('adminPanel/rounds.createRoundSeed') }}:</label>
                 <input type="text" class="form-control" name="seed" id="seed"/>
             </div>
+            @endif
         </div>
 
     </div>
@@ -207,10 +209,14 @@
                     var data = {
                         players: [],
                         name: $('#name').val(),
-                        checker: $('#checker').val(),
-                        seed: $('#seed').val()
+                        checker: $('#checker').val()
                     };
 
+                    var seed = $('#seed');
+
+                    if (seed.length) {
+                        data.seed = seed.val();
+                    }
 
                     acceptedPlayersTable.rows().data().each(function (element, index) {
                         data.players.push({

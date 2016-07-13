@@ -11,6 +11,13 @@ return [
 
     'roundsCreate' => 'Создать раунд',
 
+    'roundsName' => 'Название',
+    'roundsState' => 'Состояние',
+    'roundsDate' => 'Дата',
+    'roundsAction' => 'Действие',
+    'roundsResults' => 'Результаты',
+    'roundsPreviousRoundCreate' => 'Новый раунд будет создан с идентификатором предыдущего раунда, взятого с строки с раундом!',
+
     // createRound
 
     'createRoundTitle' => 'Создание раунда турнира ":tournmanet"',
@@ -27,4 +34,13 @@ return [
     'createRoundAcceptAllPlayers' => 'Принять всех',
     'createRoundStartRound' => 'Начать раунд',
 
+    // roundResult
+    
+    'roundResultTitle' => 'Результаты раунда ":round" (:date)',
+    'roundResultHeading' => 'Результаты раунда ":round" (:date)',
+
+    'roundResultScoreHeading' => 'Победители раунда',
+    'roundResultDuelsHeading' => 'Дуэли раунда',
+    'roundResultPlayer' => 'Участник',
+    'roundResultScore' => 'Счет',
 ];

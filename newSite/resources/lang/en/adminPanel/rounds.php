@@ -11,6 +11,13 @@ return [
 
     'roundsCreate' => 'Create round',
 
+    'roundsName' => 'Name',
+    'roundsState' => 'State',
+    'roundsDate' => 'Date',
+    'roundsAction' => 'Action',
+    'roundsResults' => 'Results',
+    'roundsPreviousRoundCreate' => 'New round would be create with previous round id from column id!',
+    
     // createRound
     
     'createRoundTitle' => 'Create round of ":tournament"',
@@ -26,4 +33,14 @@ return [
     'createRoundCheckers' => 'Checkers of game ":game"',
     'createRoundAcceptAllPlayers' => 'Accept all players',
     'createRoundStartRound' => 'Start round',
+
+    // roundResult
+
+    'roundResultTitle' => 'Result of round ":round" (:date)',
+    'roundResultHeading' => 'Result of round ":round" (:date)',
+    
+    'roundResultScoreHeading' => 'Winners of round',
+    'roundResultDuelsHeading' => 'Duels of round',
+    'roundResultPlayer' => 'Player',
+    'roundResultScore' => 'Score',
 ];

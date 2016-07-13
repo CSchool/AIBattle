@@ -36,10 +36,12 @@
                     <td>{{ trans('adminPanel/tournaments.tournamentsState') }}</td>
                     <td>{{ trans('shared.game') }}</td>
                     <td>{{ trans('adminPanel/tournaments.tournamentDefaultChecker') }}</td>
+                    <td>{{ trans('shared.rounds') }}</td>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -73,11 +75,13 @@
                     { data: 'name', name: 'name' },
                     { data: 'state', name: 'state', orderable: false, searchable: false },
                     { data: 'gameName', name: 'games.name' },
-                    { data: 'checkerName', name: 'checkers.name' }
+                    { data: 'checkerName', name: 'checkers.name' },
+                    { data: 'rounds', name: 'rounds', orderable: false, searchable: false }
                 ],
 
                 "columnDefs": [
-                    { "width": "5%", className: "text-center", "targets": 0}
+                    { "width": "5%", className: "text-center", "targets": 0},
+                    { "width": "10%", className: "text-center", "targets": 5}
                 ],
                 'initComplete': function () {
                     var columns = [

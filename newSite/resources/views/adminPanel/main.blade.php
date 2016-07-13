@@ -25,11 +25,6 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="btn btn-success" role="button">
-                    {{ trans('adminPanel/main.roundsLink') }}
-                </a>
-            </li>
-            <li>
                 <a href="{{ url('/adminPanel/users') }}" class="btn btn-success" role="button">
                     {{ trans('adminPanel/main.usersLink') }}
                 </a>

@@ -4,6 +4,7 @@ namespace AIBattle\Helpers;
 
 use AIBattle\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DuelsQuery {
     public static function data($roundId, $gameId, $userId, $tournamentId = -1) {
@@ -47,6 +48,8 @@ class DuelsQuery {
             $data->join('rounds', 'rounds.id', '=', 'duels.round')->where('rounds.visible', 'true');
         }
 
+        Log::info("roundId: " . $roundId);
+        Log::info("raw queue: " . json_encode($data->select('duels.id')->get()));
 
         if (!$isAdmin)
             $data->where(function ($query) use(&$userId) {

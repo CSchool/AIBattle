@@ -5,6 +5,7 @@ namespace AIBattle\Http\Controllers\Tournament;
 
 use AIBattle\Helpers\CompilerProcess;
 use AIBattle\Helpers\Content;
+use AIBattle\Helpers\DuelPair;
 use AIBattle\Helpers\DuelsQuery;
 use AIBattle\Helpers\EncodingConvert;
 use AIBattle\Jobs\RunDuel;
@@ -99,13 +100,14 @@ class StrategiesController extends Controller
     }
 
     public function getTrainingStrategiesForCompetition($tournamentId) {
-
         $strategies = Strategy::with(['User' => function($query) {
             $query->select('id','username');
         }])
             ->where('tournament_id', $tournamentId)
             ->where('status', '!=', 'ERR')
             ->select('strategies.id', 'strategies.name', 'strategies.user_id', 'strategies.tournament_id', 'strategies.status');
+
+
 
         $userId = Auth::user()->id;
 
@@ -136,7 +138,7 @@ class StrategiesController extends Controller
         $userId = Auth::user()->id;
         $userName = Auth::user()->username;
 
-        $data = DuelsQuery::data(-1, $tournament->game->id, $userId, $tournamentId);
+        $data = DuelsQuery::data(-1, $tournament->game->id, intval($userId), intval($tournamentId));
 
         return Datatables::of($data)
             ->filter(function($query) use(&$request) {
@@ -491,7 +493,12 @@ class StrategiesController extends Controller
 
         $duel->save();
 
-        $job = (new RunDuel($strategy1, $strategy2, $duel))->onQueue('training');
+        $duelPair = new DuelPair($strategy1, $strategy2, $duel);
+        $duelArray = [];
+
+        array_push($duelArray, $duelPair);
+
+        $job = (new RunDuel($duelArray))->onQueue('training');
         $this->dispatch($job);
     }
 

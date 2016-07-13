@@ -8,13 +8,12 @@ use AIBattle\Jobs\RunDuel;
 use AIBattle\Round;
 use AIBattle\Strategy;
 use AIBattle\Tournament;
+use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Log;
 
 class RoundMaker  {
     public static function makeRound($data, $tournamentId) {
-
-
 
         $tournament = Tournament::findOrFail($tournamentId);
 
@@ -24,7 +23,14 @@ class RoundMaker  {
         $round->tournament_id = $tournamentId;
         $round->game_id = $tournament->game->id;
         $round->checker_id = $data["checker"];
-        $round->seed = $data["seed"];
+
+        $round->date = Carbon::now()->toDateTimeString();
+
+        if (array_key_exists("seed", $data)) {
+            $round->seed = $data["seed"];
+        } else {
+            $round->seed = "";
+        }
 
         if (array_key_exists("previousRound", $data)) {
             $round->previousRound = $data["previousRound"];
@@ -50,12 +56,12 @@ class RoundMaker  {
 
                     $duel->save();
 
-                    $job = (new RunDuel(
-                                Strategy::findOrFail($player1["strategyId"]),
-                                Strategy::findOrFail($player2["strategyId"]),
-                                $duel,
-                                $round->id)
-                            )->onQueue('round');
+                    $job = new DuelPair(
+                        Strategy::findOrFail($player1["strategyId"]),
+                        Strategy::findOrFail($player2["strategyId"]),
+                        $duel,
+                        $round->id);
+
                     array_push($duels, $job);
                 }
             }

@@ -84,6 +84,7 @@
                 url: '{{ URL::asset('datatablesLanguage/russianDatatables.json') }}'
             },
             @endif
+            @if ($tournament->game->hasVisualizer)
             "columns": [
                 { data: 'id', name: 'id'},
                 { data: 'user1', name: 'user1' },
@@ -91,6 +92,14 @@
                 { data: 'status', name: 'status' },
                 { data: 'hasVisualizer', name: 'Games.hasVisualizer', orderable: false, searchable: false }
             ],
+            @else
+            "columns": [
+                { data: 'id', name: 'id'},
+                { data: 'user1', name: 'user1' },
+                { data: 'user2', name: 'user2' },
+                { data: 'status', name: 'status' }
+            ],
+            @endif
             "order": [[ 0, "desc" ]],
             @if ($tournament->game->hasVisualizer)
             "columnDefs": [
@@ -102,7 +111,6 @@
             ],
             @endif
             'initComplete': function() {
-
                 var columns = [1, 2];
 
                 for (var i = 0; i < columns.length; ++i) {
@@ -123,6 +131,7 @@
                 }
             }
         });
+
 
         var competitionTable = $('#competition').DataTable({
             "processing": true,
@@ -158,6 +167,7 @@
                 } );
             }
         });
+
     </script>
 
 @endsection
