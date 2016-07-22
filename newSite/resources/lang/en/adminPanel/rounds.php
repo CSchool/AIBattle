@@ -14,6 +14,8 @@ return [
     'roundsName' => 'Name',
     'roundsState' => 'State',
     'roundsDate' => 'Date',
+    'roundsPrev' => 'Prev. round',
+    'roundsPrevNA' => 'N\A',
     'roundsAction' => 'Action',
     'roundsResults' => 'Results',
     'roundsPreviousRoundCreate' => 'New round would be create with previous round id from column id!',
@@ -30,8 +32,13 @@ return [
     'createRoundOptions' => 'Options',
     'createRoundRoundName' => 'Round name',
     'createRoundSeed' => 'Seed',
+    'createRoundScoreFilter' => 'Take all players with score higher or equal than',
+    'createRoundScoreFilterButton' => 'Filter players by score',
+    'createRoundScoreFilterInvalid' => 'Score filter is not numeric!',
+    'createRoundScoreFilterNegativePrevRound' => 'Previous round is not set!',
     'createRoundCheckers' => 'Checkers of game ":game"',
     'createRoundAcceptAllPlayers' => 'Accept all players',
+    'createRoundDeclineAllPlayers' => 'Decline all players',
     'createRoundStartRound' => 'Start round',
 
     // roundResult

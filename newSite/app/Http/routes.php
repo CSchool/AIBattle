@@ -110,7 +110,7 @@ Route::group(['middleware' => 'locale'], function() {
                 Route::get('/create', 'AdminPanel\RoundsController@showCreateRound');
                 Route::post('/create', 'AdminPanel\RoundsController@createRound');
 
-                Route::get('/ajax/getPossiblePlayers', [
+                Route::get('/ajax/getPossiblePlayers/{prevRound}', [
                     'as' => 'admin.getPossibleUsers',
                     'uses' =>  'AdminPanel\RoundsController@getPossiblePlayers',
                 ]);

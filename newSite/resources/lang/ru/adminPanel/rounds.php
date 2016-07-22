@@ -14,6 +14,8 @@ return [
     'roundsName' => 'Название',
     'roundsState' => 'Состояние',
     'roundsDate' => 'Дата',
+    'roundsPrev' => 'Пред. раунд',
+    'roundsPrevNA' => 'N\A',
     'roundsAction' => 'Действие',
     'roundsResults' => 'Результаты',
     'roundsPreviousRoundCreate' => 'Новый раунд будет создан с идентификатором предыдущего раунда, взятого с строки с раундом!',
@@ -31,7 +33,12 @@ return [
     'createRoundRoundName' => 'Название раунда',
     'createRoundCheckers' => 'Тестировщики игры ":game"',
     'createRoundSeed' => 'Зерно (seed)',
-    'createRoundAcceptAllPlayers' => 'Принять всех',
+    'createRoundScoreFilter' => 'Взять всех игроков со результатом больше',
+    'createRoundScoreFilterButton' => 'Отфильтровать участников по очкам',
+    'createRoundScoreFilterInvalid' => 'Фильтр очков не является числом!',
+    'createRoundScoreFilterNegativePrevRound' => 'Не задан предыдущий раунд!',
+    'createRoundAcceptAllPlayers' => 'Принять всех игроков',
+    'createRoundDeclineAllPlayers' => 'Исключить всех игроков',
     'createRoundStartRound' => 'Начать раунд',
 
     // roundResult

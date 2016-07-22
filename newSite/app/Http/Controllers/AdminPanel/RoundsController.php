@@ -35,12 +35,24 @@ class RoundsController extends Controller
 
     public function roundsTable($tournamentId) {
         $tournament = Tournament::findOrFail($tournamentId);
-        $rounds = Round::where('tournament_id', $tournamentId)->select('id', 'name', 'date', 'tournament_id');
+
+        $rounds = new Collection(
+            DB::select('SELECT r1.id AS id, r1.name AS name, r1.date AS date, r1.tournament_id AS tournament_id, r2.name AS prevName
+                        FROM rounds as r1 LEFT OUTER JOIN rounds as r2 ON r1.previousRound = r2.id 
+                        WHERE r1.tournament_id = ' . $tournamentId)
+        );
 
         return Datatables::of($rounds)
                 ->addColumn('rounds', function($round) {
                     $url = url('adminPanel/tournaments/' . $round->tournament_id . '/rounds/' . $round->id . '/results');
                     return '<a href="' . $url . '" class="btn-xs btn-info"><i class="glyphicon glyphicon-flag"></i> ' . trans('shared.show') . '</a>';
+                })
+                ->addColumn('prev', function($round) {
+                    if ($round->prevName == null) {
+                        return trans('adminPanel/rounds.roundsPrevNA');
+                    } else {
+                        return "<a href='#'>" . $round->prevName . "</a>";
+                    }
                 })
                 ->addColumn('state', function ($round) {
                     $duels = Duel::where('round', $round->id);
@@ -74,8 +86,19 @@ class RoundsController extends Controller
         $tournament = Tournament::findOrFail($tournamentId);
 
         $checkers = $tournament->game->checkers;
+        $rounds = Round::where('tournament_id', $tournamentId)->select('id', 'name')->orderBy('id', 'desc')->get();
 
-        return view('adminPanel/rounds/createRound', ['tournament' => $tournament, 'checkers' => $checkers]);
+        return view('adminPanel/rounds/createRound', ['tournament' => $tournament, 'checkers' => $checkers, 'prevRounds' => $rounds]);
+        //return view('adminPanel/rounds/createRound', ['tournament' => $tournament, 'checkers' => $checkers, 'prevRounds' => []]);
+    }
+
+    private function getPossiblePlayerTuple($username, $strategyId, $playerScore) {
+        return [
+            $username,
+            $strategyId,
+            $playerScore,
+            '<button data-id="' . $strategyId . '" data-player="' . $username . '" data-score="' . $playerScore . '" class="btn-xs btn-success"><i class="glyphicon glyphicon-ok"></i> ' . trans('adminPanel/rounds.createRoundAddPlayer') . '</button>'
+        ];
     }
 
     public function getPossiblePlayers($tournamentId, $previousRound = -1) {
@@ -86,16 +109,25 @@ class RoundsController extends Controller
 
         $data = array();
 
+        $scores = new Collection(
+            DB::select('SELECT SUM(score) AS score, users.username AS username, users.id AS user_id FROM scores INNER JOIN strategies ON strategies.id = strategy_id INNER JOIN users ON strategies.user_id = users.id WHERE round_id = ' . $previousRound . ' GROUP BY username')
+        );
+
         foreach ($query as $key => $value) {
-            array_push($data, [
-                $value->user->username,
-                $value->id,
-                '<button data-id="' . $value->id . '" data-player="' . $value->user->username . '" class="btn-xs btn-success"><i class="glyphicon glyphicon-ok"></i> ' . trans('adminPanel/rounds.createRoundAddPlayer') . '</button>'
-            ]);
+
+            $playerScoreKey = $scores->search(function ($item, $scoreKey) use (&$value) {
+                return $item->user_id == $value->user->id;
+            });
+
+            if ($previousRound == -1) {
+                array_push($data, $this->getPossiblePlayerTuple($value->user->username, $value->id, -1));
+            } else if ($playerScoreKey !== false) {
+                $playerScore = $scores[$playerScoreKey]->score;
+                array_push($data, $this->getPossiblePlayerTuple($value->user->username, $value->id, $playerScore));
+            }
         }
 
         $result = new Collection($data);
-
         return $result->toJson(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
@@ -111,8 +143,6 @@ class RoundsController extends Controller
     }
 
     public function showRoundScoreTable($roundId) {
-
-        Log::info("showRoundScoreTable. roundId: " . $roundId);
 
         $round = Round::findOrFail($roundId);
         $scores = new Collection(DB::select('SELECT SUM(score) AS score, users.username AS strategy  FROM scores INNER JOIN strategies ON strategies.id = strategy_id INNER JOIN users ON strategies.user_id = users.id WHERE round_id = ' . $roundId . ' GROUP BY strategy'));
@@ -194,6 +224,7 @@ class RoundsController extends Controller
             })
             ->make(true);
     }
+    
     public function createRound(Request $request, $tournamentId) {
 
         $tournament = Tournament::where('id', $tournamentId)->first();
@@ -211,6 +242,8 @@ class RoundsController extends Controller
 
             if (!array_key_exists("players", (array)$request["data"])) {
                 array_push($errors, "Accepted players list is empty!");
+            } else if (count($request["data"]["players"]) < 2) {
+                array_push($errors, "Amount of accepted players is lower than 2!");
             }
 
             if ($tournament->checker->hasSeed == 1) {

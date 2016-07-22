@@ -168,23 +168,29 @@ class RunDuel extends Job implements ShouldQueue
                 }
                 elseif ($curStat != "IL") {
 
-                    $strategy = null;
+                    $winner = null;
+                    $loser = null;
 
                     if ($curStat == "WIN") {
                         if ($playerId == 1) {
-                            $strategy = $duelPair->getStrategy1();
+                            $winner = $duelPair->getStrategy1();
+                            $loser = $duelPair->getStrategy2();
                         } else {
-                            $strategy = $duelPair->getStrategy2();
+                            $winner = $duelPair->getStrategy2();
+                            $loser = $duelPair->getStrategy1();
                         }
                     } else {
                         if ($playerId == 1) {
-                            $strategy = $duelPair->getStrategy2();
+                            $winner = $duelPair->getStrategy2();
+                            $loser = $duelPair->getStrategy1();
                         } else {
-                            $strategy = $duelPair->getStrategy1();
+                            $winner = $duelPair->getStrategy1();
+                            $loser = $duelPair->getStrategy2();
                         }
                     }
 
-                    $this->setPlayerScore($duelPair, $strategy, 2);
+                    $this->setPlayerScore($duelPair, $winner, 2);
+                    $this->setPlayerScore($duelPair, $loser, 0);
                 }
             }
 
