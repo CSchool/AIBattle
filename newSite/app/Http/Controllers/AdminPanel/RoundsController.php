@@ -37,12 +37,18 @@ class RoundsController extends Controller
         $tournament = Tournament::findOrFail($tournamentId);
 
         $rounds = new Collection(
-            DB::select('SELECT r1.id AS id, r1.name AS name, r1.date AS date, r1.tournament_id AS tournament_id, r2.name AS prevName
+            DB::select('SELECT r1.id AS id, r1.name AS name, r1.date AS date, 
+                        r1.tournament_id AS tournament_id, r2.name AS prevName, r2.id AS prevRound,
+                        r1.visible AS visible
                         FROM rounds as r1 LEFT OUTER JOIN rounds as r2 ON r1.previousRound = r2.id 
                         WHERE r1.tournament_id = ' . $tournamentId)
         );
 
         return Datatables::of($rounds)
+                ->editColumn('name', function($round) {
+                    $url = url('adminPanel/tournaments/' . $round->tournament_id . '/rounds/' . $round->id);
+                    return '<a href="' . $url . '">' . $round->name . '</a>';
+                })
                 ->addColumn('rounds', function($round) {
                     $url = url('adminPanel/tournaments/' . $round->tournament_id . '/rounds/' . $round->id . '/results');
                     return '<a href="' . $url . '" class="btn-xs btn-info"><i class="glyphicon glyphicon-flag"></i> ' . trans('shared.show') . '</a>';
@@ -51,7 +57,8 @@ class RoundsController extends Controller
                     if ($round->prevName == null) {
                         return trans('adminPanel/rounds.roundsPrevNA');
                     } else {
-                        return "<a href='#'>" . $round->prevName . "</a>";
+                        $url = url('adminPanel/tournaments/' . $round->tournament_id . '/rounds/' . $round->prevRound);
+                        return '<a href="' . $url . '">' . $round->prevName . '</a>';
                     }
                 })
                 ->addColumn('state', function ($round) {
@@ -77,7 +84,13 @@ class RoundsController extends Controller
                             return '<div class="progress">' . $failedDiv . $successDiv . '</div>';
                         }
                     }
-
+                })
+                ->editColumn('visible', function ($round) {
+                    if ($round->visible == 1) {
+                        return trans('adminPanel/rounds.roundsVisibleRound');
+                    } else {
+                        return trans('adminPanel/rounds.roundsInvisibleRound');
+                    }
                 })
                 ->make(true);
     }
@@ -89,7 +102,22 @@ class RoundsController extends Controller
         $rounds = Round::where('tournament_id', $tournamentId)->select('id', 'name')->orderBy('id', 'desc')->get();
 
         return view('adminPanel/rounds/createRound', ['tournament' => $tournament, 'checkers' => $checkers, 'prevRounds' => $rounds]);
-        //return view('adminPanel/rounds/createRound', ['tournament' => $tournament, 'checkers' => $checkers, 'prevRounds' => []]);
+    }
+
+    public function showRound($tournamentId, $roundId) {
+        $tournament = Tournament::findOrFail($tournamentId);
+        $round = Round::findOrFail($roundId);
+        $checker = Checker::findOrFail($round->checker_id);
+
+        $prevRoundName = $round->previousRound == -1 ? trans('adminPanel/rounds.roundsPrevNA') : Round::findOrFail($round->previousRound)->name;
+        
+        
+        return view('adminPanel/rounds/showRound', [
+            'round' => $round, 
+            'tournament' => $tournament, 
+            'checker' => $checker,
+            'prevRoundName' => $prevRoundName,
+        ]);
     }
 
     private function getPossiblePlayerTuple($username, $strategyId, $playerScore) {
@@ -224,7 +252,7 @@ class RoundsController extends Controller
             })
             ->make(true);
     }
-    
+
     public function createRound(Request $request, $tournamentId) {
 
         $tournament = Tournament::where('id', $tournamentId)->first();
@@ -274,6 +302,20 @@ class RoundsController extends Controller
 
         } else {
             return response()->json(['status' => 'err', 'errors' => ['There is no tournament with id = ' . $tournamentId]]);
+        }
+    }
+
+    public function changeRoundState(Request $request, $tournamentId, $roundId) {
+        $tournament = Tournament::findOrFail($tournamentId);
+        $round = Round::findOrFail($roundId);
+
+        if ($round->tournament->id == $tournament->id) {
+            $round->visible = $round->visible == 1 ? 0 : 1;
+            $round->save();
+
+            return redirect('adminPanel/tournaments/' . $round->tournament->id . '/rounds');
+        } else {
+            abort(404);
         }
     }
 }

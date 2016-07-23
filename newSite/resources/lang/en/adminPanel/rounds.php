@@ -18,8 +18,12 @@ return [
     'roundsPrevNA' => 'N\A',
     'roundsAction' => 'Action',
     'roundsResults' => 'Results',
+    'roundsVisibility' => 'Visibility',
     'roundsPreviousRoundCreate' => 'New round would be create with previous round id from column id!',
-    
+
+    'roundsVisibleRound' => 'Open',
+    'roundsInvisibleRound' => 'Hidden',
+
     // createRound
     
     'createRoundTitle' => 'Create round of ":tournament"',
@@ -50,4 +54,14 @@ return [
     'roundResultDuelsHeading' => 'Duels of round',
     'roundResultPlayer' => 'Player',
     'roundResultScore' => 'Score',
+
+    // showRound
+
+    'showRoundTitle' => 'Round ":round"',
+    'showRoundHeading' => 'Round ":round"',
+    'showRoundPanelHeading' => 'Description of round ":round"',
+    'showRoundVisibleState' => 'Round open for everyone',
+    'showRoundInvisibleState' => 'Hidden round',
+    'showRoundMakeRoundVisible' => 'Open round',
+    'showRoundMakeRoundInvisible' => 'Hide round',
 ];

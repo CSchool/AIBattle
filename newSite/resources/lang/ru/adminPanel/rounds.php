@@ -18,8 +18,11 @@ return [
     'roundsPrevNA' => 'N\A',
     'roundsAction' => 'Действие',
     'roundsResults' => 'Результаты',
+    'roundsVisibility' => 'Видимость',
     'roundsPreviousRoundCreate' => 'Новый раунд будет создан с идентификатором предыдущего раунда, взятого с строки с раундом!',
 
+    'roundsVisibleRound' => 'Открытый',
+    'roundsInvisibleRound' => 'Скрытый',
     // createRound
 
     'createRoundTitle' => 'Создание раунда турнира ":tournmanet"',
@@ -50,4 +53,14 @@ return [
     'roundResultDuelsHeading' => 'Дуэли раунда',
     'roundResultPlayer' => 'Участник',
     'roundResultScore' => 'Счет',
+    
+    // showRound
+
+    'showRoundTitle' => 'Раунд ":round"',
+    'showRoundHeading' => 'Раунд ":round"',
+    'showRoundPanelHeading' => 'Описание раунда ":round"',
+    'showRoundVisibleState' => 'Раунд открыт для всех',
+    'showRoundInvisibleState' => 'Раунд скрыт',
+    'showRoundMakeRoundVisible' => 'Открыть раунд',
+    'showRoundMakeRoundInvisible' => 'Скрыть раунд',
 ];

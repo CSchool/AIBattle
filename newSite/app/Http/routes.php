@@ -116,6 +116,9 @@ Route::group(['middleware' => 'locale'], function() {
                 ]);
                 
                 Route::get('/{roundId}/results', 'AdminPanel\RoundsController@showRoundResults');
+                
+                Route::get('/{roundId}', 'AdminPanel\RoundsController@showRound');
+                Route::post('/{roundId}', 'AdminPanel\RoundsController@changeRoundState');
             });
         });
 

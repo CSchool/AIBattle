@@ -35,6 +35,7 @@
                     <th>{{ trans('adminPanel/rounds.roundsState') }}</th>
                     <th>{{ trans('adminPanel/rounds.roundsDate') }}</th>
                     <th>{{ trans('adminPanel/rounds.roundsPrev') }}</th>
+                    <th>{{ trans('adminPanel/rounds.roundsVisibility') }}</th>
                     <th>{{ trans('adminPanel/rounds.roundsResults') }}</th>
                 </tr>
             </thead>
@@ -57,13 +58,15 @@
                     { data: 'state', name: 'state', orderable: false, searchable: false },
                     { data: 'date', name: 'date' },
                     { data: 'prev', name: 'prev' },
+                    { data: 'visible', name: 'visible' },
                     { data: 'rounds', name: 'score', searchable: false, orderable: false  }
                 ],
                 "columnDefs": [
                     { "width": "5%", className: "text-center", "targets": 0},
+                    { "width": "20%", "targets": 2},
                     { "width": "15%", "targets": 3},
                     { "width": "15%", "targets": 4},
-                    { "width": "10%", className: "text-center", "targets": 5}
+                    { "width": "10%", className: "text-center", "targets": 6}
                 ],
                 "order": [[ 0, "desc" ]]
             });

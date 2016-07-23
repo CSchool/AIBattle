@@ -43,5 +43,20 @@
                 {{ trans('shared.edit') . ' ' . $editName }}
             </a>
         </div>
+    @elseif ($specialMode == "rounds")
+        <div class="col-md-3 col-md-offset-3">
+            <button type="submit" name="updateState" value="updateState" class="btn btn-lg btn-success btn-block">
+                @if ($isVisible == 0)
+                    {{ trans('adminPanel/rounds.showRoundMakeRoundVisible') }}
+                @else
+                    {{ trans('adminPanel/rounds.showRoundMakeRoundInvisible') }}
+                @endif
+            </button>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ $resultsLink }}" class="btn btn-info btn-lg btn-block">
+                {{ trans('adminPanel/rounds.roundsResults') }}
+            </a>
+        </div>
     @endif
 </div>
