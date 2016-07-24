@@ -61,7 +61,7 @@
                             {{ trans('tournaments/strategies.strategyFormLoadFromFile') }}
                         </label>
                         <label class="radio-inline"><input type="radio" name="loadChoose" value="textLoad">
-                            {{ trans('tournaments/strategies.strategyFormLoadFromFile') }}
+                            {{ trans('tournaments/strategies.strategyFormLoadFromText') }}
                         </label>
                     </div>
                 </div>
