@@ -5,6 +5,7 @@ namespace AIBattle\Http\Controllers;
 use AIBattle\Attachment;
 use AIBattle\Duel;
 use AIBattle\Game;
+use AIBattle\Round;
 use AIBattle\Tournament;
 use AIBattle\User;
 use Illuminate\Http\Request;
@@ -49,6 +50,12 @@ class DownloadController extends Controller
         $duel = Duel::findOrFail($duelId);
         $tournament = Tournament::findOrFail($tournamentId);
 
+        $round = null;
+
+        if ($duel->round_id != -1) {
+            $round = Round::where('id', $duel->round_id)->findOrFail();
+        }
+
         $userId = Auth::user()->id;
 
         $duelUsers = Duel::join('strategies as s1', 'duels.strategy1', '=', 's1.id')
@@ -61,7 +68,7 @@ class DownloadController extends Controller
                                 })
                                 ->count();
 
-        if (User::isAdmin() || $duelUsers > 0) {
+        if (User::isAdmin() || $duelUsers > 0 || ($round != null && $round->visible == 1)) {
             if (Storage::disk('local')->has('logs/' . $duelId)) {
                 return response()->download(base_path() . '/storage/app/logs/' . $duelId);
             } else {

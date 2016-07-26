@@ -116,7 +116,8 @@ Route::group(['middleware' => 'locale'], function() {
                 ]);
                 
                 Route::get('/{roundId}/results', 'AdminPanel\RoundsController@showRoundResults');
-                
+                Route::get('/{roundId}/roundTable', 'AdminPanel\RoundsController@showRoundTable');
+
                 Route::get('/{roundId}', 'AdminPanel\RoundsController@showRound');
                 Route::post('/{roundId}', 'AdminPanel\RoundsController@changeRoundState');
             });
@@ -152,7 +153,7 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('roundsTable/{roundId}/results', [
                 'as' => 'admin.roundResults',
-                'uses' => 'AdminPanel\RoundsController@showRoundScoreTable',
+                'uses' => 'AdminPanel\RoundsController@showRoundResultsTable',
             ]);
 
             Route::get('roundsTable/{roundId}/duels', [

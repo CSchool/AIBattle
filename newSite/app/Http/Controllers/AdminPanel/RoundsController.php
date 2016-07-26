@@ -6,6 +6,7 @@ use AIBattle\Checker;
 use AIBattle\Duel;
 use AIBattle\Helpers\DuelsQuery;
 use AIBattle\Helpers\RoundMaker;
+use AIBattle\Helpers\RoundTable;
 use AIBattle\Jobs\RunDuel;
 use AIBattle\Round;
 use AIBattle\Score;
@@ -166,16 +167,30 @@ class RoundsController extends Controller
         if ($round->tournament_id == $tournamentId) {
             return view('adminPanel/rounds/roundResults', ['round' => $round]);
         } else {
-            abort(403);
+            abort(404);
         }
     }
 
-    public function showRoundScoreTable($roundId) {
+    public function showRoundResultsTable($roundId) {
+        $roundTable = new RoundTable($roundId);
+        return Datatables::of($roundTable->getScores())->make(true);
+    }
 
+    public function showRoundTable($tournamentId, $roundId) {
         $round = Round::findOrFail($roundId);
-        $scores = new Collection(DB::select('SELECT SUM(score) AS score, users.username AS strategy  FROM scores INNER JOIN strategies ON strategies.id = strategy_id INNER JOIN users ON strategies.user_id = users.id WHERE round_id = ' . $roundId . ' GROUP BY strategy'));
 
-        return Datatables::of($scores)->make(true);
+        if ($round->tournament_id == $tournamentId) {
+
+            $roundTable = new RoundTable($roundId);
+
+            return view('adminPanel/rounds/roundTable', [
+                'round' => $round,
+                'players' => $roundTable->getPlayers(),
+                'roundTable' => $roundTable->getRoundTable(),
+            ]);
+        } else {
+            abort(404);
+        }
     }
 
     public function showRoundDuels(Request $request, $roundId) {

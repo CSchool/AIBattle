@@ -9,8 +9,16 @@
 </style>
 
 <div class="text-center">
+    <a class="btn btn-info btn-lg" href="{{ url('adminPanel/tournaments', [$round->tournament->id, 'rounds', $round->id, 'roundTable']) }}">
+        {{ "Round table" }}
+    </a>
+
+    <br>
+
     <h2>{{ trans('adminPanel/rounds.roundResultScoreHeading') }}</h2>
 </div>
+
+<br>
 
 <table id="score" class="table table-hover" width="100%">
     <thead>
