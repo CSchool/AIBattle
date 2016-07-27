@@ -19,7 +19,7 @@
                 <a href="{{ url('/tournaments', [$tournament->id]) }}" id="informationLink" class="btn btn-primary">
                     {{ trans('layouts/tournamentLayout.information') }}
                 </a>
-                <a href="#" id="roundsLink" class="btn btn-primary">
+                <a href="{{ url('/tournaments', [$tournament->id, 'rounds']) }}" id="roundsLink" class="btn btn-primary">
                     {{ trans('layouts/tournamentLayout.rounds') }}
                 </a>
 

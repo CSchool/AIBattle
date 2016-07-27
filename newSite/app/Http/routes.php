@@ -211,6 +211,22 @@ Route::group(['middleware' => 'locale'], function() {
             Route::get('/{strategyId}', 'Tournament\StrategiesController@showStrategyProfilePublic');
             Route::get('/{strategyId}/setActive', 'Tournament\StrategiesController@setStrategyActivePublic');
         });
+
+        Route::group(['prefix' => 'rounds', 'middleware' => 'auth'], function() {
+            Route::get('/', 'Tournament\RoundsController@showRounds');
+            Route::get('/{roundId}/results', 'Tournament\RoundsController@showRoundResult');
+            Route::get('/{roundId}/roundTable', 'Tournament\RoundsController@showRoundTable');
+
+            Route::get('/{roundId}/table/results', [
+                'as' => 'users.roundResults',
+                'uses' => 'Tournament\RoundsController@showRoundResultsTable',
+            ]);
+
+            Route::get('/{roundId}/table/duels', [
+                'as' => 'users.roundDuels',
+                'uses' => 'Tournament\RoundsController@showRoundDuels',
+            ]);
+        });
     });
 
     Route::group(['prefix' => 'userProfile'], function() {

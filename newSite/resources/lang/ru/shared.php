@@ -38,4 +38,7 @@ return [
 
     'downloadGameArchive' => 'Скачать архив',
     'result' => 'Результат',
+
+    'roundTable' => 'Таблица раунда',
+
 ];

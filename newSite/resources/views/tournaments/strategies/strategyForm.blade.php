@@ -115,6 +115,8 @@
                 if ($(this).val() == "textLoad")
                     $('input[name=strategySource]').val(''); // clear the input file
             });
+
+            $('#strategiesLink').addClass('active');
         });
     </script>
 @endsection

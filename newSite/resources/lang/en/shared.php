@@ -38,4 +38,6 @@ return [
     
     'downloadGameArchive' => 'Download archive',
     'result' => 'Result',
+    
+    'roundTable' => 'Round table',
 ];

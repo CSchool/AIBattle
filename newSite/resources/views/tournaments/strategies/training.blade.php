@@ -168,6 +168,10 @@
             }
         });
 
+        $(document).ready(function () {
+            $('#strategiesLink').addClass('active');
+        });
+
     </script>
 
 @endsection

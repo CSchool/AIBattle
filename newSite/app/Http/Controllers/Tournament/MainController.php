@@ -11,9 +11,9 @@ use AIBattle\Http\Controllers\Controller;
 class MainController extends Controller
 {
 
-    public function showTournament($id) {
-
-        $tournament = Tournament::findOrFail($id);
+    public function showTournament($tournamentId) {
+        $tournament = Tournament::findOrFail($tournamentId);
         return view('tournaments/main', ['tournament' => $tournament]);
     }
+
 }

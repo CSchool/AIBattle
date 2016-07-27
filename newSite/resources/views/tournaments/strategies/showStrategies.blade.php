@@ -58,7 +58,7 @@
                                 <td>#</td>
                                 <td>{{ trans('shared.strategy') }}</td>
                                 <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
-                                <td>Test</td>
+                                <td></td>
                             </tr>
                         </thead>
 
@@ -107,7 +107,7 @@
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'status', name: 'status' },
-                { data: 'setActive', name: 'setActive'}
+                { data: 'setActive', name: 'setActive', orderable: false, searchable: false}
             ],
             "columnDefs": [
                 { width: "5%",  targets: [2, 3] },
@@ -137,6 +137,8 @@
             }
 
         });
+
+        $('#strategiesLink').addClass('active');
 
     </script>
 @endsection

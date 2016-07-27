@@ -4,6 +4,7 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Checker;
 use AIBattle\Duel;
+use AIBattle\Helpers\DuelsDataTable;
 use AIBattle\Helpers\DuelsQuery;
 use AIBattle\Helpers\RoundMaker;
 use AIBattle\Helpers\RoundTable;
@@ -165,7 +166,11 @@ class RoundsController extends Controller
         $round = Round::findOrFail($roundId);
 
         if ($round->tournament_id == $tournamentId) {
-            return view('adminPanel/rounds/roundResults', ['round' => $round]);
+            return view('adminPanel/rounds/roundResults', [
+                'round' => $round,
+                'roundTableUrl' => url('adminPanel/tournaments', [$round->tournament->id, 'rounds', $round->id, 'roundTable']),
+                'mode' => 'admin',
+            ]);
         } else {
             abort(404);
         }
@@ -196,76 +201,11 @@ class RoundsController extends Controller
     public function showRoundDuels(Request $request, $roundId) {
         $round = Round::findOrFail($roundId);
         $tournament = $round->tournament;
-        $tournamentId = $tournament->id;
         $userId = Auth::user()->id;
-        $userName = Auth::user()->username;
-
 
         $data = DuelsQuery::data($round->id, $tournament->game->id, intval($userId), intval($tournament->id));
 
-        return Datatables::of($data)
-            ->filter(function($query) use(&$request) {
-                // custom filtering for our purposes
-                if ($request != null) {
-                    if ($request->has('user1')) {
-                        $query->where('usr1.username', '=', $request->get('user1'));
-                    }
-
-                    if ($request->has('user2')) {
-                        $query->where('usr2.username', '=', $request->get('user2'));
-                    }
-                }
-            })
-            ->editColumn('status', function($data) use(&$userName, &$tournament) {
-                // make sure of status
-
-                $data = (array)$data;
-
-                $statusArray = explode(' ', trim($data['status']));
-                $linkClass = "info";
-
-                if (count($statusArray) > 1) {
-                    if ($data['user1'] == $userName || $data['user2'] == $userName) {
-                        if (str_contains($data['status'], 'WIN')) {
-                            if ($data['user' . $statusArray[1]] == $userName) {
-                                $linkClass = "success";
-                            } else {
-                                $linkClass = "danger";
-                            }
-                        } else {
-                            // something wrong, check if it our fail or not
-                            if ($data['user' . $statusArray[1]] == $userName) {
-                                // something wrong with us
-                                $linkClass = "danger";
-                            }
-                        }
-                    }
-                } else {
-                    if ($statusArray[0] == "TIE") {
-                        $linkClass = "primary";
-                    }
-                }
-
-                $action = '#';
-                if ($statusArray[0] != "W") {
-                    $action = action('DownloadController@downloadLog', [$tournament->id, $data['id']]);
-                }
-
-                return '<a href="' . $action . '" class="btn-xs btn-' . $linkClass . '"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
-            })
-            ->editColumn('hasVisualizer', function($data) use(&$tournamentId) {
-
-                $data = (array)$data;
-                $statusArray = explode(' ', trim($data['status']));
-                $href = "#";
-
-                if ($statusArray[0] != "W") {
-                    $href = url('tournaments/' . $tournamentId . '/training/' . $data['id']);
-                }
-
-                return '<a href="' . $href . '"  target="_blank" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
-            })
-            ->make(true);
+        return DuelsDataTable::transform($data, $tournament);
     }
 
     public function createRound(Request $request, $tournamentId) {

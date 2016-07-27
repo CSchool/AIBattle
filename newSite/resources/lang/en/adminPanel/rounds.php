@@ -54,7 +54,7 @@ return [
     'roundResultDuelsHeading' => 'Duels of round',
     'roundResultPlayer' => 'Player',
     'roundResultScore' => 'Score',
-
+    
     // showRound
 
     'showRoundTitle' => 'Round ":round"',

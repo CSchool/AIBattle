@@ -9,9 +9,7 @@
 </style>
 
 <div class="text-center">
-    <a class="btn btn-info btn-lg" href="{{ url('adminPanel/tournaments', [$round->tournament->id, 'rounds', $round->id, 'roundTable']) }}">
-        {{ "Round table" }}
-    </a>
+    <a class="btn btn-info btn-lg" href="{{ $roundTableUrl }}">{{ trans('shared.roundTable') }}</a>
 
     <br>
 
@@ -39,7 +37,11 @@
     var table = $('#score').DataTable({
         "processing": true,
         "serverSide": true,
+        @if ($mode == "admin")
         "ajax": '{!! route('admin.roundResults', $round->id) !!}',
+        @else
+        "ajax": '{!! route('users.roundResults', [$round->tournament->id, $round->id]) !!}',
+        @endif
         'responsive': true,
         @if (App::getLocale() == 'ru')
         "language": {
@@ -63,7 +65,11 @@
         "serverSide": true,
 
         "ajax": {
+            @if ($mode == 'admin')
             url: '{!! route('admin.roundDuels', $round->id) !!}',
+            @else
+            url: '{!! route('users.roundDuels', [$round->tournament->id, $round->id]) !!}',
+            @endif
             data: function(d) {
                 d.user1 = $('#user1').val() || '';
                 d.user2 = $('#user2').val() || '';

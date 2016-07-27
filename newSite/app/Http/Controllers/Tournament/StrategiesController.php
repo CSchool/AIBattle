@@ -13,6 +13,7 @@ use AIBattle\Strategy;
 use AIBattle\Tournament;
 use AIBattle\User;
 use AIBattle\Duel;
+use AIBattle\Round;
 
 use Illuminate\Http\Request;
 
@@ -345,7 +346,8 @@ class StrategiesController extends Controller
                                     'usr1.username as user1',
                                     'usr2.username as user2',
                                     'usr1.id as u1_id',
-                                    'usr2.id as u2_id')
+                                    'usr2.id as u2_id',
+                                    'duels.round')
                         ->get();
 
             if (count($duel) == 0)
@@ -355,8 +357,13 @@ class StrategiesController extends Controller
             $user1 = $duel[0]->user1;
             $user2 = $duel[0]->user2;
 
+            $round = null;
 
-            if (User::isAdmin() || $duel[0]->u1_id == $userId || $duel[0]->u2_id == $userId) {
+            if ($duel[0]->round != -1) {
+                $round = Round::findOrFail($duel[0]->round);
+            }
+
+            if (User::isAdmin() || $duel[0]->u1_id == $userId || $duel[0]->u2_id == $userId || ($round != null && $round->visible == 1)) {
                 return view('tournaments/strategies/visualizeGame', [
                     'game' => $tournament->game->name,
                     'status' => $duel[0]->status,

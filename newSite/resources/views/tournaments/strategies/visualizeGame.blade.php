@@ -56,6 +56,10 @@
 
         <script>
 
+            $(document).ready(function () {
+                $('#strategiesLink').addClass('active');
+            });
+
             var headerDiv = $('#headerDiv');
             var buttonsDiv = $('#buttonsDiv');
 

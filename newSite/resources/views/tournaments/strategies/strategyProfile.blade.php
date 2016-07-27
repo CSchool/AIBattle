@@ -118,6 +118,8 @@
             code.on('hidden.bs.collapse', function () {
                 $('#errorHref').html($('input[name=errorTextShow]').val() + " <span class='glyphicon glyphicon-chevron-down'></span>");
             });
+
+            $('#strategiesLink').addClass('active');
         });
     </script>
 @endsection

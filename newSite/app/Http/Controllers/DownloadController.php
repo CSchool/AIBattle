@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DownloadController extends Controller
@@ -52,8 +53,8 @@ class DownloadController extends Controller
 
         $round = null;
 
-        if ($duel->round_id != -1) {
-            $round = Round::where('id', $duel->round_id)->findOrFail();
+        if ($duel->round != -1) {
+            $round = Round::findOrFail($duel->round);
         }
 
         $userId = Auth::user()->id;
@@ -67,6 +68,7 @@ class DownloadController extends Controller
                                     $query->where('usr1.id', $userId)->orWhere('usr2.id', $userId);
                                 })
                                 ->count();
+
 
         if (User::isAdmin() || $duelUsers > 0 || ($round != null && $round->visible == 1)) {
             if (Storage::disk('local')->has('logs/' . $duelId)) {
