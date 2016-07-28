@@ -46,8 +46,7 @@ class GamesController extends Controller
 
     public function createGame(Request $request) {
 
-        if ($request->hasFile('gameArchive')) {
-
+        if (class_exists('ZipArchive') && $request->hasFile('gameArchive')) {
             $this->validate($request, [
                 'gameArchive' => 'required|mimes:zip'
             ]);
@@ -80,7 +79,9 @@ class GamesController extends Controller
                 $game->save();
             }
 
-            GameArchive::createArchive($game);
+            if (class_exists('ZipArchive') == true) {
+                GameArchive::createArchive($game);
+            }
         }
 
         return redirect('adminPanel/games');
@@ -126,7 +127,9 @@ class GamesController extends Controller
 
             $game->save();
 
-            GameArchive::createArchive($game);
+            if (class_exists('ZipArchive') == true) {
+                GameArchive::createArchive($game);
+            }
 
             return redirect('adminPanel/games');
 

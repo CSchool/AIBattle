@@ -66,18 +66,23 @@ class LoadGames extends Command
 
         // load games
 
-        $files = Storage::disk('local')->allFiles('games/archive');
+        if (class_exists('ZipArchive')) {
+            $files = Storage::disk('local')->allFiles('games/archive');
 
-        foreach ($files as $file) {
+            foreach ($files as $file) {
 
-            $this->info('Get file: ' . $file);
+                $this->info('Get file: ' . $file);
 
-            if (!strstr($file, '.gitignore'))
-                GameArchive::loadArchive(base_path() . '/storage/app/' . $file, $this);
+                if (!strstr($file, '.gitignore'))
+                    GameArchive::loadArchive(base_path() . '/storage/app/' . $file, $this);
 
+            }
+
+            $this->info('All games, attachments and checkers was added!');
+        } else {
+            $this->error('Your PHP version is not compiled with zip support!');
         }
 
-        $this->info('All games, attachments and checkers was added!');
 
     }
 }

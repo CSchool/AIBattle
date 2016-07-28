@@ -27,15 +27,17 @@
                 {{ Form::hidden('gameId', $game->id ) }}
             @endif
 
-            @if ($mode == "create")
-                <div class="alert alert-info">
-                    <p>{{ trans('adminPanel/games.archiveMessage') }}</p>
-                    <br>
-                    <div class="form-group">
-                        {!! Form::label(trans('adminPanel/games.archiveLabel')) !!}
-                        {!! Form::file('gameArchive') !!}
+            @if (class_exists('ZipArchive'))
+                @if ($mode == "create")
+                    <div class="alert alert-info">
+                        <p>{{ trans('adminPanel/games.archiveMessage') }}</p>
+                        <br>
+                        <div class="form-group">
+                            {!! Form::label(trans('adminPanel/games.archiveLabel')) !!}
+                            {!! Form::file('gameArchive') !!}
+                        </div>
                     </div>
-                </div>
+                @endif
             @endif
 
             <hr>

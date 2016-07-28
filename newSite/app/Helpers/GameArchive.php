@@ -51,32 +51,34 @@ class GameArchive {
      * @param Command $command
      */
     public static function createArchive(Game $game, Command $command =  null) {
-        // get information about game
-        Storage::disk('local')->makeDirectory('games/' . $game->id);
+        if (class_exists('ZipArchive')) {
+            // get information about game
+            Storage::disk('local')->makeDirectory('games/' . $game->id);
 
-        $gameJson = $game->toJson(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            $gameJson = $game->toJson(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-        Storage::disk('local')->put('games/' . $game->id . '/description.json', $gameJson);
+            Storage::disk('local')->put('games/' . $game->id . '/description.json', $gameJson);
 
-        if ($command)
-            $command->line($gameJson);
+            if ($command)
+                $command->line($gameJson);
 
-        if ($game->hasVisualizer)
-            Storage::disk('local')->copy('visualizers/' . $game->id, 'games/' . $game->id . '/visualizer.js');
+            if ($game->hasVisualizer)
+                Storage::disk('local')->copy('visualizers/' . $game->id, 'games/' . $game->id . '/visualizer.js');
 
-        // get information about attachments
-        GameArchive::archiveMakeSection('attachments', $game->attachments, $game->id, $command);
+            // get information about attachments
+            GameArchive::archiveMakeSection('attachments', $game->attachments, $game->id, $command);
 
-        // get information about checkers
-        GameArchive::archiveMakeSection('testers', $game->checkers, $game->id, $command);
+            // get information about checkers
+            GameArchive::archiveMakeSection('testers', $game->checkers, $game->id, $command);
 
-        // make zip file!
-        Storage::disk('local')->delete('games/' . $game->id . '.zip');
+            // make zip file!
+            Storage::disk('local')->delete('games/' . $game->id . '.zip');
 
-        $archive = new Zipper();
-        $archive->make(base_path() . '/storage/app/games/' . $game->id . '.zip')->add(base_path() . '/storage/app/games/' . $game->id)->close();
+            $archive = new Zipper();
+            $archive->make(base_path() . '/storage/app/games/' . $game->id . '.zip')->add(base_path() . '/storage/app/games/' . $game->id)->close();
 
-        File::deleteDirectory(base_path() . '/storage/app/games/' . $game->id);
+            File::deleteDirectory(base_path() . '/storage/app/games/' . $game->id);
+        }
     }
 
     /**
@@ -85,79 +87,81 @@ class GameArchive {
      * @param Command $command
      */
     public static function loadArchive($file, Command $command = null) {
-        Storage::disk('local')->makeDirectory('games/archive/tmp');
+        if (class_exists('ZipArchive')) {
+            Storage::disk('local')->makeDirectory('games/archive/tmp');
 
-        $archive = new Zipper();
-        $archive->make($file)->extractTo(base_path() . '/storage/app/games/archive/tmp');
+            $archive = new Zipper();
+            $archive->make($file)->extractTo(base_path() . '/storage/app/games/archive/tmp');
 
-        $jsonDescription = Storage::disk('local')->get('games/archive/tmp/description.json');
-        $description = json_decode($jsonDescription, true);
+            $jsonDescription = Storage::disk('local')->get('games/archive/tmp/description.json');
+            $description = json_decode($jsonDescription, true);
 
-        $game = new Game();
+            $game = new Game();
 
-        $game->name = $description['name'];
-        $game->description = $description['description'];
-        $game->timeLimit = $description['timeLimit'];
-        $game->memoryLimit = $description['memoryLimit'];
-        $game->hasVisualizer = $description['hasVisualizer'];
+            $game->name = $description['name'];
+            $game->description = $description['description'];
+            $game->timeLimit = $description['timeLimit'];
+            $game->memoryLimit = $description['memoryLimit'];
+            $game->hasVisualizer = $description['hasVisualizer'];
 
-        $game->save();
+            $game->save();
 
-        if ($game->hasVisualizer)
-            Storage::disk('local')->move('games/archive/tmp/visualizer.js', 'visualizers/' . $game->id);
+            if ($game->hasVisualizer)
+                Storage::disk('local')->move('games/archive/tmp/visualizer.js', 'visualizers/' . $game->id);
 
 
-        // attachments
+            // attachments
 
-        if (Storage::disk('local')->has('games/archive/tmp/attachments/attachments.json')) {
+            if (Storage::disk('local')->has('games/archive/tmp/attachments/attachments.json')) {
 
-            $jsonAttachments = Storage::disk('local')->get('games/archive/tmp/attachments/attachments.json');
+                $jsonAttachments = Storage::disk('local')->get('games/archive/tmp/attachments/attachments.json');
 
-            $attachments = json_decode($jsonAttachments, true);
+                $attachments = json_decode($jsonAttachments, true);
 
-            foreach ($attachments as $attachment) {
-                $newAttachment = new Attachment();
+                foreach ($attachments as $attachment) {
+                    $newAttachment = new Attachment();
 
-                $newAttachment->originalName = $attachment['originalName'];
-                $newAttachment->description = $attachment['description'];
-                $newAttachment->game_id = $game->id;
+                    $newAttachment->originalName = $attachment['originalName'];
+                    $newAttachment->description = $attachment['description'];
+                    $newAttachment->game_id = $game->id;
 
-                $newAttachment->save();
+                    $newAttachment->save();
 
-                Storage::disk('local')->move('games/archive/tmp/attachments/' . $newAttachment->originalName, 'attachments/' . $newAttachment->id);
-            }
-        }
-
-        // testers
-
-        if (Storage::disk('local')->has('games/archive/tmp/testers/testers.json')) {
-            $jsonTesters = Storage::disk('local')->get('games/archive/tmp/testers/testers.json');
-
-            $testers = json_decode($jsonTesters, true);
-
-            foreach ($testers as $tester) {
-                $newTester = new Checker();
-
-                $newTester->name = $tester['name'];
-                $newTester->hasSeed = $tester['hasSeed'];
-                $newTester->game_id = $game->id;
-
-                $newTester->save();
-
-                Storage::disk('local')->move('games/archive/tmp/testers/' . $tester['id'], 'testers/' . $newTester->id);
-
-                $process= new Process('/bin/bash gccChecker.sh ' . $newTester->id, base_path() . '/storage/app/compilers/' , ['PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games']);
-                $process->run();
-
-                if (!$process->isSuccessful())
-                    throw new ProcessFailedException($process);
+                    Storage::disk('local')->move('games/archive/tmp/attachments/' . $newAttachment->originalName, 'attachments/' . $newAttachment->id);
+                }
             }
 
+            // testers
+
+            if (Storage::disk('local')->has('games/archive/tmp/testers/testers.json')) {
+                $jsonTesters = Storage::disk('local')->get('games/archive/tmp/testers/testers.json');
+
+                $testers = json_decode($jsonTesters, true);
+
+                foreach ($testers as $tester) {
+                    $newTester = new Checker();
+
+                    $newTester->name = $tester['name'];
+                    $newTester->hasSeed = $tester['hasSeed'];
+                    $newTester->game_id = $game->id;
+
+                    $newTester->save();
+
+                    Storage::disk('local')->move('games/archive/tmp/testers/' . $tester['id'], 'testers/' . $newTester->id);
+
+                    $process= new Process('/bin/bash gccChecker.sh ' . $newTester->id, base_path() . '/storage/app/compilers/' , ['PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games']);
+                    $process->run();
+
+                    if (!$process->isSuccessful())
+                        throw new ProcessFailedException($process);
+                }
+
+            }
+
+            GameArchive::createArchive($game, $command);
+
+            File::deleteDirectory(base_path() . '/storage/app/games/archive/tmp');
         }
-
-        GameArchive::createArchive($game, $command);
-
-        File::deleteDirectory(base_path() . '/storage/app/games/archive/tmp');
     }
 }
 
