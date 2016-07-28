@@ -40,5 +40,7 @@ return [
     'result' => 'Результат',
 
     'roundTable' => 'Таблица раунда',
+    'description' => 'Описание',
+
 
 ];

@@ -40,4 +40,5 @@ return [
     'result' => 'Result',
     
     'roundTable' => 'Round table',
+    'description' => 'Description',
 ];

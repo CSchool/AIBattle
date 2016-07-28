@@ -6,8 +6,10 @@ return [
     'panelHeading' => 'Administration',
     'gamesLink' => 'Games',
     'checkersLink' => 'Checkers',
+    'attachmentsLink' => 'Attachments',
     'tournamentsLink' => 'Tournaments',
     'roundsLink' => 'Rounds',
     'usersLink' => 'Users',
     'newsLink' => 'News',
+    'generalLink' => 'Enter',
 ];

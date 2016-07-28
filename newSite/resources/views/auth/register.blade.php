@@ -3,7 +3,7 @@
 @section('title', trans('auth/register.title'))
 
 @section('content')
-    <div class="container">
+    <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="page-header text-center">
                 <h2>{{ trans('auth/register.registrationHeader') }}</h2>
@@ -26,6 +26,5 @@
                 <button type="submit" class="btn btn-lg btn-primary btn-block">{{ trans('auth/register.createAccount') }}</button>
             </form>
         </div>
-
     </div>
 @endsection

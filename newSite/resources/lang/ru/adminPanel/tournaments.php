@@ -61,4 +61,8 @@ return [
     'tournamentState1Running' => 'идущие',
     'tournamentStateClosed' => 'Закрытый',
     'tournamentState1Closed' => 'закрытые',
+
+    'sidebarRunning' => 'Актуальные',
+    'sidebarClosed' => 'Закрытые',
+    'sidebarPreparing' => 'Ожидающие',
 ];

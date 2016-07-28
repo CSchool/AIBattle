@@ -61,4 +61,7 @@ return [
     'tournamentStateClosed' => 'Closed',
     'tournamentState1Closed' => 'Closed',
     
+    'sidebarRunning' => 'Running',
+    'sidebarClosed' => 'Closed',
+    'sidebarPreparing' => 'Preparing',
 ];

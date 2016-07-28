@@ -6,8 +6,11 @@ return [
     'panelHeading' => 'Администрирование',
     'gamesLink' => 'Игры',
     'checkersLink' => 'Тестировщики',
+    'attachmentsLink' => 'Файлы',
     'tournamentsLink' => 'Турниры',
     'roundsLink' => 'Раунды',
     'usersLink' => 'Пользователи',
     'newsLink' => 'Новости',
+    'generalLink' => 'Войти',
+
 ];
