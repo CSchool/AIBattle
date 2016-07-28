@@ -24,22 +24,41 @@
 
             <div class="form-group">
                 <label for="title">{{ trans('adminPanel/news.newsFormTitle') }}:</label>
-                <input type="text" class="form-control" name="title" id="title"
-                   @if ($mode == "edit") value="{{ $news->header }}" @endif />
+
+                @if (empty(old('title')) === true)
+                    <input type="text" class="form-control" name="title" id="title"
+                       @if ($mode == "edit") value="{{ $news->header }}" @endif />
+                @else
+                    <input type="text" class="form-control" name="title" id="title"
+                       value="{{ old('title') }}" />
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="newsText">{{ trans('adminPanel/news.newsFormText') }}:</label>
-                <textarea class="form-control" name="newsText" id="newsText">
-                    @if ($mode == "edit") {{ $news->text }} @endif
-                </textarea>
+
+                @if (empty(old('newsText')) === true)
+                    <textarea class="form-control" name="newsText" id="newsText">
+                        @if ($mode == "edit") {{ $news->text }} @endif
+                    </textarea>
+                @else
+                    <textarea class="form-control" name="newsText" id="newsText">
+                        {{ old('newsText') }}
+                    </textarea>
+                @endif
+
             </div>
 
             <div class="form-group">
                 <label for="datetimepicker">{{ trans('adminPanel/news.newsFormDate') }}:</label>
                 <div class='input-group date'>
-                    <input type='text' class="form-control" name="datetimepicker" id="datetimepicker"
-                       @if ($mode == "edit") value="{{ $news->date->format('d/m/Y') }}" @endif />
+                    @if (empty(old('datetimepicker')) === true)
+                        <input type='text' class="form-control" name="datetimepicker" id="datetimepicker"
+                           @if ($mode == "edit") value="{{ $news->date->format('d/m/Y') }}" @endif />
+                    @else
+                        <input type='text' class="form-control" name="datetimepicker" id="datetimepicker"
+                           value="{{ old('datetimepicker') }}" />
+                    @endif
                 </div>
             </div>
 

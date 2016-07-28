@@ -42,27 +42,52 @@
 
             <div class="form-group">
                 <label for="name">{{ trans('adminPanel/games.gameName') }}:</label>
+
+                @if (empty(old('name')) === true)
                 <input type="text" class="form-control" name="name" id="name"
                        @if ($mode == "edit") value="{{ $game->name }}" @endif />
+                @else
+                    <input type="text" class="form-control" name="name" id="name"
+                       value="{{ old('name') }}" />
+               @endif
             </div>
 
             <div class="form-group">
                 <label for="description">{{ trans('adminPanel/games.gameDescription') }}:</label>
-                <textarea class="form-control" name="description" id="description">
-                    @if ($mode == "edit") {{ $game->description }} @endif
-                </textarea>
+
+                @if (empty(old('description')) === true)
+                    <textarea class="form-control" name="description" id="description">
+                        @if ($mode == "edit") {{ $game->description }} @endif
+                    </textarea>
+                @else
+                    <textarea class="form-control" name="description" id="description">
+                        {{ old('description') }}
+                    </textarea>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="timeLimit">{{ trans('adminPanel/games.gameTimeLimit') }}:</label>
-                <input type="text" class="form-control" name="timeLimit" id="timeLimit"
-                    @if ($mode == "edit")  value="{{ $game->timeLimit }}" @elseif ($mode == "create") value="1000" @endif  />
+
+                @if (empty(old('timeLimit')) === true)
+                    <input type="text" class="form-control" name="timeLimit" id="timeLimit"
+                        @if ($mode == "edit")  value="{{ $game->timeLimit }}" @elseif ($mode == "create") value="1000" @endif  />
+                @else
+                    <input type="text" class="form-control" name="timeLimit" id="timeLimit"
+                      value="{{ old('timeLimit') }}"  />
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="memoryLimit">{{ trans('adminPanel/games.gameMemoryLimit') }}:</label>
-                <input type="text" class="form-control" name="memoryLimit" id="memoryLimit"
-                   @if ($mode == "edit")  value="{{ $game->memoryLimit }}" @elseif ($mode == "create") value="64000" @endif/>
+
+                @if (empty(old('memoryLimit')) === true)
+                    <input type="text" class="form-control" name="memoryLimit" id="memoryLimit"
+                        @if ($mode == "edit")  value="{{ $game->memoryLimit }}" @elseif ($mode == "create") value="64000" @endif/>
+                @else
+                    <input type="text" class="form-control" name="memoryLimit" id="memoryLimit"
+                       value="{{ old('memoryLimit') }}"/>
+                @endif
             </div>
 
             <div class="form-group">

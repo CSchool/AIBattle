@@ -45,8 +45,14 @@
 
                 <div class="form-group">
                     <label for="name">{{ trans('adminPanel/checkers.checkerName') }}:</label>
-                    <input type="text" class="form-control" name="name" id="name"
-                       @if ($mode == "edit") value="{{ $checker->name }}" @endif />
+
+                    @if (empty(old('name')) === true)
+                        <input type="text" class="form-control" name="name" id="name"
+                            @if ($mode == "edit") value="{{ $checker->name }}" @endif />
+                    @else
+                        <input type="text" class="form-control" name="name" id="name"
+                            value="{{ old('name') }}" />
+                    @endif
                 </div>
 
                 <div class="form-group">

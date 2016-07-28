@@ -27,8 +27,14 @@
 
             <div class="form-group">
                 <label for="description">{{ trans('adminPanel/attachments.attachmentDescription') }}:</label>
-                <input type="text" class="form-control" name="description" id="description"
-                   @if ($mode == "edit") value="{{ $attachment->description }}" @endif />
+
+                @if (empty(old('description')) === true)
+                    <input type="text" class="form-control" name="description" id="description"
+                       @if ($mode == "edit") value="{{ $attachment->description }}" @endif />
+                @else
+                    <input type="text" class="form-control" name="description" id="description"
+                       value="{{ old('description') }}" />
+                @endif
             </div>
 
             <div class="form-group">

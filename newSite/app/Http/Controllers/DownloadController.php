@@ -72,7 +72,7 @@ class DownloadController extends Controller
 
         if (User::isAdmin() || $duelUsers > 0 || ($round != null && $round->visible == 1)) {
             if (Storage::disk('local')->has('logs/' . $duelId)) {
-                return response(Storage::disk('local')->get('logs/' . $duelId), 200, ['Content-Type' => 'text/plain']); // , ['Content-type: text/plain']
+                return response(Storage::disk('local')->get('logs/' . $duelId), 200, ['Content-Type' => 'text/plain']);
             } else {
                 abort(404, 'Log not found!');
             }

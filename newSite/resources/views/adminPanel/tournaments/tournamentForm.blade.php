@@ -35,15 +35,28 @@
 
                 <div class="form-group">
                     <label for="name">{{ trans('adminPanel/tournaments.tournamentName') }}:</label>
-                    <input type="text" class="form-control" name="name" id="name"
+
+                    @if (empty(old('name')) === true)
+                        <input type="text" class="form-control" name="name" id="name"
                            @if ($mode == "edit") value="{{ $tournament->name }}" @endif />
+                    @else
+                        <input type="text" class="form-control" name="name" id="name"
+                           {{ old('name') }} />
+                    @endif
                 </div>
 
                 <div class="form-group">
                     <label for="description">{{ trans('adminPanel/tournaments.tournamentDescription') }}:</label>
-                    <textarea class="form-control" name="description" id="description">
-                        @if ($mode == "edit") {{ $tournament->description }} @endif
-                    </textarea>
+
+                    @if (empty(old('description')) === true)
+                        <textarea class="form-control" name="description" id="description">
+                            @if ($mode == "edit") {{ $tournament->description }} @endif
+                        </textarea>
+                    @else
+                        <textarea class="form-control" name="description" id="description">
+                            {{ old('description') }}
+                        </textarea>
+                    @endif
                 </div>
 
                 <div class="form-group">

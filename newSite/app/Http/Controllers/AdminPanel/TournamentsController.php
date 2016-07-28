@@ -189,6 +189,15 @@ class TournamentsController extends Controller
 
             return redirect('adminPanel/tournaments');
         } elseif ($request->has('update')) {
+
+            $this->validate($request, [
+                'name' => 'required|max:32',
+                'description' => 'required',
+                'game' => 'required',
+                'state' => 'required',
+                'checker' => 'required',
+            ]);
+
             $tournament->name = $request->input('name');
             $tournament->description = $request->input('description');
 

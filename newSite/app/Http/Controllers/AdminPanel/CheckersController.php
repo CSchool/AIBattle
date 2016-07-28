@@ -107,6 +107,11 @@ class CheckersController extends Controller
 
         } else if ($request->has('update')) {
 
+            $this->validate($request, [
+                "game" => "required",
+                "name" => "required",
+            ]);
+
             // checking if this FK exist in wild nature
             Game::findOrFail(intval($request->input('game')));
 

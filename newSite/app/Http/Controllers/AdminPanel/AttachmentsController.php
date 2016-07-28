@@ -104,6 +104,10 @@ class AttachmentsController extends Controller
                 $attachment->delete();
             } elseif ($request->has('update')) {
 
+                $this->validate($request, [
+                    'description' => 'required|max:128',
+                ]);
+
                 $attachment->description = $request->input('description');
                 $attachment->game_id = $id;
 
