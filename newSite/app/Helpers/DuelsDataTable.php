@@ -58,7 +58,7 @@ class DuelsDataTable {
                     $action = action('DownloadController@downloadLog', [$tournament->id, $data['id']]);
                 }
 
-                return '<a href="' . $action . '" class="btn-xs btn-' . $linkClass . '"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
+                return '<a href="' . $action . '" class="btn-xs btn-' . $linkClass . '" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-download-alt"></i> ' . $data['status'] . '</a>';
             })
             ->editColumn('hasVisualizer', function($data) use(&$tournament) {
 
@@ -70,7 +70,7 @@ class DuelsDataTable {
                     $href = url('tournaments/' . $tournament->id . '/training/' . $data['id']);
                 }
 
-                return '<a href="' . $href . '"  target="_blank" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
+                return '<a href="' . $href . '"  target="_blank" rel="noopener noreferrer" class="btn-xs btn-warning"><i class="glyphicon glyphicon-play"></i> ' . trans('tournaments/strategies.trainingViewGame') . '</a>';
             })
             ->make(true);
     }
