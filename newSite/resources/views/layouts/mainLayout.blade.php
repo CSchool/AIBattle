@@ -127,15 +127,16 @@
 
                         <li class="list-group-item">
                             <a href="#" class="tree-toggle">{{ trans('layouts/mainLayout.tournaments') }} <span class="caret"></span></a>
-                            <ul class="list-group tree">
-                                @section('tournamentSidebar')
-                                    @foreach ($globalCurrentTournaments as $tournament)
-                                        <li class="list-group-item noBorder">
-                                            <a href="{{ url('/tournaments', [$tournament->id]) }}" >{{ $tournament->name }}</a>
-                                        </li>
-                                    @endforeach
-                                @show
-                            </ul>
+                            @section('tournamentSidebar')
+                                <ul class="list-group tree">
+                                        @foreach ($globalCurrentTournaments as $tournament)
+                                            <li class="list-group-item noBorder">
+                                                <a href="{{ url('/tournaments', [$tournament->id]) }}" >{{ $tournament->name }}</a>
+                                            </li>
+                                        @endforeach
+
+                                </ul>
+                            @show
 
                         </li>
 
