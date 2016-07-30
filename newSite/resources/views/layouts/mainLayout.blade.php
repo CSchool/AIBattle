@@ -33,7 +33,7 @@
         @media (min-width: 768px) {
             .sidebar {
                 position: fixed;
-                top: 15px;
+                top: 55px;
                 bottom: 0;
                 left: 0;
                 z-index: 1000;
@@ -58,208 +58,106 @@
         .main .page-header {
             margin-top: 0;
         }
+
+        .list-group.list-group-root {
+            padding: 0;
+            /*overflow: hidden;*/
+        }
+
+        .list-group.list-group-root .list-group {
+            margin-bottom: 0;
+        }
+
+        .list-group.list-group-root .list-group-item {
+            border-radius: 0;
+            border-width: 1px 0 0 0;
+        }
+
+        .list-group.list-group-root > .list-group-item:first-child {
+            border-top-width: 0;
+        }
+
+        .list-group.list-group-root > .list-group > .list-group-item {
+            padding-left: 30px;
+        }
+
+        .list-group.list-group-root > .list-group > .list-group > .list-group-item {
+            padding-left: 45px;
+        }
+
+        .noBorder {
+            border: none
+        }
+
+        .displayBlock {
+            display: none;
+        }
     </style>
 
     <body id="AIBattleLayout">
-
         <div class="container-fluid">
+            <div class="text-center"><h2>AIBattle v2 -  CSchool, 2016</h2></div>
+
             <div class="col-sm-4 col-md-3 sidebar">
                 <div role="navigation">
-                    <ul class="list-group">
 
-                        <!-- header -->
+                    <ul class="list-group list-group-root well">
+
                         <li class="list-group-item">
                             <a href="{{ url('/') }}">
                                 <h4>AIBattle</h4>
                             </a>
                         </li>
 
-                        <!-- strategies -->
-                        <li class="list-group-item">
-                            <a href="#" class="nav tree-toggle">{{ trans('layouts/mainLayout.tournaments') }} <span class="caret"></span></a>
-                            <ul class="nav tree">
-                                @foreach ($globalCurrentTournaments as $tournament)
-                                    <li>
-                                        <a href="#" class="tree-toggle">{{ $tournament->name }} <span class="caret"></span></a>
-                                        <ul class="tree">
-                                            <li class="">
-                                                <a href="{{ url('/tournaments', [$tournament->id]) }}">
-                                                    {{ trans('layouts/tournamentLayout.information') }}
-                                                </a>
-                                            </li>
-                                            @if (Auth::user())
-                                                <li class="">
-                                                    <a href="{{ url('/tournaments', [$tournament->id, 'rounds']) }}">
-                                                        {{ trans('layouts/tournamentLayout.rounds') }}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                            <li class="">
-                                                <a href="{{ url('/tournaments', [$tournament->id, 'strategies']) }}" id="strategiesLink">
-                                                    {{ trans('layouts/tournamentLayout.strategies') }}
-                                                </a>
-                                            </li>
-                                            <li class="">
-                                                <a href="{{ url('/tournaments', [$tournament->id, 'training']) }}">
-                                                    {{ trans('tournaments/strategies.showStrategiesTrainingLink') }}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-
-                        <!-- adminPanel -->
-                        @if (isset($globalCurrentUser) && $globalCurrentUser->isAdmin())
-                            <li class="list-group-item">
-                                <a href="#" class="nav tree-toggle">
-                                    <div class="text-danger">
-                                        <span class="glyphicon glyphicon-wrench"></span> {{ trans('layouts/mainLayout.adminPanel') }} <span class="caret"></span>
-                                    </div>
-                                </a>
-                                <ul class="nav tree">
-
-                                    <!-- general access -->
-                                    <li>
-                                        <a href="{{ url('adminPanel') }}" class="tree-toggle">{{ trans('adminPanel/main.generalLink') }}</a>
-                                    </li>
-
-                                    <!-- games -->
-                                    <li>
-                                        <a href="#" class="tree-toggle">{{ trans('adminPanel/main.gamesLink') }} <span class="caret"></span></a>
-                                        <ul class="tree">
-                                            @foreach($globalGamesAvailable as $game)
-                                                <li>
-                                                    <a href="#" class="tree-toggle">{{ $game->name }} <span class="caret"></span></a>
-                                                    <ul class="tree">
-                                                        <li>
-                                                            <a href="{{ url('adminPanel/games', [$game->id]) }}">{{ trans('shared.description') }}</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{ url('adminPanel/games', [$game->id, 'attachments']) }}">{{ trans('adminPanel/main.attachmentsLink') }}</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{ url('adminPanel/games', [$game->id, 'checkers']) }}">{{ trans('adminPanel/main.checkersLink') . '(NOT DONE)' }}</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-
-                                    <!-- tournaments -->
-                                    <!-- TODO: make asset for equal chunk of code, which just different by variable - state of tournaments! -->
-                                    <li>
-                                        <a href="#" class="tree-toggle">{{ trans('adminPanel/main.tournamentsLink') }} <span class="caret"></span></a>
-                                        <ul class="tree">
-                                            @if (count($globalCurrentTournaments) > 0)
-                                                <li>
-                                                    <a href="#" class="tree-toggle">{{ trans('adminPanel/tournaments.sidebarRunning') }} <span class="caret"></span></a>
-                                                    <ul class="tree">
-                                                        @foreach($globalCurrentTournaments as $tournament)
-                                                        <li>
-                                                            <a href="#" class="tree-toggle">{{ $tournament->name }} <span class="caret"></span></a>
-                                                            <ul class="tree">
-                                                                <li>
-                                                                    <a href="{{ url('adminPanel/tournaments', [$tournament->id]) }}">{{ trans('shared.description') }}</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="{{ url('adminPanel/tournaments', [$tournament->id, 'rounds']) }}">{{ trans('adminPanel/main.roundsLink') }}</a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
-                                            @if (count($globalPreparingTournaments) > 0)
-                                                <li>
-                                                    <a href="#" class="tree-toggle">{{ trans('adminPanel/tournaments.sidebarPreparing') }} <span class="caret"></span></a>
-                                                    <ul class="tree">
-                                                        @foreach($globalPreparingTournaments as $tournament)
-                                                            <li>
-                                                                <a href="#" class="tree-toggle">{{ $tournament->name }} <span class="caret"></span></a>
-                                                                <ul class="tree">
-                                                                    <li>
-                                                                        <a href="{{ url('adminPanel/tournaments', [$tournament->id]) }}">{{ trans('shared.description') }}</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="{{ url('adminPanel/tournaments', [$tournament->id, 'rounds']) }}">{{ trans('adminPanel/main.roundsLink') }}</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
-                                            @if (count($globalClosedTournaments) > 0)
-                                                <li>
-                                                    <a href="#" class="tree-toggle">{{ trans('adminPanel/tournaments.sidebarClosed') }} <span class="caret"></span></a>
-                                                    <ul class="tree">
-                                                        @foreach($globalClosedTournaments as $tournament)
-                                                            <li>
-                                                                <a href="#" class="tree-toggle">{{ $tournament->name }} <span class="caret"></span></a>
-                                                                <ul class="tree">
-                                                                    <li>
-                                                                        <a href="{{ url('adminPanel/tournaments', [$tournament->id]) }}">{{ trans('shared.description') }}</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="{{ url('adminPanel/tournaments', [$tournament->id, 'rounds']) }}">{{ trans('adminPanel/main.roundsLink') }}</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
-                                        </ul>
-                                    </li>
-
-                                    <!-- users -->
-                                    <li>
-                                        <a href="{{ url('adminPanel/users') }}" class="tree-toggle">{{ trans('adminPanel/main.usersLink') }}</a>
-                                    </li>
-
-                                    <!-- news -->
-                                    <li>
-                                        <a href="{{ url('adminPanel/news') }}" class="tree-toggle">{{ trans('adminPanel/main.newsLink') }}</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-
-                        <!-- language -->
-                        <li class="list-group-item dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-flag"></span> {{ trans('layouts/mainLayout.language') }}
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ url('/locale/en') }}">{{ trans('layouts/mainLayout.enLanguage') }}</a></li>
-                                <li><a href="{{ url('/locale/ru') }}">{{ trans('layouts/mainLayout.rusLanguage') }}</a></li>
-                            </ul>
-                        </li>
-
                         <!-- change user -->
                         <li class="list-group-item dropdown">
-                            <a href="#" class="dropdown-toggle profilePadding" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> {{ $globalCurrentUser->username or trans('layouts/mainLayout.anonymous') }}
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
+                            <a href="#" class="tree-toggle">{{ $globalCurrentUser->username or trans('layouts/mainLayout.anonymous') }} <span class="caret"></span></a>
+                            <ul class="list-group tree displayBlock">
                                 @if (!isset($globalCurrentUser))
-                                    <li><a href="{{url('auth/login')}}">{{ trans('layouts/mainLayout.login') }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{{url('auth/register')}}">{{ trans('layouts/mainLayout.register') }}</a></li>
+                                    <li class="list-group-item noBorder"><a href="{{url('auth/login')}}">{{ trans('layouts/mainLayout.login') }}</a></li>
+                                    <li class="list-group-item noBorder"><a href="{{url('auth/register')}}">{{ trans('layouts/mainLayout.register') }}</a></li>
                                 @else
-                                    <li><a href="{{url('/userProfile')}}">{{ trans('layouts/mainLayout.userProfile') }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{{url('auth/logout')}}">{{ trans('layouts/mainLayout.logout') }}</a></li>
+                                    <li class="list-group-item noBorder"><a href="{{url('/userProfile')}}">{{ trans('layouts/mainLayout.userProfile') }}</a></li>
+                                    <li class="list-group-item noBorder"><a href="{{url('auth/logout')}}">{{ trans('layouts/mainLayout.logout') }}</a></li>
                                 @endif
                             </ul>
                         </li>
+
+                        <!-- tournaments -->
+
+                        <li class="list-group-item">
+                            <a href="#" class="tree-toggle">{{ trans('layouts/mainLayout.tournaments') }} <span class="caret"></span></a>
+                            <ul class="list-group tree">
+                                @section('tournamentSidebar')
+                                    @foreach ($globalCurrentTournaments as $tournament)
+                                        <li class="list-group-item noBorder">
+                                            <a href="{{ url('/tournaments', [$tournament->id]) }}" >{{ $tournament->name }}</a>
+                                        </li>
+                                    @endforeach
+                                @show
+                            </ul>
+
+                        </li>
+
+                        @if (isset($globalCurrentUser) && $globalCurrentUser->isAdmin())
+                        <li class="list-group-item">
+                            @section('adminPanelSidebar')
+                                <a href="{{ url('adminPanel') }}">
+                                    <div class="text-danger"><span class="glyphicon glyphicon-wrench"></span> {{ trans('layouts/mainLayout.adminPanel') }}</div>
+                                </a>
+                            @show
+                        </li>
+                        @endif
+
+                        <li class="list-group-item dropdown">
+                            <a href="#" class="tree-toggle">{{ trans('layouts/mainLayout.language') }} <span class="caret"></span></a>
+                            <ul class="list-group tree displayBlock">
+                                <li class="list-group-item noBorder"><a href="{{ url('/locale/en') }}">{{ trans('layouts/mainLayout.enLanguage') }}</a></li>
+                                <li class="list-group-item noBorder"><a href="{{ url('/locale/ru') }}">{{ trans('layouts/mainLayout.rusLanguage') }}</a></li>
+                            </ul>
+                        </li>
                     </ul>
+
                 </div>
             </div>
             <div class="col-sm-8 col-sm-offset-3 col-md-9  main">
@@ -277,9 +175,6 @@
                     $(this).parent().children('ul.tree').toggle(200);
                 });
 
-                treeToggle.each(function () {
-                    $(this).parent().children('ul.tree').toggle(0);
-                });
             });
 
         </script>

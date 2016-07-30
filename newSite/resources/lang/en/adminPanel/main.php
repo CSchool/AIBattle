@@ -11,5 +11,5 @@ return [
     'roundsLink' => 'Rounds',
     'usersLink' => 'Users',
     'newsLink' => 'News',
-    'generalLink' => 'Enter',
+    'generalLink' => 'Main page',
 ];

@@ -11,6 +11,6 @@ return [
     'roundsLink' => 'Раунды',
     'usersLink' => 'Пользователи',
     'newsLink' => 'Новости',
-    'generalLink' => 'Войти',
+    'generalLink' => 'Главная',
 
 ];

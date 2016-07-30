@@ -3,12 +3,6 @@
 @section('title', trans('start.title'))
 
 @section('content')
-    <div class="page-header text-center">
-        <h1>Hello, world!</h1>
-    </div>
-
-    @include('assets.error')
-
     <div>
         @foreach($news as $element)
             <div class="panel panel-info">
