@@ -19,7 +19,7 @@
 
         <div class="text-center">
             <div class="row">
-                <a href="{{ url('/adminPanel/games/' . $game->id .'/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                <a href="{{ url('/adminPanel/games/' . $game->id.'/checkers/create') }}" class="btn btn-success btn-lg" role="button">
                     {{ trans('adminPanel/checkers.checkersCreate') }}
                 </a>
             </div>

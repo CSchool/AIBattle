@@ -15,11 +15,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/adminPanel/checkers') }}" class="btn btn-success" role="button">
-                    {{ trans('adminPanel/main.checkersLink') }}
-                </a>
-            </li>
-            <li>
                 <a href="{{ url('/adminPanel/tournaments') }}" class="btn btn-success" role="button">
                     {{ trans('adminPanel/main.tournamentsLink') }}
                 </a>
