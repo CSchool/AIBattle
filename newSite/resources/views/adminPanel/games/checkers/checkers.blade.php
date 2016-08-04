@@ -19,7 +19,7 @@
 
         <div class="text-center">
             <div class="row">
-                <a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                <a href="{{ url('/adminPanel/games/' . $game->id .'/checkers/create') }}" class="btn btn-success btn-lg" role="button">
                     {{ trans('adminPanel/checkers.checkersCreate') }}
                 </a>
             </div>
@@ -31,17 +31,8 @@
                 <tr class="success">
                     <td>#</td>
                     <td>{{ trans('shared.checker') }}</td>
-                    <td>{{ trans('shared.game') }}</td>
                 </tr>
             </thead>
-
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tfoot>
         </table>
 
         <script>
@@ -49,10 +40,7 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    url: '{!! route('admin.checkersTable') !!}',
-                    data: function(d) {
-                        d.gameId = $('#games').val() || '' ;
-                    }
+                    url: '{!! route('admin.checkersTable', [$game->id]) !!}'
                 },
                 'responsive': true,
                 @if (App::getLocale() == 'ru')
@@ -62,29 +50,11 @@
                 @endif
                 "columns": [
                     { data: 'id', name: 'id' },
-                    { data: 'checkerName', name: 'checkerName' },
-                    { data: 'gameName', name: 'g.name' }
+                    { data: 'name', name: 'name' }
                 ],
                 "columnDefs": [
                     { "width": "5%", className: "text-center", "targets": 0}
-                ],
-                'initComplete': function () {
-                    var column = this.api().column(2);
-
-                    var select = $('<select id="games"><option value=""></option></select>')
-                            .appendTo($(column.footer()).empty())
-                            .on('change', function () {
-                                $('#checkers').DataTable().draw();
-                            });
-
-                    column.data().unique().sort().each( function ( d, j ) {
-                        var cell = $(d);
-                        var hrefArray = cell.attr('href').split('/');
-                        var id = hrefArray[hrefArray.length - 1];
-
-                        select.append( '<option value="'+id+'">'+cell.text()+'</option>' )
-                    } );
-                }
+                ]
             });
         </script>
     @else

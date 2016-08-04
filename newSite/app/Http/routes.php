@@ -53,7 +53,17 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('/{id}', 'AdminPanel\GamesController@showGameById');
 
+            Route::group(['prefix' => '/{id}/checkers'], function() {
+                Route::get('/', 'AdminPanel\CheckersController@showCheckers');
 
+                Route::get('/create', 'AdminPanel\CheckersController@showCreateCheckerForm');
+                Route::post('/create', 'AdminPanel\CheckersController@createChecker');
+
+                Route::get('/edit/{checkerId}', 'AdminPanel\CheckersController@showEditCheckerForm');
+                Route::post('/edit/{checkerId}', 'AdminPanel\CheckersController@editChecker');
+
+                Route::get('/{checkerId}', 'AdminPanel\CheckersController@showCheckerById');
+            });
 
             Route::group(['prefix' => '/{id}/attachments'], function() {
                 Route::get('/', 'AdminPanel\AttachmentsController@showAttachments');
@@ -66,8 +76,11 @@ Route::group(['middleware' => 'locale'], function() {
 
                 Route::get('/{attachmentId}', 'AdminPanel\AttachmentsController@showAttachmentById');
             });
+
+
         });
 
+        /*
         Route::group(['prefix' => 'checkers'], function () {
             Route::get('/', 'AdminPanel\CheckersController@showCheckers');
 
@@ -79,6 +92,7 @@ Route::group(['middleware' => 'locale'], function() {
 
             Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById');
         });
+        */
 
         Route::group(['prefix' => 'tournaments'], function() {
             Route::get('/', 'AdminPanel\TournamentsController@showTournaments');
@@ -136,7 +150,7 @@ Route::group(['middleware' => 'locale'], function() {
                 'uses' => 'AdminPanel\AttachmentsController@attachmentsTable',
             ]);
 
-            Route::get('/checkersTable', [
+            Route::get('/checkersTable/{gameId}', [
                 'as' => 'admin.checkersTable',
                 'uses' => 'AdminPanel\CheckersController@checkersTable',
             ]);

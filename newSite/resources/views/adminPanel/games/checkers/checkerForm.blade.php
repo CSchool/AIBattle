@@ -32,18 +32,6 @@
                 {{ Form::open(array('files' => true, 'method' => 'post'))}}
 
                 <div class="form-group">
-                    <label for="game">{{ trans('adminPanel/checkers.checkerGame') }}:</label>
-                    <select class="form-control" name="game" id="game">
-                        @foreach($games as $gameElement)
-                            <option value="{{ $gameElement->id }}"
-                            @if ($mode == "edit" && $checker->game_id == $gameElement->id) selected @endif>
-                                {{ $gameElement->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
                     <label for="name">{{ trans('adminPanel/checkers.checkerName') }}:</label>
 
                     @if (empty(old('name')) === true)

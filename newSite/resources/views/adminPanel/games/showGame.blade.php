@@ -47,9 +47,10 @@
                 'backLink' => url('adminPanel/games'),
                 'editLink' => url('adminPanel/games/edit', [$game->id]),
                 'editName' => trans('adminPanel/games.showGameEditRedirectFooterName'),
-                'specialMode' => 'attachment',
+                'specialMode' => 'game',
                 'archiveLink' => '/download/game/' . $game->id . '/archive',
-                'attachmentRoute' => url('/adminPanel/games', [$game->id, 'attachments'])
+                'attachmentRoute' => url('/adminPanel/games', [$game->id, 'attachments']),
+                'checkerRoute' => url('/adminPanel/games', [$game->id, 'checkers'])
                 ])
         </div>
     </div>

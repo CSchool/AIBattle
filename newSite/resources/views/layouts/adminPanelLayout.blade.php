@@ -41,7 +41,7 @@
                                 <a href="{{ url('adminPanel/games', [$game->id, 'attachments']) }}">{{ trans('adminPanel/main.attachmentsLink') }}</a>
                             </li>
                             <li class="list-group-item noBorder">
-                                <a href="{{ url('adminPanel/games', [$game->id, 'checkers']) }}">{{ trans('adminPanel/main.checkersLink') . '(NOT DONE)' }}</a>
+                                <a href="{{ url('adminPanel/games', [$game->id, 'checkers']) }}">{{ trans('adminPanel/main.checkersLink')  }}</a>
                             </li>
                         </ul>
                     </li>

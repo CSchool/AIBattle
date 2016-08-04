@@ -37,7 +37,7 @@
         </div>
 
         <div class="panel-footer clearfix">
-            @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/checkers'), 'editLink' => url('adminPanel/checkers/edit', [$checker->id]), 'editName' => trans('adminPanel/checkers.showCheckerEditRedirectFooter')])
+            @include('assets.editRedirectFooter', ['backLink' => url('adminPanel/checkers'), 'editLink' => url('adminPanel/games', [$checker->game->id, 'checkers', 'edit', $checker->id]), 'editName' => trans('adminPanel/checkers.showCheckerEditRedirectFooter')])
         </div>
     </div>
 

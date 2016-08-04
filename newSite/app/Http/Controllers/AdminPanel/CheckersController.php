@@ -19,49 +19,52 @@ use Yajra\Datatables\Datatables;
 
 class CheckersController extends Controller
 {
-    public function showCheckers() {
-        return view('adminPanel/checkers/checkers', ['checkers' => Checker::all()->count()]);
+    public function showCheckers($gameId) {
+        $game = Game::findOrFail($gameId);
+        return view('adminPanel/games/checkers/checkers', ['checkers' => Checker::where('game_id', $gameId)->count(), 'game' => $game]);
     }
 
-    public function checkersTable(Request $request) {
-        $checkers = DB::table('checkers')->join('games as g', 'checkers.game_id', '=', 'g.id')
-                    ->select(['checkers.id as id', 'checkers.name as checkerName', 'g.id as gameId', 'g.name as gameName']);
+    public function checkersTable(Request $request, $gameId) {
+
+        $game = Game::findOrFail($gameId);
+        $checkers = $game->checkers()->select(['id', 'name']);
 
         return Datatables::of($checkers)
-                ->filter(function($query) use(&$request) {
-                    if ($request->has('gameId')) {
-                        $query->where('g.id', '=', $request->get('gameId'));
-                    }
-                })
-                ->editColumn('checkerName', function ($data) {
-                    return '<a href="' . url('/adminPanel/checkers', [$data->id]) . '" role="button">' . $data->checkerName . '</a>';
-                })
-                ->editColumn('gameName', function($data) {
-                    return '<a href="' . url('/adminPanel/games', [$data->gameId]) . '">' . $data->gameName . '</a>';
+                ->editColumn('name', function($checker) use(&$gameId) {
+                    return '<a href="' . url('/adminPanel/games', [$gameId, 'checkers', $checker->id]) . '" role="button">' . $checker->name . '</a>';
                 })
                 ->make(true);
     }
     
-    public function showCreateCheckerForm() {
-        return view('adminPanel/checkers/checkerForm', ['mode' => 'create', 'checkersCount' => count(Checker::all()) + 1, 'games' => Game::all()]);
+    public function showCreateCheckerForm($gameId) {
+        // add game checking and change form
+        return view('adminPanel/games/checkers/checkerForm', ['mode' => 'create', 'checkersCount' => count(Checker::all()) + 1, 'games' => Game::all()]);
     }
 
-    public function showCheckerById($id) {
-        $checker = Checker::findOrFail($id);
-        $game = $checker->game;
+    public function showCheckerById($gameId, $checkerId) {
+        $game = Game::findOrFail($gameId);
+        $checker = Checker::findOrFail($checkerId);
 
-        return view('adminPanel/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData()]);
+        if ($checker->game->id == $game->id) {
+            return view('adminPanel/games/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData()]);
+        } else {
+            abort(403);
+        }
     }
 
-    public function showEditCheckerForm($id) {
-        $checker = Checker::findOrFail($id);
+    public function showEditCheckerForm($gameId, $checkerId) {
+        $game = Game::findOrFail($gameId);
+        $checker = Checker::findOrFail($checkerId);
 
-        return view('adminPanel/checkers/checkerForm', ['mode' => 'edit', 'checker' => $checker, 'games' => Game::all()]);
+        if ($checker->game->id == $game->id) {
+            return view('adminPanel/games/checkers/checkerForm', ['mode' => 'edit', 'checker' => $checker, 'games' => Game::all()]);
+        } else {
+            abort(403);
+        }
     }
 
-    public function createChecker(Request $request) {
+    public function createChecker(Request $request, $gameId) {
         $this->validate($request, [
-            "game" => "required",
             "name" => "required",
             "checkerSource" => "required",
         ]);
@@ -69,9 +72,9 @@ class CheckersController extends Controller
         $checker = new Checker();
 
         // checking if this FK exist in wild nature
-        Game::findOrFail(intval($request->input('game')));
+        Game::findOrFail($gameId);
 
-        $checker->game_id = $request->input('game');
+        $checker->game_id = $gameId;
         $checker->name = $request->input('name');
         $checker->hasSeed = $request->has('hasSeed') ? 1 : 0;
 
@@ -90,12 +93,13 @@ class CheckersController extends Controller
 
         GameArchive::createArchive($checker->game);
 
-        return redirect('adminPanel/checkers');
+        return redirect('adminPanel/games/' . $gameId . '/checkers');
 
     }
 
-    public function editChecker(Request $request, $id) {
+    public function editChecker(Request $request, $gameId, $id) {
 
+        $game = Game::findOrFail($gameId);
         $checker = Checker::findOrFail($id);
 
         if ($request->has('delete')) {
@@ -108,14 +112,9 @@ class CheckersController extends Controller
         } else if ($request->has('update')) {
 
             $this->validate($request, [
-                "game" => "required",
                 "name" => "required",
             ]);
 
-            // checking if this FK exist in wild nature
-            Game::findOrFail(intval($request->input('game')));
-
-            $checker->game_id = $request->input('game');
             $checker->name = $request->input('name');
             $checker->hasSeed = $request->has('hasSeed') ? 1 : 0;
 
@@ -139,6 +138,6 @@ class CheckersController extends Controller
 
         GameArchive::createArchive($checker->game);
 
-        return redirect('adminPanel/checkers');
+        return redirect('adminPanel/games/' . $gameId . '/checkers');
     }
 }
