@@ -114,7 +114,9 @@
     <script>
         tinymce.init({
             selector: '#description',
-            menubar: false
+            menubar: false,
+            plugins: "table",
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table"
         });
 
 
