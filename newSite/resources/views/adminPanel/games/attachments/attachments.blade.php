@@ -3,7 +3,21 @@
 @section('title', trans('adminPanel/attachments.attachmentsTitle'))
 @section('APtitle', trans('adminPanel/attachments.attachmentsHeading'))
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
+
 @section('APcontent')
+
+    <style>
+        tfoot {
+            display: table-header-group;
+        }
+
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+
     @if ($attachments > 0)
 
         <div class="text-center">
@@ -15,7 +29,7 @@
             <br>
         </div>
 
-        <table id="attachments" class="table table-hover">
+        <table id="attachments" class="table table-hover" width="100%">
             <thead>
             <tr class="success">
                 <td>#</td>

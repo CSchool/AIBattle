@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use AIBattle\Http\Requests;
 use AIBattle\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 
@@ -22,7 +23,6 @@ class AttachmentsController extends Controller
 
     public function attachmentsTable($id) {
         $game = Game::findOrFail($id);
-        
         $attachments = $game->attachments()->select(['id', 'originalName']);
 
         return Datatables::of($attachments)
@@ -40,6 +40,7 @@ class AttachmentsController extends Controller
             'attachmentsCount' => $game->attachments->count() + 1,
             'gameName' => $game->name,
             'gameId' => $game->id,
+            'game' => $game,
         ]);
     }
 
@@ -65,6 +66,7 @@ class AttachmentsController extends Controller
                 'mode' => 'edit',
                 'attachment' => $attachment,
                 'gameName' => $game->name,
+                'game' => $game,
             ]);
         else
             abort(404);

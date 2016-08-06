@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/rounds.createRoundTitle', ['tournament' => $tournament->name]))
 @section('APtitle', trans('adminPanel/rounds.createRoundTitle', ['tournament' => $tournament->name]))
 
+@include('assets.adminPanel.tournamentsSidebar', ['tournament' => $tournament])
+
 @section('APcontent')
 
     <input type="hidden" name="_token" value="{{ csrf_token() }}">

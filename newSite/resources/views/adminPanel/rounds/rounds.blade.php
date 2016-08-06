@@ -3,6 +3,9 @@
 @section('title', trans('adminPanel/rounds.roundsTitle', ['tournament' => $tournament->name]))
 @section('APtitle', trans('adminPanel/rounds.roundsHeading', ['tournament' => $tournament->name]))
 
+@include('assets.adminPanel.tournamentsSidebar', ['tournament' => $tournament])
+
+
 @section('APcontent')
     <style>
         tfoot {

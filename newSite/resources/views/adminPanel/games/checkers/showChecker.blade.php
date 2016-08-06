@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/checkers.showCheckerTitle'))
 @section('APtitle', trans('adminPanel/checkers.showCheckerHeader'))
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
 
     {{ Form::hidden('codeTextShow', trans('adminPanel/checkers.showCheckerShowCode')) }}

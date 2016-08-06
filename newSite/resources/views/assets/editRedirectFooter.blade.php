@@ -7,7 +7,7 @@
     </div>
     -->
     @if (!isset($specialMode))
-        <div class="col-md-3 col-md-offset-6">
+        <div class="col-md-3 col-md-offset-9">
             <a href="{{ $editLink }}" class="btn btn-success btn-lg btn-block">
                 {{ trans('shared.edit') . ' ' . $editName }}
             </a>

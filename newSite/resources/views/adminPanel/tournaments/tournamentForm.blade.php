@@ -8,6 +8,10 @@
     @section('APtitle', trans('adminPanel/tournaments.tournamentFormHeaderEdit'))
 @endif
 
+@if (isset($tournament))
+    @include('assets.adminPanel.tournamentsSidebar', ['tournament' => $tournament])
+@endif
+
 @section('APcontent')
     @include('assets.error')
 

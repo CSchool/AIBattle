@@ -8,6 +8,8 @@
     @section('APtitle', trans('adminPanel/attachments.attachmentFormHeadingEdit'))
 @endif
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
     @include('assets.error')
 

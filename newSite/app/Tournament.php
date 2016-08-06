@@ -20,9 +20,15 @@ class Tournament extends Model
         return $this->hasMany('AIBattle\Strategy');
     }
 
+    public function rounds() {
+        return $this->hasMany('AIBattle\Round');
+    }
+
     public function getGame() {
         return Game::findOrFail($this->game_id);
     }
+
+
 
     public function getChecker() {
         return Checker::findOrFail($this->defaultChecker);

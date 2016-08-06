@@ -8,6 +8,8 @@
     @section('APtitle', trans('adminPanel/checkers.checkerFormHeadingEdit'))
 @endif
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
     @include('assets.error')
 

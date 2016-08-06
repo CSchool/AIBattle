@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/rounds.showRoundTitle', ['round' => $round->name]))
 @section('APtitle', trans('adminPanel/rounds.showRoundTitle', ['round' => $round->name]))
 
+@include('assets.adminPanel.tournamentsSidebar', ['tournament' => $tournament])
+
 @section('APcontent')
     <div class="panel panel-primary">
         <div class="panel-heading">{{ trans('adminPanel/rounds.showRoundPanelHeading', ['round' => $round->name]) }}</div>

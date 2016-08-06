@@ -169,6 +169,7 @@ class RoundsController extends Controller
             return view('adminPanel/rounds/roundResults', [
                 'round' => $round,
                 'roundTableUrl' => url('adminPanel/tournaments', [$round->tournament->id, 'rounds', $round->id, 'roundTable']),
+                'tournament' => $tournament,
                 'mode' => 'admin',
             ]);
         } else {

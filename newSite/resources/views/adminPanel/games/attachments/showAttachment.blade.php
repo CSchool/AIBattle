@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/attachments.showAttachmentTitle'))
 @section('APtitle', trans('adminPanel/attachments.showAttachmentHeading'))
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
     <div class="panel panel-primary">
 

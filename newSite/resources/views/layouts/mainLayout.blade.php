@@ -134,7 +134,6 @@
                                                 <a href="{{ url('/tournaments', [$tournament->id]) }}" >{{ $tournament->name }}</a>
                                             </li>
                                         @endforeach
-
                                 </ul>
                             @show
 

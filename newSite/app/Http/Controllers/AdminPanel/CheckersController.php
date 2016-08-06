@@ -37,8 +37,13 @@ class CheckersController extends Controller
     }
     
     public function showCreateCheckerForm($gameId) {
-        // add game checking and change form
-        return view('adminPanel/games/checkers/checkerForm', ['mode' => 'create', 'checkersCount' => count(Checker::all()) + 1, 'games' => Game::all()]);
+        $game = Game::findOrFail($gameId);
+        return view('adminPanel/games/checkers/checkerForm', [
+            'mode' => 'create',
+            'checkersCount' => count(Checker::all()) + 1,
+            'games' => Game::all(),
+            'game' => $game,
+        ]);
     }
 
     public function showCheckerById($gameId, $checkerId) {
@@ -46,7 +51,11 @@ class CheckersController extends Controller
         $checker = Checker::findOrFail($checkerId);
 
         if ($checker->game->id == $game->id) {
-            return view('adminPanel/games/checkers/showChecker', ['checker' => $checker, 'game' => $game, 'checkerData' => $checker->getCheckerData()]);
+            return view('adminPanel/games/checkers/showChecker', [
+                'checker' => $checker,
+                'game' => $game,
+                'checkerData' => $checker->getCheckerData()
+            ]);
         } else {
             abort(403);
         }
@@ -57,7 +66,12 @@ class CheckersController extends Controller
         $checker = Checker::findOrFail($checkerId);
 
         if ($checker->game->id == $game->id) {
-            return view('adminPanel/games/checkers/checkerForm', ['mode' => 'edit', 'checker' => $checker, 'games' => Game::all()]);
+            return view('adminPanel/games/checkers/checkerForm', [
+                'mode' => 'edit',
+                'checker' => $checker,
+                'games' => Game::all(),
+                'game' => $game,
+            ]);
         } else {
             abort(403);
         }

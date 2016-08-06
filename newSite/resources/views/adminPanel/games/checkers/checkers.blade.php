@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/checkers.checkersTitle'))
 @section('APtitle', trans('adminPanel/checkers.checkersHeader'))
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
 
     @if ($checkers > 0)

@@ -3,6 +3,8 @@
 @section('title', trans('adminPanel/games.showGameTitle'))
 @section('APtitle', trans('adminPanel/games.showGameHeading'))
 
+@include('assets.adminPanel.gamesSidebar', ["game" => $game])
+
 @section('APcontent')
 
     {{ Form::hidden('visualizerTextShow', trans('adminPanel/games.showGameShowVisualizer')) }}

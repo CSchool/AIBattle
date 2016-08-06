@@ -3,16 +3,19 @@
 @section('title', trans('adminPanel/tournaments.usersTournamentsTitle', ['tournament' => $tournament->name]))
 @section('APtitle', trans('adminPanel/tournaments.usersTournamentsHeader', ['tournament' => $tournament->name]))
 
+@include('assets.adminPanel.tournamentsSidebar', ['tournament' => $tournament])
+
 @section('APcontent')
     <table class="table table-bordered table-hover">
         <thead>
-        <tr>
-            <td>#</td>
-            <td>{{ trans('shared.strategy') }}</td>
-            <td>{{ trans('shared.groupUser') }}</td>
-            <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
-        </tr>
+            <tr>
+                <td>#</td>
+                <td>{{ trans('shared.strategy') }}</td>
+                <td>{{ trans('shared.groupUser') }}</td>
+                <td>{{ trans('tournaments/strategies.showStrategiesStrategyStatus') }}</td>
+            </tr>
         </thead>
+
         <tbody>
 
         @foreach($strategies as $strategy)
