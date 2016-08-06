@@ -121,6 +121,7 @@
             selector: '#description',
             menubar: false,
             plugins: "table",
+            paste_as_text: true,
             toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table"
         });
 
