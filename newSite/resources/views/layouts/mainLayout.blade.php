@@ -64,6 +64,10 @@
             /*overflow: hidden;*/
         }
 
+        .list-group-item {
+            padding: 5px 15px;
+        }
+
         .list-group.list-group-root .list-group {
             margin-bottom: 0;
         }
