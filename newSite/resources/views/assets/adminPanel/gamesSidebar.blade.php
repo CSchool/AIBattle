@@ -1,5 +1,8 @@
 @section('adminPanelGames')
     <ul class="list-group tree">
+        <li class="list-group-item noBorder">
+            <a href="{{ url('adminPanel/games') }}">{{ trans('adminPanel/main.generalLink') }}</a>
+        </li>
         @foreach($globalGamesAvailable as $currentGame)
             @if ($game->id != $currentGame->id)
                 <li class="list-group-item noBorder">
