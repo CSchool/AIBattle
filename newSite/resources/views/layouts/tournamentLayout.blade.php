@@ -11,6 +11,9 @@
                 <li class="list-group-item noBorder">
                     <a href="#" class="tree-toggle">{{ $tournamentElement->name }}  <span class="caret"></span></a>
                     <ul class="list-group tree">
+                        <li class="list-group-item noBorder">
+                            <a href="{{ url('/tournaments', [$tournamentElement->id]) }}" >{{ trans('adminPanel/main.generalLink') }}</a>
+                        </li>
                         @if (Auth::user())
                             <li class="list-group-item noBorder">
                                 @if ($globalVisibleRounds->where('tournament_id', $tournament->id)->count() > 0)

@@ -125,7 +125,6 @@
             toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table"
         });
 
-
         $(document).ready(function () {
             var checkbox = $('input[name=deleteVisualizer]');
             var file = $('input[name=visualizer]');
