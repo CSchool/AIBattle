@@ -21,7 +21,7 @@
 
         <div class="text-center">
             <div class="row">
-                <a href="{{ url('/adminPanel/games/' . $game->id.'/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                <a href="{{ url('/adminPanel/games/' . $game->id. '/checkers/create') }}" class="btn btn-success btn-lg" role="button">
                     {{ trans('adminPanel/checkers.checkersCreate') }}
                 </a>
             </div>
@@ -66,7 +66,7 @@
             <div class="row"><p>{{ trans('adminPanel/checkers.checkersWarningMessage') }}</p></div>
 
             <div class="row">
-                <a href="{{ url('/adminPanel/checkers/create') }}" class="btn btn-success btn-lg" role="button">
+                <a href="{{ '/adminPanel/games/' . $game->id. '/checkers/create' }}" class="btn btn-success btn-lg" role="button">
                     {{ trans('adminPanel/checkers.checkersCreate') }}
                 </a>
             </div>
