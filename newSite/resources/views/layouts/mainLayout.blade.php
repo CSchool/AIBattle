@@ -18,6 +18,8 @@
 
         <script src="{{ URL::asset('js/prism.js') }}"></script>
         <script src="{{ URL::asset('js/prism-line-numbers.min.js') }}"></script>
+        <script src="{{ URL::asset('js/plotly-latest.min.js') }}"></script>
+
 
         <script src="{{ URL::asset('js/datatables.min.js') }}"></script>
 

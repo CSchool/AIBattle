@@ -4,8 +4,10 @@ namespace AIBattle\Http\Controllers\AdminPanel;
 
 use AIBattle\Checker;
 use AIBattle\Game;
+use AIBattle\Helpers\TournamentStrategies;
 use AIBattle\Strategy;
 use AIBattle\Tournament;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -14,6 +16,7 @@ use AIBattle\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\Datatables\Facades\Datatables;
 
 class TournamentsController extends Controller
@@ -105,6 +108,18 @@ class TournamentsController extends Controller
         $tournament = Tournament::findOrFail($id);
 
         return view('adminPanel/tournaments/showTournament', ['tournament' => $tournament, 'user' => Auth::user()]);
+    }
+
+    public function showStrategiesList($tournamentId) {
+        $strategies = Tournament::findOrFail($tournamentId)
+            ->strategies()
+            ->join('users', 'users.id', '=', 'user_id')
+            ->select([
+                    'strategies.id as id', 'strategies.name as name', 'strategies.description as description',
+                    'strategies.status as status', 'strategies.tournament_id as tournament_id',
+                    'strategies.user_id as user_id', 'users.username as username']);
+
+        return TournamentStrategies::getDatatables($strategies, true);
     }
 
     public function showEditTournamentForm($id) {
@@ -222,5 +237,39 @@ class TournamentsController extends Controller
     public function getCheckersByGameId($id) {
         $game = Game::findOrFail($id);
         return $game->checkers()->getResults()->toJson();
+    }
+
+    // get all OK and ACT strategies by 10 days
+    public function getPassedStrategies($tournamentId) {
+        $strategies = DB::select(
+                "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS date, COUNT(status) as count
+                FROM strategies 
+                WHERE tournament_id = ? AND 
+                (DATE(created_at) BETWEEN ? AND ?) AND 
+                (status = 'ACT' OR status = 'OK')
+                GROUP BY date",
+            [$tournamentId, Carbon::now()->subDays(10), Carbon::now()]);
+
+        return collect($strategies)->toJson();
+    }
+
+    // get all ERR strategies by 10 days
+    public function getFailedStrategies($tournamentId) {
+        $strategies = DB::select(
+            "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS date, COUNT(status) as count
+                FROM strategies 
+                WHERE tournament_id = ? AND 
+                (DATE(created_at) BETWEEN ? AND ?) AND 
+                (status = 'ERR')
+                GROUP BY date",
+            [$tournamentId, Carbon::now()->subDays(10), Carbon::now()]);
+
+        Log::info('arr: ' . json_encode($strategies, JSON_PRETTY_PRINT));
+
+        return collect($strategies)->toJson();
+    }
+
+    public function getUsersStrategies($tournamentId) {
+        return TournamentStrategies::getStrategiesUsersByTournament($tournamentId);
     }
 }

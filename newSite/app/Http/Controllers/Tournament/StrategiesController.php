@@ -8,6 +8,7 @@ use AIBattle\Helpers\Content;
 use AIBattle\Helpers\DuelPair;
 use AIBattle\Helpers\DuelsQuery;
 use AIBattle\Helpers\EncodingConvert;
+use AIBattle\Helpers\TournamentStrategies;
 use AIBattle\Jobs\RunDuel;
 use AIBattle\Strategy;
 use AIBattle\Tournament;
@@ -50,54 +51,16 @@ class StrategiesController extends Controller
 
     }
 
-    private function popoverTag($text, $isError = false) {
-        $sign = $isError ? 'glyphicon-fire' : 'glyphicon-info-sign';
-        return "<a data-toggle=\"popover\" data-trigger=\"hover\" data-content=\"$text\"><span class=\"glyphicon $sign\"></span></a>";
-    }
-
     public function getTournamentStrategiesTable($tournamentId) {
         $strategies = Tournament::findOrFail($tournamentId)
                         ->strategies()
                         ->where('user_id', Auth::user()->id)
                         ->where('status', '!=', 'ACT')
-                        ->select(['id', 'name', 'description', 'status', 'tournament_id']);
+                        ->select(['id', 'name', 'description', 'status', 'tournament_id', 'user_id']);
 
-        return Datatables::of($strategies)
-            ->removeColumn('description')
-            ->removeColumn('tournament_id')
-            ->editColumn('name', function ($strategy) {
-                $additionalText = '';
+        
+        return TournamentStrategies::getDatatables($strategies);
 
-                if ($strategy->status == 'ERR')
-                    $additionalText = $this->popoverTag(trans('tournaments/strategies.showStrategiesFailedCompilation'), true);
-                elseif (!empty($strategy->description))
-                    $additionalText = $this->popoverTag(strip_tags($strategy->description));
-
-                return '<a href=' . url('tournaments/' . $strategy->tournament_id . '/strategies', [$strategy->id]) . '>' . $strategy->name . '</a> ' . $additionalText;
-            })
-            ->addColumn('setActive', function($strategy) {
-                if ($strategy->status == 'OK') {
-                    return '<a href="' . url('tournaments/' . $strategy->tournament->id . '/strategies/' . $strategy->id . '/setActive') . '" class="btn-xs btn-warning"><i class="glyphicon glyphicon-ok"></i> ' . trans('tournaments/strategies.strategyProfileMakeActualStrategy') . '</a>';
-                }
-            })
-            ->setRowId('id')
-            ->setRowClass(function ($strategy) {
-                switch ($strategy->status) {
-                    case 'ACT':
-                        return 'warning';
-                        break;
-                    case 'OK':
-                        return 'success';
-                        break;
-                    case 'ERR':
-                        return 'danger';
-                        break;
-                    default:
-                        return 'default';
-                        break;
-                }
-            })
-            ->make(true);
     }
 
     public function getTrainingStrategiesForCompetition($tournamentId) {
@@ -527,5 +490,10 @@ class StrategiesController extends Controller
         }
 
         return redirect('tournaments/' . $tournamentId . '/training');
+    }
+
+    // ajax
+    public function getUsersStrategies($tournamentId) {
+        return TournamentStrategies::getStrategiesUsersByTournament($tournamentId);
     }
 }

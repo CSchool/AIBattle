@@ -74,10 +74,10 @@
 
         <div class="panel-footer">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <button id="acceptAll" class="btn btn-success btn-block">{{ trans('adminPanel/rounds.createRoundAcceptAllPlayers') }}</button>
                 </div>
-                <div class="col-md-2 col-md-offset-8">
+                <div class="col-md-3 col-md-offset-6">
                     <button id="filterByScore" class="btn btn-warning btn-block" >{{ trans('adminPanel/rounds.createRoundScoreFilterButton') }}</button>
                 </div>
             </div>
@@ -103,7 +103,7 @@
 
         <div class="panel-footer">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <button id="declineAll" class="btn btn-danger btn-block" disabled>{{ trans('adminPanel/rounds.createRoundDeclineAllPlayers') }}</button>
                 </div>
             </div>
@@ -114,7 +114,7 @@
     <div class="panel panel-default">
         <div class="panel-footer">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <button id="startRound" class="btn btn-success btn-block">{{ trans('adminPanel/rounds.createRoundStartRound') }}</button>
                 </div>
             </div>

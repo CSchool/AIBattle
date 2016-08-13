@@ -183,6 +183,7 @@ class RoundsController extends Controller
     }
 
     public function showRoundTable($tournamentId, $roundId) {
+        $tournament = Tournament::findOrFail($tournamentId);
         $round = Round::findOrFail($roundId);
 
         if ($round->tournament_id == $tournamentId) {
@@ -191,6 +192,7 @@ class RoundsController extends Controller
 
             return view('adminPanel/rounds/roundTable', [
                 'round' => $round,
+                'tournament' => $tournament,
                 'players' => $roundTable->getPlayers(),
                 'roundTable' => $roundTable->getRoundTable(),
             ]);

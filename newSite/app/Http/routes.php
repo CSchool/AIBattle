@@ -80,20 +80,6 @@ Route::group(['middleware' => 'locale'], function() {
 
         });
 
-        /*
-        Route::group(['prefix' => 'checkers'], function () {
-            Route::get('/', 'AdminPanel\CheckersController@showCheckers');
-
-            Route::get('/create', 'AdminPanel\CheckersController@showCreateCheckerForm');
-            Route::post('/create', 'AdminPanel\CheckersController@createChecker');
-
-            Route::get('/edit/{id}', 'AdminPanel\CheckersController@showEditCheckerForm');
-            Route::post('/edit/{id}', 'AdminPanel\CheckersController@editChecker');
-
-            Route::get('/{id}', 'AdminPanel\CheckersController@showCheckerById');
-        });
-        */
-
         Route::group(['prefix' => 'tournaments'], function() {
             Route::get('/', 'AdminPanel\TournamentsController@showTournaments');
 
@@ -107,6 +93,20 @@ Route::group(['middleware' => 'locale'], function() {
 
             // ajax
             Route::get('/ajax/getCheckersByGameId/{id}', ['uses' =>'AdminPanel\TournamentsController@getCheckersByGameId']);
+
+            Route::get('/ajax/getPassedStrategies/{tournamentId}', [
+                'as' => 'ajax.passedStrategies',
+                'uses' => 'AdminPanel\TournamentsController@getPassedStrategies',
+            ]);
+
+            Route::get('/ajax/getFailedStrategies/{tournamentId}', [
+                'as' => 'ajax.failedStrategies',
+                'uses' => 'AdminPanel\TournamentsController@getFailedStrategies',
+            ]);
+
+
+
+            // tournaments and strategies
 
             Route::get('/{id}', 'AdminPanel\TournamentsController@showTournamentById');
             Route::get('/{id}/strategies', 'AdminPanel\TournamentsController@showUsersStrategies');
@@ -158,6 +158,11 @@ Route::group(['middleware' => 'locale'], function() {
             Route::get('/tournamentsTable', [
                 'as' => 'admin.tournamentsTable',
                 'uses' => 'AdminPanel\TournamentsController@getTournaments',
+            ]);
+
+            Route::get('/strategiesTable/{tournamentId}', [
+                'as' => 'admin.strategiesTable',
+                'uses' => 'AdminPanel\TournamentsController@showStrategiesList'
             ]);
 
             Route::get('/roundsTable/{tournamentId}', [
@@ -261,6 +266,13 @@ Route::group(['middleware' => 'locale'], function() {
         Route::get('/tournament/{id}/attachment/{attachmentId}', 'DownloadController@downloadAttachmentByTournament');
 
         Route::get('/game/{id}/archive', 'DownloadController@downloadGameArchive')->middleware('auth.admin');
+    });
+
+    Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function() {
+        Route::get('/getUsersStrategiesByTournament/{tournamentId}', [
+            'as' => 'ajax.usersStrategies',
+            'uses' => 'AdminPanel\TournamentsController@getUsersStrategies',
+        ]);
     });
 
     Route::get('locale/{locale}', 'StartController@switchLanguage');

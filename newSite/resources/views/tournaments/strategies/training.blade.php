@@ -151,25 +151,39 @@
             ],
             "columnDefs": [
                 { "width": "5%", className: "text-center", "targets": 3 }
-            ],
-            'initComplete': function () {
-                var column = this.api().column(1);
-
-                var select = $('<select><option value=""></option></select>')
-                        .appendTo($(column.footer()).empty())
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? val : '', true, false).draw();
-                        } );
-
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                } );
-            }
+            ]
         });
 
         $(document).ready(function () {
-            $('#strategiesLink').addClass('active');
+
+            var columnData = [
+                {
+                    index: 1,
+                    data: []
+                }
+            ];
+
+            $.get("{{ route('ajax.usersStrategies', $tournament->id) }}", function (data) {
+                var users = JSON.parse(data);
+                users.forEach(function (item) {
+                    columnData[0].data.push(item.username);
+                });
+
+                columnData.forEach(function (item) {
+                    var column = competitionTable.columns(item.index);
+
+                    var select = $('<select class="input-large"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? val : '', true, false).draw();
+                            } );
+
+                    item.data.forEach( function (d) {
+                        select.append('<option value="'+d+'">'+d+'</option>')
+                    });
+                });
+            });
         });
 
     </script>
