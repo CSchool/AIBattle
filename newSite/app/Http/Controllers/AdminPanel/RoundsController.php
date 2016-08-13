@@ -79,7 +79,7 @@ class RoundsController extends Controller
                         $successDuels = $duels->whereIn('status', ['TIE', 'WIN 1', 'WIN 2'])->count();
 
                         if ($successDuels == $allDuels) {
-                            return '<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' . $doneDuels . '" aria-valuemin="0" aria-valuemax="' . $allDuels . '" style="width:100%"> 100% </div></div>';
+                            return '<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' . $allDuels . '" aria-valuemin="0" aria-valuemax="' . $allDuels . '" style="width:100%">' . $allDuels .  '</div></div>';
                         } else {
                             $successDiv = '<div class="progress-bar progress-bar-success" role="progressbar" style="width:'. $this->calculatePercentage($successDuels, $allDuels) . '%"> ' . $successDuels . ' </div>';
                             $failedDiv = '<div class="progress-bar progress-bar-danger" role="progressbar" style="width:'. $this->calculatePercentage($allDuels - $successDuels, $allDuels) . '%"> ' . ($allDuels - $successDuels) . ' </div>';
