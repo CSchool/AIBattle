@@ -94,7 +94,7 @@ enum CannonType {FIRST, SECOND, THIRD, UNKNOWN}; // типы пушек (пер�
 
 const int cannonHealth[] = {9, 12, 5};
 const int cannonCost[] = {3, 7, 12}; // стоимость пушек
-const int cannonScore[] = {2, 4, 7}; // очки за пушки
+const int cannonScore[] = {2, 7, 18}; // очки за пушки
 const int cannonPower[] = {2, 3, 4};
 const int cannonRange[] = {1, 2, 3};
 
