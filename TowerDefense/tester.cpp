@@ -642,13 +642,13 @@ int main(int argc, char **argv)
 
         printLog(true, exec1, output1);
         if (exec1 != ER_OK)
-            return -1;
+            return 0;
 
         ExecutionResult exec2 = playerMove(false, program2, output2);
 
         printLog(false, exec2, output2);
         if (exec2 != ER_OK)
-            return -1;
+            return 0;
 
         // стрельба пушек
         
